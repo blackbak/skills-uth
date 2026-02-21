@@ -33,17 +33,6 @@ Write the brief to `docs/studio/<timestamp>-brief.md` using this structure.
 
 [How will this be measured? What does "good" look like? Conversion rate? Time on page? Scroll depth? Sign-ups?]
 
-## Creative Angles
-
-### Angle A: [Name]
-[Brief description of the strategic direction for Team A]
-
-### Angle B: [Name]
-[Brief description of the strategic direction for Team B]
-
-### Angle C: [Name]
-[Brief description of the strategic direction for Team C]
-
 ## Reference Materials
 
 - [Links to competitor pages, inspiration, existing assets, brand guidelines]

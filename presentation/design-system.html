@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>design-system — Skill Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:hsl(225,18%,7%);--bg-elevated:hsl(225,18%,10%);--bg-card:hsl(225,16%,13%);
+  --bg-card-hover:hsl(225,16%,16%);--border:hsl(225,12%,20%);--border-bright:hsl(225,12%,28%);
+  --text:hsl(225,10%,88%);--text-muted:hsl(225,8%,55%);--text-dim:hsl(225,8%,40%);
+  --accent:hsl(165,60%,50%);--accent-dim:hsl(165,40%,30%);--accent-glow:hsla(165,60%,50%,.12);
+  --agent-brand:hsl(280,55%,60%);
+  --phase1:hsl(200,60%,55%);--phase2:hsl(165,55%,48%);--phase3:hsl(45,65%,55%);
+  --phase4:hsl(280,50%,58%);--phase4b:hsl(310,50%,55%);--phase5:hsl(15,60%,55%);--phase5v:hsl(340,55%,55%);
+  --font-display:'Space Grotesk',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --font-body:'Inter',sans-serif;
+  --radius:10px;--radius-lg:16px;
+  --shadow:0 2px 12px hsla(0,0%,0%,.35),0 0 1px hsla(0,0%,0%,.3);
+  --shadow-lg:0 8px 32px hsla(0,0%,0%,.45),0 0 1px hsla(0,0%,0%,.3);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:hsla(225,18%,7%,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:.6rem 1.5rem;display:flex;align-items:center;gap:1.5rem}
+nav .logo{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--accent);white-space:nowrap;letter-spacing:-.02em}
+nav .links{display:flex;gap:.2rem;overflow-x:auto;scrollbar-width:none}
+nav .links::-webkit-scrollbar{display:none}
+nav a{font-family:var(--font-mono);font-size:.7rem;padding:.35rem .7rem;border-radius:6px;color:var(--text-muted);text-decoration:none;white-space:nowrap;transition:color .2s,background .2s}
+nav a:hover,nav a.active{color:var(--accent);background:var(--accent-glow)}
+
+/* Layout */
+main{max-width:1100px;margin:0 auto;padding:5rem 1.5rem 4rem}
+section{padding:4rem 0;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+section.visible{opacity:1;transform:translateY(0)}
+
+/* Typography */
+h1{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,3.6rem);font-weight:700;line-height:1.1;letter-spacing:-.04em;color:var(--text)}
+h2{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2rem);font-weight:600;letter-spacing:-.03em;margin-bottom:1.5rem;color:var(--text)}
+h3{font-family:var(--font-display);font-size:1.1rem;font-weight:600;letter-spacing:-.02em;color:var(--text);margin-bottom:.5rem}
+p{color:var(--text-muted);max-width:65ch}
+.mono{font-family:var(--font-mono)}
+.accent{color:var(--accent)}
+.dim{color:var(--text-dim)}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.72rem;padding:.3rem .7rem;border-radius:20px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-muted)}
+.badge .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* Cards */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;transition:border-color .25s,box-shadow .25s,transform .25s}
+.card:hover{border-color:var(--border-bright);box-shadow:var(--shadow);transform:translateY(-2px)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+
+/* Agent Cards */
+.agent-card{position:relative;overflow:hidden;cursor:pointer}
+.agent-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.agent-card[data-agent="brand-designer"]::before{background:var(--agent-brand)}
+.agent-card .agent-name{font-family:var(--font-display);font-size:1.05rem;font-weight:600}
+.agent-card .agent-role{font-size:.85rem;color:var(--text-muted);margin:.4rem 0 .8rem}
+.agent-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem}
+.agent-meta .tag{font-family:var(--font-mono);font-size:.65rem;padding:.2rem .5rem;border-radius:4px;background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-dim)}
+.agent-detail{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.agent-card.open .agent-detail{max-height:600px}
+.agent-produces{margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--border)}
+.agent-produces li{font-size:.82rem;color:var(--text-muted);margin:.3rem 0;list-style:none;padding-left:1rem;position:relative}
+.agent-produces li::before{content:'\2192';position:absolute;left:0;color:var(--accent)}
+.ref-only{font-family:var(--font-mono);font-size:.6rem;padding:.15rem .4rem;border-radius:3px;background:hsla(45,60%,50%,.1);border:1px solid hsla(45,60%,50%,.25);color:hsl(45,60%,60%);margin-left:.5rem}
+
+/* Workflow */
+.workflow{display:flex;flex-direction:column;gap:0;position:relative}
+.workflow::before{content:'';position:absolute;left:28px;top:28px;bottom:28px;width:2px;background:var(--border)}
+.phase{display:flex;gap:1.2rem;align-items:flex-start;position:relative}
+.phase-dot{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:.85rem;color:var(--bg);flex-shrink:0;position:relative;z-index:1;box-shadow:var(--shadow)}
+.phase-content{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.4rem;margin-bottom:1rem;transition:border-color .25s}
+.phase-content:hover{border-color:var(--border-bright)}
+.phase-title{font-family:var(--font-display);font-size:1rem;font-weight:600;margin-bottom:.3rem}
+.phase-desc{font-size:.82rem;color:var(--text-muted);margin-bottom:.6rem}
+.phase-artifacts{display:flex;flex-wrap:wrap;gap:.35rem}
+.phase-artifacts .artifact{font-family:var(--font-mono);font-size:.65rem;padding:.2rem .5rem;border-radius:4px;background:var(--accent-glow);border:1px solid var(--accent-dim);color:var(--accent)}
+.phase[data-phase="1"] .phase-dot{background:var(--phase1)}
+.phase[data-phase="2"] .phase-dot{background:var(--phase2)}
+.phase[data-phase="3"] .phase-dot{background:var(--phase3)}
+.phase[data-phase="4"] .phase-dot{background:var(--phase4)}
+.phase[data-phase="4b"] .phase-dot{background:var(--phase4b);font-size:.7rem}
+.phase[data-phase="5"] .phase-dot{background:var(--phase5)}
+.phase[data-phase="5v"] .phase-dot{background:var(--phase5v);font-size:.7rem}
+
+/* Prompts */
+.prompt-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1rem}
+.prompt-block h4{font-family:var(--font-display);font-size:.95rem;font-weight:600;margin-bottom:.6rem}
+.prompt-q{font-family:var(--font-mono);font-size:.78rem;color:var(--accent);margin:.5rem 0 .2rem}
+.prompt-hint{font-size:.78rem;color:var(--text-dim);margin-bottom:.4rem}
+pre{background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:1rem;overflow-x:auto;font-family:var(--font-mono);font-size:.75rem;line-height:1.5;color:var(--text-muted);margin:.6rem 0}
+
+/* Handoff */
+.handoff-flow{display:flex;flex-direction:column;gap:.6rem}
+.handoff-row{display:grid;grid-template-columns:1fr 48px 1fr;align-items:center;gap:.5rem}
+.handoff-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem}
+.handoff-box h4{font-family:var(--font-display);font-size:.85rem;font-weight:600;margin-bottom:.25rem}
+.handoff-box p{font-size:.75rem;color:var(--text-muted)}
+.handoff-arrow{text-align:center;font-size:1.4rem;color:var(--accent)}
+
+/* Evaluation */
+.eval-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.8rem}
+.eval-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;text-align:center}
+.eval-card .eval-icon{font-size:1.6rem;margin-bottom:.5rem}
+.eval-card h4{font-family:var(--font-display);font-size:.9rem;font-weight:600;margin-bottom:.3rem}
+.eval-card p{font-size:.75rem;color:var(--text-muted)}
+
+/* Feedback */
+.linear-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;text-align:center;max-width:500px;margin:1.5rem auto}
+.linear-card .linear-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.5}
+.linear-card h3{margin-bottom:.6rem}
+.linear-card p{font-size:.85rem;color:var(--text-muted);margin:0 auto}
+
+/* Rules */
+.rule-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.8rem}
+.rule-item{display:flex;gap:.8rem;align-items:flex-start;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.rule-icon{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.rule-text{font-size:.82rem;color:var(--text-muted)}
+
+/* References */
+.ref-list{display:flex;flex-direction:column;gap:.5rem}
+.ref-item{display:flex;align-items:center;gap:.6rem;font-family:var(--font-mono);font-size:.78rem;padding:.6rem .8rem;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);transition:border-color .2s}
+.ref-item:hover{border-color:var(--border-bright)}
+.ref-item .ref-type{font-size:.6rem;padding:.15rem .4rem;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.ref-type.skill{background:hsla(165,50%,50%,.12);color:var(--accent);border:1px solid var(--accent-dim)}
+.ref-type.ref{background:hsla(210,50%,50%,.1);color:hsl(210,50%,60%);border:1px solid hsla(210,50%,50%,.25)}
+.ref-type.agent{background:hsla(280,50%,55%,.1);color:hsl(280,50%,65%);border:1px solid hsla(280,50%,55%,.25)}
+
+/* When-to-use table */
+.use-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+.use-table th,.use-table td{text-align:left;padding:.55rem .8rem;border-bottom:1px solid var(--border)}
+.use-table th{font-family:var(--font-display);font-weight:600;color:var(--text);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+.use-table td{color:var(--text-muted)}
+.use-table .yes{color:var(--accent);font-weight:500}
+.use-table .no{color:var(--text-dim)}
+
+/* Title section */
+.title-section{min-height:60vh;display:flex;flex-direction:column;justify-content:center;padding:2rem 0}
+.title-badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.title-sub{font-family:var(--font-body);font-size:clamp(.9rem,1.5vw,1.1rem);color:var(--text-muted);max-width:60ch;margin-top:1rem;line-height:1.6}
+.integration-line{font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);margin-top:2rem;padding:1rem;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;overflow-x:auto;white-space:pre;line-height:1.7}
+
+/* Section dividers */
+.section-label{font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:.5rem}
+
+/* Responsive */
+@media(max-width:768px){
+  nav .links{gap:.1rem}
+  nav a{font-size:.62rem;padding:.3rem .5rem}
+  .card-grid{grid-template-columns:1fr}
+  .handoff-row{grid-template-columns:1fr;text-align:center}
+  .handoff-arrow{transform:rotate(90deg)}
+  .eval-grid{grid-template-columns:repeat(2,1fr)}
+  .rule-list{grid-template-columns:1fr}
+  main{padding:4.5rem 1rem 3rem}
+}
+
+/* Print */
+@media print{
+  nav{display:none}
+  section{opacity:1!important;transform:none!important;page-break-inside:avoid}
+  .card,.phase-content,.prompt-block,.eval-card,.rule-item,.handoff-box,.ref-item{break-inside:avoid}
+  body{background:#fff;color:#111}
+  .card,.phase-content,.prompt-block,.eval-card,.rule-item,.handoff-box,.ref-item{background:#f8f8f8;border-color:#ddd}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">design-system</div>
+  <div class="links">
+    <a href="#overview">Overview</a>
+    <a href="#agents">Agents</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#prompts">Prompts</a>
+    <a href="#handoff">Handoff</a>
+    <a href="#evaluation">Evaluation</a>
+    <a href="#feedback">Feedback</a>
+    <a href="#rules">Rules</a>
+    <a href="#references">References</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 1. TITLE -->
+<section id="title" class="title-section">
+  <div class="section-label">Skill Architecture</div>
+  <h1>design-system</h1>
+  <p class="title-sub">Generate a complete design system from brand identity inputs. Bridges the gap between brand vision and concrete design tokens that Claude Code uses when building UI.</p>
+  <div class="title-badges">
+    <span class="badge"><span class="dot" style="background:var(--agent-brand)"></span> 1 Agent</span>
+    <span class="badge"><span class="dot" style="background:var(--phase2)"></span> 7 Phases</span>
+    <span class="badge"><span class="dot" style="background:var(--accent)"></span> 3 Artifacts</span>
+    <span class="badge"><span class="dot" style="background:var(--phase5v)"></span> 7 Validations</span>
+    <span class="badge"><span class="dot" style="background:var(--phase1)"></span> 4 References</span>
+  </div>
+  <div class="integration-line">Brand Identity &#8594; [design-system] &#8594; Design System Doc + Showcase + Screens &#8594; frontend-design &#8594; Implementation &#8594; style-quality-guardian
+                                  &#9500;&#9472;&#9472; DESIGN_SYSTEM.md  (tokens for Claude Code)
+                                  &#9500;&#9472;&#9472; showcase.html     (visual validation for humans)
+                                  &#9492;&#9472;&#9472; SCREENS.md        (screen-by-screen specs)</div>
+</section>
+
+<!-- 2. OVERVIEW -->
+<section id="overview">
+  <div class="section-label">01 / Overview</div>
+  <h2>What It Does</h2>
+  <p style="margin-bottom:1.5rem">Transforms brand identity into a concrete, implementable design system. This skill bridges the gap between "what does our brand feel like" and "what CSS variables do our components use." It reads brand context from product docs, asks targeted brand discovery questions, generates a complete token system (colors, typography, spacing, motion), validates WCAG accessibility, and outputs three artifacts: a design system document, a visual showcase, and screen-by-screen specifications.</p>
+  <h3 style="margin-bottom:.6rem">When to Use</h3>
+  <table class="use-table">
+    <thead><tr><th>Scenario</th><th>Use This</th></tr></thead>
+    <tbody>
+      <tr><td>New project with no design system</td><td class="yes">Yes &mdash; generate from scratch</td></tr>
+      <tr><td>Existing brand, no design tokens</td><td class="yes">Yes &mdash; translate brand into tokens</td></tr>
+      <tr><td>Updating brand identity</td><td class="yes">Yes &mdash; regenerate tokens from new brand</td></tr>
+      <tr><td>Adding a component to existing system</td><td class="no">No &mdash; use <code>frontend-design</code></td></tr>
+      <tr><td>Reviewing UI code</td><td class="no">No &mdash; use <code>style-quality-guardian</code></td></tr>
+      <tr><td>Applying a theme to slides/docs</td><td class="no">No &mdash; use <code>theme-factory</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 3. AGENTS -->
+<section id="agents">
+  <div class="section-label">02 / Agents</div>
+  <h2>Agents Involved</h2>
+  <p style="margin-bottom:1.5rem">The design-system skill is executed by a single agent: <strong>brand-designer</strong>. No other agents are spawned during this skill's workflow.</p>
+  <div class="card-grid">
+    <!-- Brand Designer -->
+    <div class="card agent-card open" data-agent="brand-designer" onclick="toggleAgent(this)">
+      <div class="agent-name">brand-designer</div>
+      <div class="agent-role">Translates brand vision into an implementable design system. Primary executor of the design-system skill.</div>
+      <div class="agent-meta">
+        <span class="tag">model: opus</span>
+        <span class="tag">Read</span>
+        <span class="tag">Write</span>
+        <span class="tag">Grep</span>
+        <span class="tag">Glob</span>
+        <span class="tag">WebSearch</span>
+      </div>
+      <div class="agent-meta">
+        <span class="tag">skill: design-system</span>
+        <span class="tag">skill: frontend-design</span>
+        <span class="tag">skill: theme-factory</span>
+      </div>
+      <div class="agent-detail" style="max-height:600px">
+        <ul class="agent-produces">
+          <li>Discovers or defines brand identity (personality, audience, feel)</li>
+          <li>Generates complete color palette with WCAG contrast ratios</li>
+          <li>Selects distinctive typography (display, body, mono)</li>
+          <li>Defines spacing, shadow, radius, and motion scales</li>
+          <li>Documents signature elements and anti-patterns</li>
+          <li>Outputs <code>docs/DESIGN/DESIGN_SYSTEM.md</code></li>
+          <li>Outputs <code>docs/DESIGN/showcase.html</code></li>
+          <li>Outputs <code>docs/DESIGN/SCREENS.md</code></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 4. WORKFLOW -->
+<section id="workflow">
+  <div class="section-label">03 / Workflow</div>
+  <h2>Execution Phases</h2>
+  <p style="margin-bottom:2rem">Sequential execution from brand discovery through validation. Each phase produces artifacts consumed by the next.</p>
+  <div class="workflow">
+
+    <div class="phase" data-phase="1">
+      <div class="phase-dot">1</div>
+      <div class="phase-content">
+        <div class="phase-title">Brand Discovery</div>
+        <div class="phase-desc">Read existing reference docs for brand context (PRODUCT, PRODUCT_MARKETING, DESIGN). Scan codebase for implementation context (Tailwind config, global CSS, component library). If insufficient brand context, ask 5 discovery questions one at a time: brand personality, target user, interface feel, visual inspirations, and anti-patterns.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">Brand identity context</span>
+          <span class="artifact">Codebase constraints</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="2">
+      <div class="phase-dot">2</div>
+      <div class="phase-content">
+        <div class="phase-title">Design System Generation</div>
+        <div class="phase-desc">Generate all token categories: color palette (primary 3 shades, secondary, neutral scale 50-900, semantic, surface, dark mode with WCAG contrast ratios), typography (distinctive display font, body, mono, modular scale with clamp()), spacing/borders/shadows/motion scales, component patterns &amp; signature elements, progressive disclosure strategy, and anti-patterns.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">Color tokens</span>
+          <span class="artifact">Typography tokens</span>
+          <span class="artifact">Spacing tokens</span>
+          <span class="artifact">Component patterns</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="3">
+      <div class="phase-dot">3</div>
+      <div class="phase-content">
+        <div class="phase-title">Write the Design System</div>
+        <div class="phase-desc">Populate <code>docs/DESIGN/DESIGN_SYSTEM.md</code> with all generated content. Preserve the template section structure exactly. Add a Changelog entry with today's date.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">DESIGN_SYSTEM.md</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="4">
+      <div class="phase-dot">4</div>
+      <div class="phase-content">
+        <div class="phase-title">Generate Visual Showcase</div>
+        <div class="phase-desc">Generate <code>docs/DESIGN/showcase.html</code> &mdash; a self-contained HTML page rendering every token and component visually. Populate the :root block with actual token values, replace font families, add Google Fonts, update dark mode overrides, customize component styles for brand signature elements, and add contrast ratio calculations.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">showcase.html</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="4b">
+      <div class="phase-dot">4b</div>
+      <div class="phase-content">
+        <div class="phase-title">Document Screen Descriptions</div>
+        <div class="phase-desc">Populate <code>docs/DESIGN/SCREENS.md</code> with descriptions of every key screen/view. For each screen: purpose, progressive disclosure levels, desktop &amp; mobile ASCII wireframes, components used with token references, interaction states, accessibility notes. Add navigation map showing screen connections.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">SCREENS.md</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="5">
+      <div class="phase-dot">5</div>
+      <div class="phase-content">
+        <div class="phase-title">Generate Starter Tokens <span class="dim">(Optional)</span></div>
+        <div class="phase-desc">If the project has a Tailwind config or CSS setup, offer to generate starter implementation files. Option A: Tailwind config extension. Option B: CSS custom properties file. Ask user which format they prefer. Generate but do NOT write &mdash; present for review first.</div>
+        <div class="phase-artifacts">
+          <span class="artifact">tailwind.config tokens</span>
+          <span class="artifact">CSS custom properties</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase" data-phase="5v">
+      <div class="phase-dot">V</div>
+      <div class="phase-content">
+        <div class="phase-title">Validation</div>
+        <div class="phase-desc">Run 7 validation checks before completing: contrast check (WCAG AA), completeness check, consistency check, distinctiveness check (swap test), anti-pattern check, design imperatives check, and platform check (desktop + mobile patterns).</div>
+        <div class="phase-artifacts">
+          <span class="artifact">Contrast ratios verified</span>
+          <span class="artifact">Swap test passed</span>
+          <span class="artifact">Platform patterns verified</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 5. PROMPTS -->
+<section id="prompts">
+  <div class="section-label">04 / Prompts</div>
+  <h2>Prompt Structure</h2>
+  <p style="margin-bottom:1.5rem">The design-system skill does not use explicit prompt templates. The workflow is defined declaratively in SKILL.md, and the brand-designer agent receives context via task description at spawn time. The primary interactive prompts are the 5 brand discovery questions asked sequentially during Phase 1.</p>
+
+  <div class="prompt-block">
+    <h4>Phase 1: Brand Discovery Questions</h4>
+    <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:.6rem">Asked one at a time. Only triggered when existing docs lack sufficient brand context.</p>
+    <div class="prompt-q">Q1: What is the brand personality?</div>
+    <div class="prompt-hint">Pick 3-5 adjectives: bold, precise, warm, playful, authoritative, minimal, luxurious, raw, organic, technical, friendly, serious, energetic, calm, rebellious, trustworthy.</div>
+    <div class="prompt-q">Q2: Who is the actual person using this?</div>
+    <div class="prompt-hint">Not "users." The human. Their context, their state of mind, their environment.</div>
+    <div class="prompt-q">Q3: What should the interface feel like?</div>
+    <div class="prompt-hint">Not "clean and modern." Reference a real thing: warm like a notebook? Cold like a terminal? Dense like a trading floor? Spacious like a gallery? Sharp like a scalpel?</div>
+    <div class="prompt-q">Q4: What brands or products do you admire visually?</div>
+    <div class="prompt-hint">Name 2-3 products whose visual identity resonates. This anchors the aesthetic without copying.</div>
+    <div class="prompt-q">Q5: What must this NOT look like?</div>
+    <div class="prompt-hint">Name specific anti-patterns to avoid. This is as important as the positive direction.</div>
+  </div>
+
+  <div class="prompt-block">
+    <h4>Phase 2: Token Generation Context</h4>
+    <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:.6rem">The agent follows <code>references/token-generation-guide.md</code> for detailed derivation rules.</p>
+    <pre>Color derivation rules:
+  Bold/energetic brands   &#8594; saturated, high-contrast primaries
+  Calm/trustworthy brands &#8594; desaturated, cooler primaries
+  Playful brands          &#8594; warm, vibrant primaries
+  Technical/precise brands&#8594; cooler, muted primaries
+
+Typography scale ratios:
+  Compact/technical &#8594; 1.200 (minor third)
+  Balanced/general  &#8594; 1.250 (major third)
+  Spacious/editorial&#8594; 1.333 (perfect fourth)
+  Dramatic/hero     &#8594; 1.500 (perfect fifth)
+
+Spacing personality:
+  Dense/technical   &#8594; 4px base, smaller radii, subtle shadows
+  Spacious/luxury   &#8594; 8px base, larger radii, layered shadows
+  Playful           &#8594; rounded radii, bouncy easing, visible shadows
+  Minimal           &#8594; sharp radii, restrained motion, barely-there shadows</pre>
+  </div>
+
+  <div class="prompt-block">
+    <h4>Phase 5: Validation Checklist (Implicit)</h4>
+    <p style="font-size:.8rem;color:var(--text-dim);margin-bottom:.6rem">No template &mdash; the agent runs these checks using its own judgment against the reference guides.</p>
+    <pre>1. Contrast check   &#8594; WCAG AA (4.5:1 normal text, 3:1 large text/UI)
+2. Completeness      &#8594; Every template section populated
+3. Consistency       &#8594; Token naming convention followed
+4. Distinctiveness   &#8594; Swap test: replacing with generic alternatives must feel wrong
+5. Anti-pattern      &#8594; No documented anti-patterns present in the system
+6. Design imperatives&#8594; Progressive disclosure, Fitts's, Hick's, Miller's verified
+7. Platform check    &#8594; Desktop hover/keyboard + mobile touch/thumb patterns</pre>
+  </div>
+</section>
+
+<!-- 6. HANDOFF -->
+<section id="handoff">
+  <div class="section-label">05 / Handoff</div>
+  <h2>Artifact Flow</h2>
+  <p style="margin-bottom:1.5rem">The skill executes linearly with the orchestrator (or brand-designer agent) carrying context between phases. Artifacts are written to disk and consumed by downstream skills.</p>
+
+  <div class="handoff-flow">
+    <div class="handoff-row">
+      <div class="handoff-box">
+        <h4 style="color:var(--phase1)">Phase 1: Brand Discovery</h4>
+        <p>Reads: <code>docs/PRODUCT/REFERENCE.md</code>, <code>docs/PRODUCT_MARKETING/REFERENCE.md</code>, <code>docs/DESIGN/REFERENCE.md</code>, Tailwind config, global CSS</p>
+        <p>Produces: Brand identity context (in-memory)</p>
+      </div>
+      <div class="handoff-arrow">&rarr;</div>
+      <div class="handoff-box">
+        <h4 style="color:var(--phase2)">Phase 2: Token Generation</h4>
+        <p>Reads: Brand identity context from Phase 1, <code>references/token-generation-guide.md</code></p>
+        <p>Produces: Complete token set (in-memory)</p>
+      </div>
+    </div>
+
+    <div class="handoff-row">
+      <div class="handoff-box">
+        <h4 style="color:var(--phase2)">Phase 2: Token Generation</h4>
+        <p>Passes: All generated tokens &mdash; colors, typography, spacing, shadows, motion, patterns, anti-patterns</p>
+      </div>
+      <div class="handoff-arrow">&rarr;</div>
+      <div class="handoff-box">
+        <h4 style="color:var(--phase3)">Phase 3: Write Design System</h4>
+        <p>Reads: Token set from Phase 2</p>
+        <p>Writes: <code>docs/DESIGN/DESIGN_SYSTEM.md</code></p>
+      </div>
+    </div>
+
+    <div class="handoff-row">
+      <div class="handoff-box">
+        <h4 style="color:var(--phase3)">Phase 3: DESIGN_SYSTEM.md</h4>
+        <p>The design system document becomes the source of truth for all subsequent phases and downstream skills.</p>
+      </div>
+      <div class="handoff-arrow">&rarr;</div>
+      <div class="handoff-box">
+        <h4 style="color:var(--phase4)">Phase 4: showcase.html</h4>
+        <p>Reads: DESIGN_SYSTEM.md tokens</p>
+        <p>Writes: <code>docs/DESIGN/showcase.html</code></p>
+      </div>
+    </div>
+
+    <div class="handoff-row">
+      <div class="handoff-box">
+        <h4 style="color:var(--phase3)">Phase 3: DESIGN_SYSTEM.md</h4>
+        <p>Provides component patterns, disclosure strategy, and token references for screen descriptions.</p>
+      </div>
+      <div class="handoff-arrow">&rarr;</div>
+      <div class="handoff-box">
+        <h4 style="color:var(--phase4b)">Phase 4b: SCREENS.md</h4>
+        <p>Reads: DESIGN_SYSTEM.md + product flows</p>
+        <p>Writes: <code>docs/DESIGN/SCREENS.md</code></p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;margin-bottom:.8rem">Downstream Consumers</h3>
+  <pre>docs/DESIGN/DESIGN_SYSTEM.md
+  &#9500;&#9472;&#9472; frontend-design        reads tokens as constraints for UI implementation
+  &#9500;&#9472;&#9472; style-quality-guardian  validates code against design system tokens
+  &#9500;&#9472;&#9472; brainstorming          references design system for UI decisions
+  &#9500;&#9472;&#9472; feature-frontend       checks for design system before starting
+  &#9500;&#9472;&#9472; seed-docs              auto-populates design system from codebase
+  &#9492;&#9472;&#9472; sync-docs              keeps design doc in sync with token changes</pre>
+</section>
+
+<!-- 7. EVALUATION -->
+<section id="evaluation">
+  <div class="section-label">06 / Evaluation</div>
+  <h2>Validation Checks</h2>
+  <p style="margin-bottom:1.5rem">The skill includes 7 built-in validation checks executed by the brand-designer agent in the final phase. There is no separate evaluation agent &mdash; the brand-designer validates its own output against the reference guides.</p>
+
+  <div class="eval-grid">
+    <div class="eval-card">
+      <div class="eval-icon" style="color:var(--accent)">&#9745;</div>
+      <h4>Contrast Check</h4>
+      <p>Every text/background pairing meets WCAG AA. 4.5:1 for normal text, 3:1 for large text and UI elements.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:var(--phase3)">&#9744;</div>
+      <h4>Completeness</h4>
+      <p>Every section of the design system template is populated. No empty fields, no placeholder values.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:var(--phase1)">&#8801;</div>
+      <h4>Consistency</h4>
+      <p>All token names follow the semantic naming convention. No descriptive names like <code>--color-blue</code>.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:var(--agent-brand)">&#9830;</div>
+      <h4>Distinctiveness</h4>
+      <p>Swap test: replacing these choices with the most common alternatives must feel different. The design system must be opinionated.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:hsl(340,60%,58%)">&#9888;</div>
+      <h4>Anti-Pattern</h4>
+      <p>None of the documented anti-patterns appear in the system itself. No Inter/Roboto display fonts. No purple-on-white gradients.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:var(--phase2)">&#9881;</div>
+      <h4>Design Imperatives</h4>
+      <p>Progressive disclosure, Fitts's law (touch targets), Hick's law (choice reduction), Miller's law (chunking) all verified.</p>
+    </div>
+    <div class="eval-card">
+      <div class="eval-icon" style="color:hsl(210,60%,55%)">&#9000;</div>
+      <h4>Platform Check</h4>
+      <p>Desktop patterns use hover/keyboard properly. Mobile patterns respect touch targets and thumb zones.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8. FEEDBACK -->
+<section id="feedback">
+  <div class="section-label">07 / Feedback</div>
+  <h2>Iteration Model</h2>
+
+  <div class="linear-card">
+    <div class="linear-icon">&#8594;</div>
+    <h3>Linear Execution</h3>
+    <p>The design-system skill executes linearly without a built-in feedback loop. Phases run sequentially from brand discovery through validation. The validation phase (Phase 5) may trigger fixes, but there is no defined iteration cycle that re-enters earlier phases.</p>
+  </div>
+
+  <p style="margin:1.5rem auto;max-width:500px;text-align:center;font-size:.85rem;color:var(--text-dim)">Iteration happens externally: when downstream consumers (frontend-design, style-quality-guardian) identify issues, the design-system skill is re-invoked to update tokens. The user can also re-run the skill with "Updating brand identity" to regenerate from new inputs.</p>
+</section>
+
+<!-- 9. RULES -->
+<section id="rules">
+  <div class="section-label">08 / Rules &amp; Constraints</div>
+  <h2>Hard Rules</h2>
+  <p style="margin-bottom:1.5rem">Non-negotiable constraints that the skill enforces during execution.</p>
+
+  <div class="rule-list">
+    <div class="rule-item">
+      <div class="rule-icon" style="color:hsl(340,60%,58%)">&#10005;</div>
+      <div>
+        <h3>No Generic Display Fonts</h3>
+        <div class="rule-text">Never generate Inter, Roboto, Arial, or system font stacks as the display font. The display font must be distinctive and characterful.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:hsl(340,60%,58%)">&#10005;</div>
+      <div>
+        <h3>No Purple-Gradient-on-White</h3>
+        <div class="rule-text">Never generate purple-gradient-on-white as a color scheme. This is the most common "AI company" aesthetic and fails the distinctiveness test.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--accent)">&#10003;</div>
+      <div>
+        <h3>WCAG Contrast Ratios</h3>
+        <div class="rule-text">Always calculate and document WCAG contrast ratios. Every text/background pairing must meet AA (4.5:1 normal, 3:1 large). No exceptions.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--accent)">&#10003;</div>
+      <div>
+        <h3>Dark Mode Required</h3>
+        <div class="rule-text">Always generate dark mode variants. Every color in the system must have a dark-mode counterpart with proper contrast.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--phase1)">&#9670;</div>
+      <div>
+        <h3>Sequential Questions</h3>
+        <div class="rule-text">One question at a time during brand discovery. Never present all 5 questions at once. Each answer informs the context of the next question.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--phase2)">&#9670;</div>
+      <div>
+        <h3>Semantic Token Names</h3>
+        <div class="rule-text">Design tokens use semantic names, not descriptive. <code>--color-primary</code> not <code>--color-blue</code>. Domain-specific names like <code>--ink</code> and <code>--canvas</code> are encouraged when they fit the brand.</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--phase3)">&#9670;</div>
+      <div>
+        <h3>Derived Spacing Only</h3>
+        <div class="rule-text">All spacing must derive from the base unit. No magic numbers. The spacing scale is a function of brand personality (dense vs. spacious).</div>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-icon" style="color:var(--agent-brand)">&#9830;</div>
+      <div>
+        <h3>Swap Test Required</h3>
+        <div class="rule-text">The design system must be opinionated enough to fail the "swap test." If you replaced these choices with the most common alternatives, it should feel fundamentally different.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10. REFERENCES -->
+<section id="references">
+  <div class="section-label">09 / References</div>
+  <h2>Skill Composition</h2>
+  <p style="margin-bottom:1.5rem">All files that compose the design-system skill.</p>
+
+  <div class="ref-list">
+    <div class="ref-item">
+      <span class="ref-type skill">skill</span>
+      <span>.claude/skills/design-system/SKILL.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type ref">ref</span>
+      <span>.claude/skills/design-system/references/token-generation-guide.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type ref">ref</span>
+      <span>.claude/skills/design-system/references/design-imperatives.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type ref">ref</span>
+      <span>.claude/skills/design-system/references/desktop-patterns.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type ref">ref</span>
+      <span>.claude/skills/design-system/references/mobile-patterns.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type agent">agent</span>
+      <span>.claude/agents/brand-designer.md</span>
+    </div>
+  </div>
+
+  <h3 style="margin-top:2rem;margin-bottom:.8rem">Referenced Skills (Downstream)</h3>
+  <div class="ref-list">
+    <div class="ref-item">
+      <span class="ref-type skill">skill</span>
+      <span>.claude/skills/frontend-design/SKILL.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">skill</span>
+      <span>.claude/skills/brainstorming/SKILL.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">skill</span>
+      <span>.claude/skills/feature-frontend/SKILL.md</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">ref-only</span>
+      <span>style-quality-guardian &mdash; referenced but skill definition not found</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">ref-only</span>
+      <span>theme-factory &mdash; referenced but skill definition not found</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">ref-only</span>
+      <span>seed-docs &mdash; referenced but skill definition not found</span>
+    </div>
+    <div class="ref-item">
+      <span class="ref-type skill">ref-only</span>
+      <span>sync-docs &mdash; referenced but skill definition not found</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Scroll-triggered section reveals
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+// Active nav link
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section[id]');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 120;
+    if (window.scrollY >= top) current = s.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+
+// Agent card expand/collapse
+function toggleAgent(card) {
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>

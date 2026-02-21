@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Skills Experiment</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#09090b;--bg-card:#111114;--bg-raised:#1a1a1f;--bg-hover:#222228;
+    --border:#2a2a30;--border-light:#3a3a42;
+    --text:#e4e4e7;--text-muted:#71717a;--text-dim:#52525b;
+    --cyan:#2dd4bf;--cyan-dim:rgba(45,212,191,.12);--cyan-glow:rgba(45,212,191,.25);
+    --amber:#f59e0b;--amber-dim:rgba(245,158,11,.12);--amber-glow:rgba(245,158,11,.25);
+    --rose:#f472b6;--rose-dim:rgba(244,114,182,.12);--rose-glow:rgba(244,114,182,.25);
+    --violet:#a78bfa;--violet-dim:rgba(167,139,250,.12);
+    --font-display:'Space Grotesk',system-ui,sans-serif;
+    --font-body:'Inter',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+    --nav-h:56px;
+  }
+  html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+  body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(9,9,11,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;padding:0 32px;gap:8px;overflow-x:auto}
+  nav a{font-family:var(--font-mono);font-size:12px;color:var(--text-muted);text-decoration:none;padding:6px 12px;border-radius:6px;white-space:nowrap;transition:all .2s}
+  nav a:hover{color:var(--text);background:var(--bg-raised)}
+  nav a.active{color:var(--cyan);background:var(--cyan-dim)}
+  nav .nav-label{font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--text);margin-right:12px;flex-shrink:0}
+
+  /* SECTIONS */
+  section{min-height:100vh;padding:120px 48px 80px;max-width:1200px;margin:0 auto;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  section.visible{opacity:1;transform:translateY(0)}
+  section.short{min-height:auto}
+
+  /* TYPOGRAPHY */
+  h1{font-family:var(--font-display);font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.1;letter-spacing:-.02em}
+  h2{font-family:var(--font-display);font-size:clamp(28px,3.5vw,40px);font-weight:600;line-height:1.2;margin-bottom:16px}
+  h3{font-family:var(--font-display);font-size:20px;font-weight:600;line-height:1.3;margin-bottom:8px}
+  .subtitle{font-size:18px;color:var(--text-muted);max-width:640px;margin-top:16px}
+  .label{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:8px}
+  .accent-cyan{color:var(--cyan)}.accent-amber{color:var(--amber)}.accent-rose{color:var(--rose)}.accent-violet{color:var(--violet)}
+
+  /* BADGE */
+  .badge{display:inline-block;font-family:var(--font-mono);font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid}
+  .badge-cyan{color:var(--cyan);border-color:var(--cyan);background:var(--cyan-dim)}
+  .badge-amber{color:var(--amber);border-color:var(--amber);background:var(--amber-dim)}
+  .badge-rose{color:var(--rose);border-color:var(--rose);background:var(--rose-dim)}
+
+  /* CARDS */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:32px}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;transition:border-color .2s,box-shadow .2s}
+  .card:hover{border-color:var(--border-light)}
+  .card.glow-cyan:hover{border-color:var(--cyan);box-shadow:0 0 24px var(--cyan-dim)}
+  .card.glow-amber:hover{border-color:var(--amber);box-shadow:0 0 24px var(--amber-dim)}
+  .card.glow-rose:hover{border-color:var(--rose);box-shadow:0 0 24px var(--rose-dim)}
+  .card-number{font-family:var(--font-display);font-size:48px;font-weight:700;line-height:1;margin-bottom:16px}
+  .card ul{list-style:none;margin-top:12px}
+  .card li{font-size:14px;color:var(--text-muted);padding:4px 0;padding-left:16px;position:relative}
+  .card li::before{content:'';position:absolute;left:0;top:11px;width:6px;height:6px;border-radius:50%}
+  .glow-cyan li::before{background:var(--cyan)}
+  .glow-amber li::before{background:var(--amber)}
+  .glow-rose li::before{background:var(--rose)}
+
+  /* PROMPT BLOCK */
+  .prompt-block{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:32px;margin-top:32px;font-family:var(--font-mono);font-size:13px;line-height:1.8;color:var(--text-muted);white-space:pre-wrap;overflow-x:auto;position:relative}
+  .prompt-block .prompt-label{position:absolute;top:12px;right:16px;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);background:var(--bg-raised);padding:2px 8px;border-radius:4px}
+  .prompt-block strong{color:var(--text);font-weight:500}
+  .prompt-block .hl-cyan{color:var(--cyan)}
+  .prompt-block .hl-amber{color:var(--amber)}
+  .prompt-block .hl-rose{color:var(--rose)}
+
+  /* WORKFLOW DIAGRAMS */
+  .workflow{display:flex;align-items:flex-start;gap:0;margin-top:40px;flex-wrap:wrap;justify-content:center}
+  .wf-node{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;min-width:100px;max-width:140px;text-align:center;position:relative}
+  .wf-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:600;border:2px solid;transition:transform .2s}
+  .wf-dot:hover{transform:scale(1.15)}
+  .wf-label{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);max-width:120px;line-height:1.3}
+  .wf-arrow{display:flex;align-items:center;padding-top:8px;color:var(--text-dim);font-size:18px;flex-shrink:0}
+  .wf-cyan .wf-dot{color:var(--cyan);border-color:var(--cyan);background:var(--cyan-dim)}
+  .wf-amber .wf-dot{color:var(--amber);border-color:var(--amber);background:var(--amber-dim)}
+  .wf-rose .wf-dot{color:var(--rose);border-color:var(--rose);background:var(--rose-dim)}
+
+  /* FEEDBACK LOOP */
+  .loop-container{position:relative;margin-top:40px}
+  .loop-line{position:absolute;bottom:-20px;left:50%;width:60%;transform:translateX(-50%);height:40px;border:2px dashed var(--rose);border-top:none;border-radius:0 0 20px 20px;opacity:.4}
+  .loop-label{position:absolute;bottom:-36px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:10px;color:var(--rose);white-space:nowrap;background:var(--bg);padding:0 8px}
+
+  /* AGENT PILLS */
+  .agents-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .agent-pill{font-family:var(--font-mono);font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid var(--border);color:var(--text-muted);background:var(--bg-raised)}
+  .agent-pill.active-cyan{color:var(--cyan);border-color:var(--cyan);background:var(--cyan-dim)}
+  .agent-pill.active-amber{color:var(--amber);border-color:var(--amber);background:var(--amber-dim)}
+  .agent-pill.active-rose{color:var(--rose);border-color:var(--rose);background:var(--rose-dim)}
+  .agent-pill.active-violet{color:var(--violet);border-color:var(--violet);background:var(--violet-dim)}
+
+  /* COMPARISON TABLE */
+  .cmp-table{width:100%;border-collapse:collapse;margin-top:32px;font-size:14px}
+  .cmp-table th,.cmp-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border)}
+  .cmp-table th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);font-weight:500}
+  .cmp-table td{color:var(--text-muted)}
+  .cmp-table td:first-child{color:var(--text);font-weight:500;font-family:var(--font-body)}
+  .cmp-table tr:hover td{background:var(--bg-card)}
+  .col-cyan{color:var(--cyan) !important}.col-amber{color:var(--amber) !important}.col-rose{color:var(--rose) !important}
+
+  /* RESULTS IFRAMES */
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px}
+  .result-frame{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .result-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:between;gap:12px}
+  .result-header h3{margin:0;font-size:15px}
+  .result-body{height:500px;position:relative;background:#fff}
+  .result-body iframe{width:100%;height:100%;border:none}
+  .result-placeholder{display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-dim);font-family:var(--font-mono);font-size:13px;background:var(--bg-raised);flex-direction:column;gap:8px}
+  .result-placeholder .placeholder-icon{font-size:32px;opacity:.3}
+  .result-open{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:6px;transition:all .2s}
+  .result-open:hover{color:var(--text);border-color:var(--border-light)}
+
+  /* DETAIL SECTIONS */
+  .detail-header{display:flex;align-items:center;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+  .detail-header .badge{font-size:12px;padding:6px 14px}
+  .detail-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:24px}
+  .meta-item{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:20px}
+  .meta-value{font-family:var(--font-display);font-size:28px;font-weight:700;margin-top:4px}
+  .meta-label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim)}
+  .detail-desc{font-size:15px;color:var(--text-muted);max-width:720px;margin:24px 0 0}
+
+  /* ARTIFACT CHAIN */
+  .artifact-chain{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+  .artifact{font-family:var(--font-mono);font-size:11px;padding:6px 14px;background:var(--bg-raised);border:1px solid var(--border);border-radius:6px;color:var(--text-muted);position:relative}
+  .artifact::after{content:'';position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid var(--border);border-top:4px solid transparent;border-bottom:4px solid transparent}
+  .artifact:last-child::after{display:none}
+
+  /* SCORE DIMENSIONS */
+  .score-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+  .score-item{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+  .score-item .score-name{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:4px}
+  .score-item .score-value{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--rose)}
+
+  /* DIVIDER */
+  .divider{width:64px;height:2px;background:var(--border);margin:32px 0}
+
+  /* TAKEAWAY CARDS */
+  .takeaway-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:32px}
+  .takeaway-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px}
+  .takeaway-card p{font-size:14px;color:var(--text-muted);margin-top:8px}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    section{padding:100px 20px 60px}
+    nav{padding:0 16px}
+    .card-grid{grid-template-columns:1fr}
+    .results-grid{grid-template-columns:1fr}
+    .workflow{gap:4px}
+    .wf-node{min-width:70px;max-width:100px}
+    .wf-label{font-size:9px}
+    .score-grid{grid-template-columns:repeat(3,1fr)}
+    .detail-meta{grid-template-columns:1fr 1fr}
+  }
+
+  /* PHASE LIST */
+  .phase-list{list-style:none;margin-top:24px;counter-reset:phase}
+  .phase-list li{counter-increment:phase;padding:16px 20px 16px 56px;position:relative;border-left:2px solid var(--border);margin-left:16px}
+  .phase-list li::before{content:counter(phase);position:absolute;left:-17px;top:14px;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:600;border:2px solid}
+  .phase-list li:last-child{border-left-color:transparent}
+  .phase-list.phase-cyan li::before{color:var(--cyan);border-color:var(--cyan);background:var(--cyan-dim)}
+  .phase-list.phase-cyan li{border-left-color:var(--cyan-dim)}
+  .phase-list.phase-amber li::before{color:var(--amber);border-color:var(--amber);background:var(--amber-dim)}
+  .phase-list.phase-amber li{border-left-color:var(--amber-dim)}
+  .phase-list.phase-rose li::before{color:var(--rose);border-color:var(--rose);background:var(--rose-dim)}
+  .phase-list.phase-rose li{border-left-color:var(--rose-dim)}
+  .phase-list li strong{display:block;font-size:14px;color:var(--text);margin-bottom:2px}
+  .phase-list li span{font-size:13px;color:var(--text-muted)}
+
+  /* DECISION NODE */
+  .decision-node{display:inline-flex;align-items:center;gap:8px;background:var(--rose-dim);border:1px dashed var(--rose);border-radius:8px;padding:8px 16px;font-family:var(--font-mono);font-size:12px;color:var(--rose);margin:16px 0}
+
+  /* VERSUS DIVIDER */
+  .vs{display:flex;align-items:center;gap:16px;margin:48px 0 32px;color:var(--text-dim);font-family:var(--font-display);font-size:14px;font-weight:600;letter-spacing:.05em}
+  .vs::before,.vs::after{content:'';flex:1;height:1px;background:var(--border)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <span class="nav-label">Skills Experiment</span>
+  <a href="#title">Intro</a>
+  <a href="#experiment">Experiment</a>
+  <a href="#approaches">Approaches</a>
+  <a href="#prompt">Prompt</a>
+  <a href="#approach-skill">Skill</a>
+  <a href="#approach-workflow">Workflow</a>
+  <a href="#approach-studio">Studio</a>
+  <a href="#results">Results</a>
+  <a href="#comparison">Compare</a>
+  <a href="#takeaways">Takeaways</a>
+</nav>
+
+<!-- 00: TITLE -->
+<section id="title">
+  <div class="label">Claude Code Skills</div>
+  <h1>The Skills<br>Experiment</h1>
+  <p class="subtitle">Same prompt. Three approaches. How does skill architecture affect the quality of a single deliverable?</p>
+  <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
+    <span class="badge badge-cyan">Skill</span>
+    <span class="badge badge-amber">Workflow Skill</span>
+    <span class="badge badge-rose">Workflow + Feedback Loops</span>
+  </div>
+  <div style="margin-top:48px">
+    <p style="font-size:14px;color:var(--text-dim)">We ask each approach to build the same thing:</p>
+    <p style="font-size:18px;color:var(--text);margin-top:8px;font-weight:500">A 3-section homepage for an orthopaedic surgery practice.</p>
+  </div>
+</section>
+
+<!-- 01: THE EXPERIMENT -->
+<section id="experiment">
+  <div class="label">Why this matters</div>
+  <h2>The Experiment</h2>
+  <p class="subtitle">Skills are the building blocks of agent capability. But not all skills are created equal. Some load methodology. Some orchestrate pipelines. Some spawn competing agents and iterate until quality gates pass.</p>
+  <p class="subtitle" style="margin-top:16px">This experiment isolates the variable: <strong style="color:var(--text)">skill architecture</strong>. Everything else stays constant &mdash; same model, same prompt, same design system, same brand guidelines.</p>
+
+  <div class="card-grid" style="margin-top:48px">
+    <div class="card">
+      <h3>Control Variables</h3>
+      <ul style="list-style:disc;padding-left:20px;margin-top:12px">
+        <li style="padding-left:0">Identical prompt for all 3 runs</li>
+        <li style="padding-left:0">Same design system tokens</li>
+        <li style="padding-left:0">Same brand guidelines</li>
+        <li style="padding-left:0">Same business docs (ICP, Product)</li>
+        <li style="padding-left:0">Same model (Claude)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Independent Variable</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:12px">The <strong style="color:var(--text)">skill type</strong> invoked to execute the prompt. Each adds layers of process, review, and iteration around the same core task.</p>
+    </div>
+    <div class="card">
+      <h3>Dependent Variables</h3>
+      <ul style="list-style:disc;padding-left:20px;margin-top:12px">
+        <li style="padding-left:0">Visual design quality</li>
+        <li style="padding-left:0">Copy quality and brand alignment</li>
+        <li style="padding-left:0">Design system compliance</li>
+        <li style="padding-left:0">Mobile responsiveness</li>
+        <li style="padding-left:0">Overall persuasiveness</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 02: THREE APPROACHES -->
+<section id="approaches">
+  <div class="label">The three levels</div>
+  <h2>Three Approaches</h2>
+  <p class="subtitle">From a single methodology injection to a full multi-agent creative studio with customer review loops.</p>
+
+  <div class="card-grid">
+    <!-- SKILL -->
+    <div class="card glow-cyan">
+      <div class="card-number accent-cyan">01</div>
+      <span class="badge badge-cyan">Skill</span>
+      <h3 style="margin-top:16px">frontend-design</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A methodology skill. Loads design thinking principles, anti-patterns, and validation tests into the agent's context. The agent builds the page in <strong style="color:var(--text)">a single pass</strong>.</p>
+      <ul>
+        <li>1 agent, 1 perspective</li>
+        <li>Methodology as guardrails</li>
+        <li>No separate brainstorming phase</li>
+        <li>No automated review or iteration</li>
+      </ul>
+    </div>
+    <!-- WORKFLOW -->
+    <div class="card glow-amber">
+      <div class="card-number accent-amber">02</div>
+      <span class="badge badge-amber">Workflow Skill</span>
+      <h3 style="margin-top:16px">feature-frontend</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A sequential pipeline. Checks the design system, brainstorms the design intent, then implements and ships &mdash; a <strong style="color:var(--text)">4-step workflow</strong>.</p>
+      <ul>
+        <li>1 orchestrator, skill invocations at each step</li>
+        <li>Design system enforced as law</li>
+        <li>Brainstorm mandatory before code</li>
+        <li>Design doc captures decisions</li>
+      </ul>
+    </div>
+    <!-- CREATIVE STUDIO -->
+    <div class="card glow-rose">
+      <div class="card-number accent-rose">03</div>
+      <span class="badge badge-rose">Workflow + Feedback Loops</span>
+      <h3 style="margin-top:16px">creative-studio</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A multi-agent creative pipeline. Designer and copywriter brainstorm together, a developer builds, a customer persona reviews, and the whole cycle <strong style="color:var(--text)">iterates until quality gates pass</strong>.</p>
+      <ul>
+        <li>5+ specialized agents</li>
+        <li>Collaborative brainstorming (max 4 rounds)</li>
+        <li>Customer review with 5-dimension scoring</li>
+        <li>Feedback loop: iterate up to 3 times</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 03: THE PROMPT -->
+<section id="prompt">
+  <div class="label">Identical input</div>
+  <h2>The Prompt</h2>
+  <p class="subtitle">This exact prompt is given to all three approaches. The only difference is which skill processes it.</p>
+
+  <div class="prompt-block"><span class="prompt-label">prompt.md</span><strong>Build a 3-section homepage</strong> for our orthopaedic surgery practice.
+Single self-contained index.html file. No stock photo URLs.
+
+<strong>Read the project docs for context:</strong>
+&bull; docs/DESIGN/BRAND.md
+&bull; docs/DESIGN/DESIGN_SYSTEM.md
+&bull; docs/BUSINESS/PRODUCT.md
+&bull; docs/BUSINESS/ICP.md
+
+<strong>Save to:</strong> <span class="hl-cyan">presentation/experiment/skill/index.html</span>
+         <span class="hl-amber">presentation/experiment/workflow/index.html</span>
+         <span class="hl-rose">presentation/experiment/creative-studio/index.html</span></div>
+
+  <p style="font-size:13px;color:var(--text-dim);margin-top:16px;max-width:640px">That's it. No section specs, no CTA details, no card counts, no layout instructions. Each skill decides what "3-section homepage" means &mdash; which sections, what copy, how to structure it. The prompt tests the skill's ability to make good decisions autonomously.</p>
+</section>
+
+<!-- 04: APPROACH 1 — SKILL -->
+<section id="approach-skill">
+  <div class="detail-header">
+    <div>
+      <div class="label">Approach 01</div>
+      <h2 class="accent-cyan">Skill: frontend-design</h2>
+    </div>
+    <span class="badge badge-cyan" style="margin-left:auto">Methodology</span>
+  </div>
+
+  <p class="detail-desc">The simplest approach. The <code style="color:var(--cyan)">frontend-design</code> skill injects design methodology &mdash; aesthetic principles, anti-pattern rules, validation tests &mdash; directly into the agent's context. The agent then builds the entire page in one shot, guided by these loaded principles.</p>
+
+  <div class="detail-meta">
+    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-cyan">1</div></div>
+    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-cyan">1</div></div>
+    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value" style="color:var(--text-dim)">0</div></div>
+    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-cyan">~50K</div></div>
+  </div>
+
+  <h3 style="margin-top:40px">Workflow</h3>
+  <div class="workflow">
+    <div class="wf-node wf-cyan"><div class="wf-dot">P</div><div class="wf-label">Prompt</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">M</div><div class="wf-label">Load Methodology</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">R</div><div class="wf-label">Read Docs</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">B</div><div class="wf-label">Build</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-cyan"><div class="wf-dot" style="background:var(--cyan);color:var(--bg);border-color:var(--cyan)">&#10003;</div><div class="wf-label">index.html</div></div>
+  </div>
+
+  <h3 style="margin-top:48px">What the agent sees</h3>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:8px">The skill loads these mental models into context:</p>
+  <div class="agents-row" style="margin-top:12px">
+    <span class="agent-pill active-cyan">Swap Test</span>
+    <span class="agent-pill active-cyan">Squint Test</span>
+    <span class="agent-pill active-cyan">Signature Test</span>
+    <span class="agent-pill active-cyan">Token Test</span>
+    <span class="agent-pill active-cyan">Progressive Disclosure</span>
+    <span class="agent-pill active-cyan">Platform Test</span>
+  </div>
+  <p style="font-size:13px;color:var(--text-dim);margin-top:12px">These tests are self-applied by the agent during the build &mdash; not enforced by a separate reviewer.</p>
+
+  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <div class="artifact-chain">
+    <div class="artifact">index.html</div>
+  </div>
+
+  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <div class="card-grid" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="border-color:var(--cyan-dim)">
+      <h3 style="color:var(--cyan);font-size:13px">Strengths</h3>
+      <ul><li>Fast execution</li><li>Low token cost</li><li>Methodology prevents common pitfalls</li><li>Good for experienced prompts</li></ul>
+    </div>
+    <div class="card" style="border-color:var(--border)">
+      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
+      <ul><li>Single perspective</li><li>No external review or iteration</li><li>Copy quality depends on agent alone</li><li>No test coverage</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 05: APPROACH 2 — WORKFLOW -->
+<section id="approach-workflow">
+  <div class="detail-header">
+    <div>
+      <div class="label">Approach 02</div>
+      <h2 class="accent-amber">Workflow: feature-frontend</h2>
+    </div>
+    <span class="badge badge-amber" style="margin-left:auto">Pipeline</span>
+  </div>
+
+  <p class="detail-desc">A structured pipeline that enforces process. Before any code is written, the agent checks the design system and brainstorms the design intent. Only then does it implement &mdash; building bottom-up from atoms to pages. The design system is the law; the brainstorm captures decisions.</p>
+
+  <div class="detail-meta">
+    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-amber">1</div><div style="font-size:11px;color:var(--text-dim)">orchestrator with skill invocations</div></div>
+    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-amber">4</div></div>
+    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value" style="color:var(--text-dim)">0</div><div style="font-size:11px;color:var(--text-dim)">linear pipeline</div></div>
+    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-amber">~100K</div></div>
+  </div>
+
+  <h3 style="margin-top:40px">Workflow</h3>
+  <div class="workflow">
+    <div class="wf-node wf-amber"><div class="wf-dot">0</div><div class="wf-label">Design System Check</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-amber"><div class="wf-dot">1</div><div class="wf-label">Brainstorm</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-amber"><div class="wf-dot">2</div><div class="wf-label">Implement</div></div>
+    <div class="wf-arrow">&rarr;</div>
+    <div class="wf-node wf-amber"><div class="wf-dot" style="background:var(--amber);color:var(--bg);border-color:var(--amber)">&#10003;</div><div class="wf-label">Commit &amp; PR</div></div>
+  </div>
+
+  <h3 style="margin-top:48px">Phase Breakdown</h3>
+  <ol class="phase-list phase-amber">
+    <li><strong>Design System Check</strong><span>Read docs/DESIGN/DESIGN_SYSTEM.md. If populated, use its tokens as hard constraints. If missing, flag to user and optionally invoke the design-system skill first.</span></li>
+    <li><strong>Brainstorm</strong><span>Invoke the brainstorming skill. Explore user goals, visual hierarchy, interaction states, breakpoints, and how the feature uses design tokens. Write design doc to docs/plans/.</span></li>
+    <li><strong>Implement</strong><span>Build bottom-up following the brainstorm output: atoms (buttons, inputs) &rarr; molecules (cards, groups) &rarr; organisms (sections, nav) &rarr; pages. All visual choices conform to the design system.</span></li>
+    <li><strong>Commit &amp; PR</strong><span>Create feature branch, commit, push, and open a pull request.</span></li>
+  </ol>
+
+  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <div class="artifact-chain">
+    <div class="artifact">design-doc.md</div>
+    <div class="artifact">index.html</div>
+  </div>
+
+  <h3 style="margin-top:40px">Skills Invoked</h3>
+  <div class="agents-row">
+    <span class="agent-pill active-amber">brainstorming</span>
+  </div>
+  <p style="font-size:13px;color:var(--text-dim);margin-top:8px">The brainstorming skill is the key differentiator &mdash; it forces the agent to think about intent, hierarchy, and states before writing any code.</p>
+
+  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <div class="card-grid" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="border-color:var(--amber-dim)">
+      <h3 style="color:var(--amber);font-size:13px">Strengths</h3>
+      <ul><li>Structured thinking before code</li><li>Design system as hard constraint</li><li>Design doc captures decisions</li><li>Bottom-up component architecture</li></ul>
+    </div>
+    <div class="card" style="border-color:var(--border)">
+      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
+      <ul><li>Single creative perspective</li><li>No copy specialist</li><li>No customer validation loop</li><li>Linear &mdash; no iteration on design</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 06: APPROACH 3 — CREATIVE STUDIO -->
+<section id="approach-studio">
+  <div class="detail-header">
+    <div>
+      <div class="label">Approach 03</div>
+      <h2 class="accent-rose">Creative Studio</h2>
+    </div>
+    <span class="badge badge-rose" style="margin-left:auto">Feedback Loops</span>
+  </div>
+
+  <p class="detail-desc">The full creative pipeline. A brand designer and copywriter brainstorm together in a multi-round dialogue. A developer builds. A customer persona scores the result across five dimensions. If it doesn't pass the bar, the whole design-copy-build cycle repeats &mdash; up to three times.</p>
+
+  <div class="detail-meta">
+    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-rose">5+</div><div style="font-size:11px;color:var(--text-dim)">designer, copywriter, developer, customer, guardians</div></div>
+    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-rose">6</div></div>
+    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value accent-rose">Max 3</div><div style="font-size:11px;color:var(--text-dim)">customer review &rarr; iterate</div></div>
+    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-rose">~500K+</div></div>
+  </div>
+
+  <h3 style="margin-top:40px">Workflow with Feedback Loop</h3>
+  <div class="loop-container">
+    <div class="workflow">
+      <div class="wf-node wf-rose"><div class="wf-dot">0</div><div class="wf-label">Brief</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot">1</div><div class="wf-label">Brainstorm</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose" id="loop-start"><div class="wf-dot">2</div><div class="wf-label">Design</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot">3</div><div class="wf-label">Copy</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot">4</div><div class="wf-label">Build</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot">5</div><div class="wf-label">Customer Review</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot" style="border-style:dashed">?</div><div class="wf-label">Score &lt; 8?</div></div>
+      <div class="wf-arrow">&rarr;</div>
+      <div class="wf-node wf-rose"><div class="wf-dot" style="background:var(--rose);color:var(--bg);border-color:var(--rose)">&#10003;</div><div class="wf-label">Ship</div></div>
+    </div>
+    <div class="loop-line"></div>
+    <div class="loop-label">&larr; iterate (back to Design) if avg score &lt; 8 &mdash; max 3 rounds &rarr;</div>
+  </div>
+
+  <h3 style="margin-top:72px">Phase Breakdown</h3>
+  <ol class="phase-list phase-rose">
+    <li><strong>Prepare Brief</strong><span>Orchestrator reads all docs. Writes structured brief to docs/studio/. Captures audience, goals, constraints.</span></li>
+    <li><strong>Brainstorm</strong><span>Brand designer and copywriter agents in back-and-forth dialogue (max 4 rounds). Converge on a creative direction document &mdash; the immutable contract for all subsequent phases.</span></li>
+    <li><strong>Design</strong><span>Brand designer agent creates visual direction: layout, hierarchy, component choices, spacing, color application. References frontend-design methodology.</span></li>
+    <li><strong>Copy</strong><span>Copywriter agent writes all content: headlines, body, CTAs, micro-copy. Direct-response focused. Conversion-optimized.</span></li>
+    <li><strong>Build</strong><span>Expert developer agent implements the design + copy into code. Orchestrator verifies in browser via agent-browser.</span></li>
+    <li><strong>Customer Review &amp; Iterate</strong><span>Customer persona agent scores across 5 dimensions. If average &lt; 8 and round &lt; 3: loop back to Design with targeted feedback. Otherwise: ship.</span></li>
+  </ol>
+
+  <h3 style="margin-top:40px">Customer Review Dimensions</h3>
+  <div class="score-grid">
+    <div class="score-item"><div class="score-name">Visual</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Copy</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Flow</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Conviction</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Persuasion</div><div class="score-value">?</div></div>
+  </div>
+  <div class="decision-node" style="margin-top:16px">
+    &#9670; avg &lt; 8 AND round &lt; 3 &rarr; loop back to Phase 2 with feedback
+  </div>
+
+  <h3 style="margin-top:32px">Agents Spawned</h3>
+  <div class="agents-row">
+    <span class="agent-pill active-rose">brand-designer</span>
+    <span class="agent-pill active-rose">copywriter</span>
+    <span class="agent-pill active-rose">expert-developer</span>
+    <span class="agent-pill active-rose">customer</span>
+    <span class="agent-pill">code-quality-guardian</span>
+    <span class="agent-pill">style-quality-guardian</span>
+  </div>
+
+  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <div class="artifact-chain">
+    <div class="artifact">brief.md</div>
+    <div class="artifact">creative-direction.md</div>
+    <div class="artifact">design-spec</div>
+    <div class="artifact">copy-doc</div>
+    <div class="artifact">index.html</div>
+    <div class="artifact">customer-review</div>
+  </div>
+
+  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <div class="card-grid" style="grid-template-columns:1fr 1fr">
+    <div class="card" style="border-color:var(--rose-dim)">
+      <h3 style="color:var(--rose);font-size:13px">Strengths</h3>
+      <ul><li>Multi-perspective creative process</li><li>Dedicated copywriter for conversion copy</li><li>Customer validation before shipping</li><li>Iterative refinement up to 3 rounds</li></ul>
+    </div>
+    <div class="card" style="border-color:var(--border)">
+      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
+      <ul><li>High token cost (~10x the skill approach)</li><li>Longer execution time</li><li>Creative direction may over-constrain</li><li>Diminishing returns after round 2</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- 07: RESULTS -->
+<section id="results">
+  <div class="label">Side by side</div>
+  <h2>Results</h2>
+  <p class="subtitle">The output from each approach, rendered in identical viewports. Run the experiment first, then reload this page to see the results.</p>
+
+  <div class="results-grid">
+    <!-- SKILL RESULT -->
+    <div class="result-frame">
+      <div class="result-header">
+        <span class="badge badge-cyan">01</span>
+        <h3 class="accent-cyan">Skill</h3>
+        <a href="experiment/skill/index.html" target="_blank" class="result-open">Open &nearr;</a>
+      </div>
+      <div class="result-body" id="frame-skill">
+        <div class="result-placeholder" id="placeholder-skill">
+          <div class="placeholder-icon">&#9633;</div>
+          <span>Run experiment first</span>
+          <span style="font-size:10px;opacity:.5">experiment/skill/index.html</span>
+        </div>
+      </div>
+    </div>
+    <!-- WORKFLOW RESULT -->
+    <div class="result-frame">
+      <div class="result-header">
+        <span class="badge badge-amber">02</span>
+        <h3 class="accent-amber">Workflow</h3>
+        <a href="experiment/workflow/index.html" target="_blank" class="result-open">Open &nearr;</a>
+      </div>
+      <div class="result-body" id="frame-workflow">
+        <div class="result-placeholder" id="placeholder-workflow">
+          <div class="placeholder-icon">&#9633;</div>
+          <span>Run experiment first</span>
+          <span style="font-size:10px;opacity:.5">experiment/workflow/index.html</span>
+        </div>
+      </div>
+    </div>
+    <!-- CREATIVE STUDIO RESULT -->
+    <div class="result-frame">
+      <div class="result-header">
+        <span class="badge badge-rose">03</span>
+        <h3 class="accent-rose">Creative Studio</h3>
+        <a href="experiment/creative-studio/index.html" target="_blank" class="result-open">Open &nearr;</a>
+      </div>
+      <div class="result-body" id="frame-studio">
+        <div class="result-placeholder" id="placeholder-studio">
+          <div class="placeholder-icon">&#9633;</div>
+          <span>Run experiment first</span>
+          <span style="font-size:10px;opacity:.5">experiment/creative-studio/index.html</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08: COMPARISON -->
+<section id="comparison">
+  <div class="label">Analysis</div>
+  <h2>Comparison Matrix</h2>
+  <p class="subtitle">How the three approaches differ across key dimensions.</p>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th style="width:25%">Dimension</th>
+        <th class="col-cyan" style="width:25%">Skill</th>
+        <th class="col-amber" style="width:25%">Workflow</th>
+        <th class="col-rose" style="width:25%">Creative Studio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Architecture</td>
+        <td class="col-cyan">Context injection</td>
+        <td class="col-amber">Sequential pipeline</td>
+        <td class="col-rose">Multi-agent + loops</td>
+      </tr>
+      <tr>
+        <td>Agents involved</td>
+        <td>1</td>
+        <td>1 (with skill invocations)</td>
+        <td>5+ specialized agents</td>
+      </tr>
+      <tr>
+        <td>Creative perspectives</td>
+        <td>1 (builder)</td>
+        <td>1 (builder) + brainstorm</td>
+        <td>3 (designer + copywriter + customer)</td>
+      </tr>
+      <tr>
+        <td>Process phases</td>
+        <td>1 (build)</td>
+        <td>4 (check &rarr; brainstorm &rarr; build &rarr; ship)</td>
+        <td>6 + iterations</td>
+      </tr>
+      <tr>
+        <td>Design thinking</td>
+        <td>Self-applied tests</td>
+        <td>Mandatory brainstorm + design doc</td>
+        <td>Collaborative direction + design spec</td>
+      </tr>
+      <tr>
+        <td>Copy quality</td>
+        <td>Agent's own writing</td>
+        <td>Agent's own writing</td>
+        <td>Dedicated copywriter agent</td>
+      </tr>
+      <tr>
+        <td>Quality gates</td>
+        <td>None (self-review)</td>
+        <td>Design system compliance check</td>
+        <td>Customer scoring + quality guardians</td>
+      </tr>
+      <tr>
+        <td>Iteration</td>
+        <td>None</td>
+        <td>None (linear)</td>
+        <td>Up to 3 rounds</td>
+      </tr>
+      <tr>
+        <td>Estimated tokens</td>
+        <td>~50K</td>
+        <td>~100K</td>
+        <td>~500K+</td>
+      </tr>
+      <tr>
+        <td>Estimated time</td>
+        <td>Minutes</td>
+        <td>10&ndash;20 min</td>
+        <td>45&ndash;90 min</td>
+      </tr>
+      <tr>
+        <td>Artifacts generated</td>
+        <td>1 file</td>
+        <td>2 (design doc + html)</td>
+        <td>6+ (brief, direction, spec, copy, html, review)</td>
+      </tr>
+      <tr>
+        <td>Best for</td>
+        <td>Quick prototypes, experienced users</td>
+        <td>Production features, team standards</td>
+        <td>Customer-facing pages, high-stakes deliverables</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="vs">Cost &harr; Quality Tradeoff</div>
+
+  <div class="card-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card glow-cyan" style="text-align:center">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--cyan)">1x</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">baseline cost</div>
+    </div>
+    <div class="card glow-amber" style="text-align:center">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--amber)">2x</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">structured process</div>
+    </div>
+    <div class="card glow-rose" style="text-align:center">
+      <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--rose)">10x</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">multi-agent iteration</div>
+    </div>
+  </div>
+</section>
+
+<!-- 09: TAKEAWAYS -->
+<section id="takeaways" class="short" style="padding-bottom:120px">
+  <div class="label">Conclusions</div>
+  <h2>Key Takeaways</h2>
+
+  <div class="takeaway-grid">
+    <div class="takeaway-card" style="border-left:3px solid var(--cyan)">
+      <h3>Skills are guardrails, not guarantees</h3>
+      <p>A methodology skill improves the floor &mdash; it prevents common mistakes. But it can't add perspectives the agent doesn't have. The output is only as good as a single agent's interpretation.</p>
+    </div>
+    <div class="takeaway-card" style="border-left:3px solid var(--amber)">
+      <h3>Thinking before building changes everything</h3>
+      <p>The workflow skill's power is the mandatory brainstorm. Forcing the agent to articulate intent, hierarchy, and states before writing code means better decisions &mdash; even though it's the same agent doing both the thinking and the building.</p>
+    </div>
+    <div class="takeaway-card" style="border-left:3px solid var(--rose)">
+      <h3>Feedback loops are the multiplier</h3>
+      <p>The creative studio's power isn't the number of agents &mdash; it's the iteration cycle. A customer persona finding weak copy in round 1 means the copywriter rewrites it in round 2. Quality improves non-linearly.</p>
+    </div>
+    <div class="takeaway-card" style="border-left:3px solid var(--violet)">
+      <h3>Match complexity to stakes</h3>
+      <p>Not every page needs a creative studio. Internal tools benefit from workflow skills. High-stakes landing pages justify the 10x cost of multi-agent iteration. Choose the architecture that matches the deliverable's impact.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px">
+    <h3>How to Run the Experiment</h3>
+    <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);margin-top:16px;line-height:2">
+      <div><span class="accent-cyan">Run 1:</span> Invoke <code>/frontend-design</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/skill/index.html"</div>
+      <div><span class="accent-amber">Run 2:</span> Invoke <code>/feature-frontend</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/workflow/index.html"</div>
+      <div><span class="accent-rose">Run 3:</span> Invoke <code>/creative-studio</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/creative-studio/index.html"</div>
+      <div style="margin-top:12px;color:var(--text-dim)">Then reload this page. The results section will auto-populate.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  // Scroll-triggered section reveals
+  const sections = document.querySelectorAll('section');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  sections.forEach(s => obs.observe(s));
+
+  // Active nav tracking
+  const navLinks = document.querySelectorAll('nav a');
+  const sectionIds = Array.from(navLinks).map(a => a.getAttribute('href').slice(1));
+  const navObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if(link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) navObs.observe(el);
+  });
+
+  // Auto-load iframes for experiment results
+  const frames = [
+    { id: 'frame-skill', placeholder: 'placeholder-skill', src: 'experiment/skill/index.html' },
+    { id: 'frame-workflow', placeholder: 'placeholder-workflow', src: 'experiment/workflow/index.html' },
+    { id: 'frame-studio', placeholder: 'placeholder-studio', src: 'experiment/creative-studio/index.html' },
+  ];
+  frames.forEach(f => {
+    const container = document.getElementById(f.id);
+    const placeholder = document.getElementById(f.placeholder);
+    if(!container || !placeholder) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = f.src;
+    iframe.style.display = 'none';
+    iframe.onload = function(){
+      try {
+        // Check if the iframe actually loaded content
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        if(doc && doc.body && doc.body.innerHTML.trim().length > 0){
+          placeholder.style.display = 'none';
+          iframe.style.display = 'block';
+        }
+      } catch(e) {
+        // Cross-origin or file not found — keep placeholder
+      }
+    };
+    iframe.onerror = function(){ /* keep placeholder */ };
+    container.appendChild(iframe);
+  });
+})();
+</script>
+</body>
+</html>

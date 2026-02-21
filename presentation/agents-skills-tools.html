@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agents, Skills &amp; Tools | Claude Code Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,400;0,500;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-deep: #0a0a0c;
+  --bg-surface: #111116;
+  --bg-elevated: #1a1a22;
+  --bg-card: #16161e;
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-medium: rgba(255,255,255,0.12);
+  --text-primary: #e8e6e3;
+  --text-secondary: #8a8692;
+  --text-muted: #5a5662;
+  --accent-amber: #e8a849;
+  --accent-amber-dim: rgba(232,168,73,0.15);
+  --accent-rose: #d4526e;
+  --accent-rose-dim: rgba(212,82,110,0.12);
+  --accent-cyan: #4ecdc4;
+  --accent-cyan-dim: rgba(78,205,196,0.12);
+  --accent-violet: #9b7ed8;
+  --accent-violet-dim: rgba(155,126,216,0.12);
+  --accent-lime: #a8c256;
+  --accent-lime-dim: rgba(168,194,86,0.12);
+  --accent-blue: #5b8def;
+  --accent-blue-dim: rgba(91,141,239,0.12);
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --nav-width: 240px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Navigation --- */
+nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--nav-width);
+  height: 100vh;
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  padding: 32px 0;
+  z-index: 100;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+nav .nav-brand {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 16px;
+}
+
+nav .nav-brand h2 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-amber);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+nav .nav-brand span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+}
+
+nav a:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.03);
+}
+
+nav a.active {
+  color: var(--accent-amber);
+  border-left-color: var(--accent-amber);
+  background: var(--accent-amber-dim);
+}
+
+nav a .nav-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  width: 18px;
+  flex-shrink: 0;
+}
+
+/* --- Main Content --- */
+main {
+  margin-left: var(--nav-width);
+  max-width: 920px;
+  padding: 0 48px 120px;
+}
+
+section {
+  padding-top: 80px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Title Slide --- */
+.title-slide {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 0 !important;
+}
+
+.title-slide h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+}
+
+.title-slide h1 em {
+  color: var(--accent-amber);
+  font-style: italic;
+}
+
+.title-slide .subtitle {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.badge-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-elevated);
+}
+
+.badge .badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.badge .badge-value {
+  color: var(--accent-amber);
+}
+
+/* --- Section Headers --- */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-amber);
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 640px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+
+/* --- Three Pillars --- */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.pillar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 32px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.pillar:hover {
+  border-color: var(--border-medium);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+}
+
+.pillar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.pillar.agent::before { background: var(--accent-cyan); }
+.pillar.skill::before { background: var(--accent-amber); }
+.pillar.tool::before { background: var(--accent-violet); }
+
+.pillar-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.pillar.agent .pillar-icon {
+  background: var(--accent-cyan-dim);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(78,205,196,0.25);
+}
+
+.pillar.skill .pillar-icon {
+  background: var(--accent-amber-dim);
+  color: var(--accent-amber);
+  border: 1px solid rgba(232,168,73,0.25);
+}
+
+.pillar.tool .pillar-icon {
+  background: var(--accent-violet-dim);
+  color: var(--accent-violet);
+  border: 1px solid rgba(155,126,216,0.25);
+}
+
+.pillar h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.pillar .pillar-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.pillar p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.pillar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pillar-meta-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.pillar-meta-item .meta-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  width: 60px;
+}
+
+.pillar-meta-item .meta-value {
+  color: var(--text-secondary);
+}
+
+/* --- Cards --- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 24px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  border-color: var(--border-medium);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.card-name {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.card-role {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.tag.model { color: var(--accent-cyan); border-color: rgba(78,205,196,0.2); background: var(--accent-cyan-dim); }
+.tag.tool { color: var(--accent-violet); border-color: rgba(155,126,216,0.2); background: var(--accent-violet-dim); }
+.tag.skill-tag { color: var(--accent-amber); border-color: rgba(232,168,73,0.2); background: var(--accent-amber-dim); }
+.tag.role-tag { color: var(--accent-lime); border-color: rgba(168,194,86,0.2); background: var(--accent-lime-dim); }
+
+/* --- Code Blocks --- */
+.code-block {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 20px 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.code-block .kw { color: var(--accent-violet); }
+.code-block .str { color: var(--accent-lime); }
+.code-block .cmt { color: var(--text-muted); font-style: italic; }
+.code-block .var { color: var(--accent-cyan); }
+.code-block .fn { color: var(--accent-amber); }
+
+.prompt-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+/* --- Architecture Diagram --- */
+.arch-diagram {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.arch-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.arch-layer:last-child {
+  margin-bottom: 0;
+}
+
+.arch-box {
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid;
+  min-width: 140px;
+  position: relative;
+}
+
+.arch-box.orchestrator {
+  background: var(--accent-amber-dim);
+  border-color: rgba(232,168,73,0.3);
+  color: var(--accent-amber);
+  min-width: 300px;
+  padding: 16px 24px;
+  font-size: 14px;
+}
+
+.arch-box.agent-box {
+  background: var(--accent-cyan-dim);
+  border-color: rgba(78,205,196,0.3);
+  color: var(--accent-cyan);
+}
+
+.arch-box.skill-box {
+  background: var(--accent-amber-dim);
+  border-color: rgba(232,168,73,0.3);
+  color: var(--accent-amber);
+}
+
+.arch-box.tool-box {
+  background: var(--accent-violet-dim);
+  border-color: rgba(155,126,216,0.3);
+  color: var(--accent-violet);
+}
+
+.arch-connector {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 18px;
+  margin: 8px 0;
+  letter-spacing: 4px;
+}
+
+.arch-label {
+  position: absolute;
+  left: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  padding: 0 8px;
+}
+
+.arch-label.user-label { color: var(--accent-rose); top: 0; }
+.arch-label.agent-label { color: var(--accent-cyan); }
+.arch-label.skill-label { color: var(--accent-amber); }
+.arch-label.tool-label { color: var(--accent-violet); }
+
+/* --- Workflow Diagram --- */
+.workflow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.workflow::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent-amber), var(--accent-cyan), var(--accent-violet), var(--accent-lime));
+  opacity: 0.3;
+}
+
+.wf-phase {
+  display: flex;
+  gap: 24px;
+  padding: 20px 0;
+  position: relative;
+}
+
+.wf-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.wf-body {
+  flex: 1;
+  padding-top: 6px;
+}
+
+.wf-body h3 {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.wf-body p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.wf-primitives {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wf-prim {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+
+.wf-prim.ag { background: var(--accent-cyan-dim); color: var(--accent-cyan); border-color: rgba(78,205,196,0.2); }
+.wf-prim.sk { background: var(--accent-amber-dim); color: var(--accent-amber); border-color: rgba(232,168,73,0.2); }
+.wf-prim.tl { background: var(--accent-violet-dim); color: var(--accent-violet); border-color: rgba(155,126,216,0.2); }
+
+.phase-1 .wf-node { background: var(--accent-amber-dim); color: var(--accent-amber); border: 2px solid var(--accent-amber); }
+.phase-2 .wf-node { background: var(--accent-cyan-dim); color: var(--accent-cyan); border: 2px solid var(--accent-cyan); }
+.phase-3 .wf-node { background: var(--accent-violet-dim); color: var(--accent-violet); border: 2px solid var(--accent-violet); }
+.phase-4 .wf-node { background: var(--accent-rose-dim); color: var(--accent-rose); border: 2px solid var(--accent-rose); }
+.phase-5 .wf-node { background: var(--accent-lime-dim); color: var(--accent-lime); border: 2px solid var(--accent-lime); }
+
+/* --- Comparison Table --- */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 32px;
+}
+
+.compare-table th,
+.compare-table td {
+  text-align: left;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+}
+
+.compare-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.compare-table td {
+  color: var(--text-secondary);
+}
+
+.compare-table td:first-child {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.compare-table tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+/* --- Expandable --- */
+.expandable {
+  cursor: pointer;
+}
+
+.expandable .expand-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  transition: color 0.2s;
+}
+
+.expandable:hover .expand-toggle { color: var(--accent-amber); }
+
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.expandable.open .expand-content {
+  max-height: 800px;
+}
+
+.expandable .arrow {
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.expandable.open .arrow {
+  transform: rotate(90deg);
+}
+
+/* --- File Tree --- */
+.file-tree {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 2;
+  color: var(--text-secondary);
+}
+
+.file-tree .dir { color: var(--accent-cyan); }
+.file-tree .file { color: var(--text-secondary); }
+.file-tree .ann { color: var(--text-muted); font-style: italic; }
+
+/* --- Key Insight Cards --- */
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.insight {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 3px solid;
+}
+
+.insight h4 {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.insight p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.insight.i-agent { border-left-color: var(--accent-cyan); }
+.insight.i-agent h4 { color: var(--accent-cyan); }
+.insight.i-skill { border-left-color: var(--accent-amber); }
+.insight.i-skill h4 { color: var(--accent-amber); }
+.insight.i-tool { border-left-color: var(--accent-violet); }
+.insight.i-tool h4 { color: var(--accent-violet); }
+.insight.i-arch { border-left-color: var(--accent-lime); }
+.insight.i-arch h4 { color: var(--accent-lime); }
+
+/* --- Relationship Diagram --- */
+.rel-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 24px;
+}
+
+.rel-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+}
+
+.rel-from {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 140px;
+}
+
+.rel-arrow {
+  color: var(--text-muted);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.rel-to {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.rel-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  nav { display: none; }
+  main { margin-left: 0; padding: 0 24px 80px; }
+  .title-slide h1 { font-size: 40px; }
+  h2 { font-size: 28px; }
+  .pillars { grid-template-columns: 1fr; }
+  .insight-grid { grid-template-columns: 1fr; }
+  .arch-layer { flex-wrap: wrap; }
+}
+
+/* --- Print --- */
+@media print {
+  nav { display: none; }
+  main { margin-left: 0; max-width: 100%; }
+  section { opacity: 1 !important; transform: none !important; page-break-inside: avoid; }
+  .card, .pillar, .insight { break-inside: avoid; }
+  body { background: #fff; color: #111; }
+  .code-block, .file-tree { background: #f4f4f4; border-color: #ddd; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-brand">
+    <h2>Claude Code</h2>
+    <span>Architecture Primitives</span>
+  </div>
+  <a href="#title" data-section="title"><span class="nav-num">00</span> Title</a>
+  <a href="#primitives" data-section="primitives"><span class="nav-num">01</span> Three Primitives</a>
+  <a href="#agents" data-section="agents"><span class="nav-num">02</span> Agents</a>
+  <a href="#skills" data-section="skills"><span class="nav-num">03</span> Skills</a>
+  <a href="#tools" data-section="tools"><span class="nav-num">04</span> Tools</a>
+  <a href="#architecture" data-section="architecture"><span class="nav-num">05</span> Architecture</a>
+  <a href="#orchestration" data-section="orchestration"><span class="nav-num">06</span> Orchestration</a>
+  <a href="#example" data-section="example"><span class="nav-num">07</span> Live Example</a>
+  <a href="#filesystem" data-section="filesystem"><span class="nav-num">08</span> File Structure</a>
+  <a href="#comparison" data-section="comparison"><span class="nav-num">09</span> Comparison</a>
+  <a href="#takeaways" data-section="takeaways"><span class="nav-num">10</span> Takeaways</a>
+</nav>
+
+<!-- Main Content -->
+<main>
+
+  <!-- 0. Title Slide -->
+  <section id="title" class="title-slide">
+    <div class="section-label">Claude Code Architecture</div>
+    <h1>Agents, Skills<br>&amp; <em>Tools</em></h1>
+    <p class="subtitle">
+      How Claude Code decomposes complex work into specialized agents that follow defined skills and use concrete tools &mdash; turning a single LLM session into a coordinated team of autonomous workers.
+    </p>
+    <div class="badge-row">
+      <div class="badge"><span class="badge-dot" style="background:var(--accent-cyan)"></span> <span class="badge-value">Agents</span> <span>Specialized personas</span></div>
+      <div class="badge"><span class="badge-dot" style="background:var(--accent-amber)"></span> <span class="badge-value">Skills</span> <span>Reusable workflows</span></div>
+      <div class="badge"><span class="badge-dot" style="background:var(--accent-violet)"></span> <span class="badge-value">Tools</span> <span>Concrete actions</span></div>
+    </div>
+  </section>
+
+  <!-- 1. Three Primitives -->
+  <section id="primitives">
+    <div class="section-label">01 &mdash; Three Primitives</div>
+    <h2>The building blocks</h2>
+    <p class="section-intro">
+      Claude Code's extension system is built on three composable primitives. Each solves a different problem: <strong>who</strong> does the work, <strong>how</strong> they do it, and <strong>what</strong> they can interact with.
+    </p>
+
+    <div class="pillars">
+      <!-- Agents -->
+      <div class="pillar agent">
+        <div class="pillar-icon">&#9673;</div>
+        <h3>Agents</h3>
+        <div class="pillar-sub">The "who"</div>
+        <p>
+          Autonomous Claude sessions with a defined persona, role, and set of capabilities. Each agent has a specific job &mdash; design, code, evaluate, write copy &mdash; and carries its own instructions, tool access, and model preference.
+        </p>
+        <div class="pillar-meta">
+          <div class="pillar-meta-item">
+            <span class="meta-label">Defined</span>
+            <span class="meta-value"><code>.claude/agents/*.md</code></span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Spawned</span>
+            <span class="meta-value">By orchestrator via <code>Task</code> tool</span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">Own context window, own tools</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      <div class="pillar skill">
+        <div class="pillar-icon">&#9881;</div>
+        <h3>Skills</h3>
+        <div class="pillar-sub">The "how"</div>
+        <p>
+          Reusable workflow instructions that define a multi-phase process. Skills are methodology &mdash; they describe what steps to follow, what artifacts to produce, and what validation to run. They load as context into whatever agent executes them.
+        </p>
+        <div class="pillar-meta">
+          <div class="pillar-meta-item">
+            <span class="meta-label">Defined</span>
+            <span class="meta-value"><code>.claude/skills/*/SKILL.md</code></span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Invoked</span>
+            <span class="meta-value">Via <code>/skill-name</code> or by agents</span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">Loaded into executing agent's context</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="pillar tool">
+        <div class="pillar-icon">&#9874;</div>
+        <h3>Tools</h3>
+        <div class="pillar-sub">The "what"</div>
+        <p>
+          Concrete actions an agent can perform &mdash; reading files, writing code, running commands, searching codebases, making web requests. Tools are the interface between Claude's reasoning and the real world.
+        </p>
+        <div class="pillar-meta">
+          <div class="pillar-meta-item">
+            <span class="meta-label">Defined</span>
+            <span class="meta-value">Built into Claude Code + MCP servers</span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Access</span>
+            <span class="meta-value">Per-agent tool allowlist in frontmatter</span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Scope</span>
+            <span class="meta-value">Single action, returns result</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Agents Deep Dive -->
+  <section id="agents">
+    <div class="section-label">02 &mdash; Agents</div>
+    <h2>Specialized personas</h2>
+    <p class="section-intro">
+      An agent is a Claude session with a defined identity. The YAML frontmatter in its <code>.md</code> file declares its name, description, model, available tools, and loaded skills. The markdown body provides its instructions &mdash; role, team behavior, context loading, validation criteria, and guiding principles.
+    </p>
+
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div>
+        <div class="prompt-label">Agent Definition Structure</div>
+        <div class="code-block">
+<span class="cmt">--- YAML frontmatter ---</span>
+<span class="kw">name:</span> <span class="str">brand-designer</span>
+<span class="kw">description:</span> <span class="str">"Translates brand identity into design systems..."</span>
+<span class="kw">tools:</span> <span class="var">Read, Write, Grep, Glob, WebSearch</span>
+<span class="kw">model:</span> <span class="var">opus</span>
+<span class="kw">memory:</span> <span class="var">project</span>
+<span class="kw">skills:</span>
+  - <span class="fn">design-system</span>
+  - <span class="fn">frontend-design</span>
+  - <span class="fn">theme-factory</span>
+<span class="cmt">---</span>
+
+<span class="cmt"># Markdown body = agent instructions</span>
+<span class="kw">## Role</span>        <span class="cmt">&larr; What this agent does</span>
+<span class="kw">## Team Role</span>   <span class="cmt">&larr; How it interacts with other agents</span>
+<span class="kw">## Context</span>     <span class="cmt">&larr; What docs to read before starting</span>
+<span class="kw">## Validation</span>  <span class="cmt">&larr; Quality gates the agent must pass</span>
+<span class="kw">## Principles</span>  <span class="cmt">&larr; Decision-making guidelines</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px; font-weight:700; margin:32px 0 16px;">Agents in this project</h3>
+    <div class="card-grid">
+      <div class="card expandable" onclick="this.classList.toggle('open')">
+        <div class="card-header">
+          <div class="card-dot" style="background:var(--accent-cyan)"></div>
+          <span class="card-name">brand-designer</span>
+        </div>
+        <div class="card-role">Translates brand vision into an implementable design system. Generates color palettes, typography, spacing scales, and component patterns.</div>
+        <div class="card-meta">
+          <span class="tag model">opus</span>
+          <span class="tag tool">Read</span>
+          <span class="tag tool">Write</span>
+          <span class="tag tool">WebSearch</span>
+          <span class="tag skill-tag">design-system</span>
+          <span class="tag skill-tag">frontend-design</span>
+        </div>
+        <div class="expand-toggle"><span class="arrow">&#9654;</span> details</div>
+        <div class="expand-content">
+          <div style="padding-top:12px; font-size:12px; color:var(--text-secondary); line-height:1.7;">
+            <strong>Produces:</strong> <code>DESIGN_SYSTEM.md</code>, <code>showcase.html</code>, <code>SCREENS.md</code><br>
+            <strong>Validates:</strong> WCAG contrast, swap test, anti-pattern check, platform patterns<br>
+            <strong>Does NOT:</strong> Implement UI components &mdash; feeds specs to expert-developer
+          </div>
+        </div>
+      </div>
+
+      <div class="card expandable" onclick="this.classList.toggle('open')">
+        <div class="card-header">
+          <div class="card-dot" style="background:var(--accent-violet)"></div>
+          <span class="card-name">expert-developer</span>
+        </div>
+        <div class="card-role">Writes production code. Defines API contracts, data models, and implementation patterns. Pairs with QA for TDD.</div>
+        <div class="card-meta">
+          <span class="tag model">opus</span>
+          <span class="tag tool">Read</span>
+          <span class="tag tool">Write</span>
+          <span class="tag tool">Edit</span>
+          <span class="tag tool">Bash</span>
+          <span class="tag skill-tag">code-style</span>
+          <span class="tag skill-tag">live-verification</span>
+        </div>
+        <div class="expand-toggle"><span class="arrow">&#9654;</span> details</div>
+        <div class="expand-content">
+          <div style="padding-top:12px; font-size:12px; color:var(--text-secondary); line-height:1.7;">
+            <strong>Produces:</strong> Production code, API integrations, component implementations<br>
+            <strong>Process:</strong> Read requirements &rarr; Review code &rarr; Update spec &rarr; Wait for failing tests &rarr; Implement &rarr; Verify live<br>
+            <strong>Hooks:</strong> Auto-formats on Edit/Write (prettier, ruff, gofmt)
+          </div>
+        </div>
+      </div>
+
+      <div class="card expandable" onclick="this.classList.toggle('open')">
+        <div class="card-header">
+          <div class="card-dot" style="background:var(--accent-lime)"></div>
+          <span class="card-name">copywriter</span>
+        </div>
+        <div class="card-role">Conversion-focused copy author. Writes headlines, body copy, CTAs, and microcopy for customer-facing deliverables.</div>
+        <div class="card-meta">
+          <span class="tag model">sonnet</span>
+          <span class="tag role-tag">creative-studio member</span>
+        </div>
+        <div class="expand-toggle"><span class="arrow">&#9654;</span> details</div>
+        <div class="expand-content">
+          <div style="padding-top:12px; font-size:12px; color:var(--text-secondary); line-height:1.7;">
+            <strong>Produces:</strong> <code>copy.md</code> &mdash; all text content for each section<br>
+            <strong>Philosophy:</strong> Direct response. Lead with pain. Value prop by word 50. No filler.<br>
+            <strong>Output:</strong> JSON content data matching component schemas
+          </div>
+        </div>
+      </div>
+
+      <div class="card expandable" onclick="this.classList.toggle('open')">
+        <div class="card-header">
+          <div class="card-dot" style="background:var(--accent-rose)"></div>
+          <span class="card-name">customer</span>
+        </div>
+        <div class="card-role">Evaluates output as the target customer. Scores across 5 dimensions. Always finds reasons a prospect would bounce. Never issues PASS.</div>
+        <div class="card-meta">
+          <span class="tag model">opus</span>
+          <span class="tag tool">Read</span>
+          <span class="tag tool">Grep</span>
+          <span class="tag role-tag">evaluator</span>
+        </div>
+        <div class="expand-toggle"><span class="arrow">&#9654;</span> details</div>
+        <div class="expand-content">
+          <div style="padding-top:12px; font-size:12px; color:var(--text-secondary); line-height:1.7;">
+            <strong>Dimensions:</strong> Visual, Copy, Flow, Conviction, Persuasion<br>
+            <strong>Severity:</strong> P1 (bounce trigger), P2 (hesitation), P3 (confidence erosion)<br>
+            <strong>Verdict:</strong> Always REVIEW. There is no PASS. Every output has friction.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Skills Deep Dive -->
+  <section id="skills">
+    <div class="section-label">03 &mdash; Skills</div>
+    <h2>Reusable workflows</h2>
+    <p class="section-intro">
+      A skill is a <code>SKILL.md</code> file that defines a multi-step process. Skills don't execute on their own &mdash; they load as instructions into the agent that runs them. A skill can orchestrate multiple agents, define phases, specify artifacts, and include validation checks. Users invoke skills with <code>/skill-name</code>.
+    </p>
+
+    <div style="display:flex; flex-direction:column; gap:20px;">
+      <div>
+        <div class="prompt-label">Skill Definition Structure</div>
+        <div class="code-block">
+<span class="cmt">--- YAML frontmatter ---</span>
+<span class="kw">name:</span> <span class="str">creative-studio</span>
+<span class="kw">description:</span> <span class="str">"Orchestrates 3 parallel creative teams..."</span>
+<span class="cmt">---</span>
+
+<span class="cmt"># Markdown body = workflow definition</span>
+<span class="kw">## Input</span>         <span class="cmt">&larr; What arguments the skill accepts</span>
+<span class="kw">## Workflow</span>      <span class="cmt">&larr; Phase-by-phase execution steps</span>
+<span class="kw">  Phase 1:</span>      <span class="fn">Design</span> <span class="cmt">(spawn 3 brand-designer agents)</span>
+<span class="kw">  Phase 2:</span>      <span class="fn">Copy</span> <span class="cmt">(spawn 3 copywriter agents)</span>
+<span class="kw">  Phase 3:</span>      <span class="fn">Build</span> <span class="cmt">(spawn 3 expert-developer agents)</span>
+<span class="kw">  Phase 4:</span>      <span class="fn">Review</span> <span class="cmt">(spawn 1 customer agent)</span>
+<span class="kw">  Phase 5:</span>      <span class="fn">Iterate or Ship</span>
+<span class="kw">## Rules</span>        <span class="cmt">&larr; Hard constraints during execution</span>
+<span class="kw">## References</span>   <span class="cmt">&larr; Supporting files (templates, prompts)</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px; font-weight:700; margin:32px 0 16px;">Two types of skills</h3>
+    <div class="pillars" style="grid-template-columns: repeat(2, 1fr);">
+      <div class="pillar skill" style="border-top: 3px solid var(--accent-amber);">
+        <h3 style="font-size:20px;">Methodology Skills</h3>
+        <div class="pillar-sub">Load as context</div>
+        <p>
+          Provide instructions and guidelines that shape how an agent works. They don't spawn sub-agents &mdash; they change the executing agent's behavior by adding constraints, checklists, and quality standards.
+        </p>
+        <div class="pillar-meta">
+          <div class="pillar-meta-item">
+            <span class="meta-label">Examples</span>
+            <span class="meta-value"><code>frontend-design</code>, <code>brainstorming</code>, <code>code-style</code></span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Agents</span>
+            <span class="meta-value">0 spawned &mdash; loaded into executor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pillar skill" style="border-top: 3px solid var(--accent-amber);">
+        <h3 style="font-size:20px;">Orchestration Skills</h3>
+        <div class="pillar-sub">Coordinate agents</div>
+        <p>
+          Define multi-agent workflows that spawn specialized sub-agents in parallel or sequence. They control the flow &mdash; what agents to spawn, when, with what instructions, and how to synthesize results.
+        </p>
+        <div class="pillar-meta">
+          <div class="pillar-meta-item">
+            <span class="meta-label">Examples</span>
+            <span class="meta-value"><code>creative-studio</code>, <code>agent-team</code>, <code>feature-frontend</code></span>
+          </div>
+          <div class="pillar-meta-item">
+            <span class="meta-label">Agents</span>
+            <span class="meta-value">Multiple spawned per phase</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px; font-weight:700; margin:32px 0 16px;">Skills in this project</h3>
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">brainstorming</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Explore intent and design before implementation. One question at a time.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">methodology</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">design-system</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Generate complete design tokens from brand identity. 7 phases, 7 validations.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">orchestration</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">frontend-design</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Distinctive, production-grade UI. 5 phases, 6 self-checks.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">methodology</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">creative-studio</div>
+        <div style="font-size:11px; color:var(--text-secondary);">3 competing teams &rarr; customer review &rarr; winner iterates &rarr; ship.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">orchestration</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">agent-team</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Coordinate parallel Claude sessions. Feature build, multi-lens review, competing hypotheses.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">orchestration</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">feature-frontend</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Design-first frontend pipeline: brainstorm &rarr; design &rarr; TDD &rarr; verify &rarr; review.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">orchestration</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">agent-browser</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Automate browser interactions for web testing, screenshots, and verification.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">methodology</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">skill-creator</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Meta-skill: guide for creating new skills that extend Claude's capabilities.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">methodology</span>
+        </div>
+      </div>
+      <div class="card" style="padding:16px; border-left: 3px solid var(--accent-amber);">
+        <div class="card-name" style="margin-bottom:4px; font-size:12px;">agent-config-generator</div>
+        <div style="font-size:11px; color:var(--text-secondary);">Generate CLAUDE.md and AGENTS.md following best practices.</div>
+        <div class="card-meta" style="margin-top:8px;">
+          <span class="tag">methodology</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Tools Deep Dive -->
+  <section id="tools">
+    <div class="section-label">04 &mdash; Tools</div>
+    <h2>Concrete actions</h2>
+    <p class="section-intro">
+      Tools are the hands and eyes of an agent. Each tool performs one specific action &mdash; read a file, run a command, search code, edit text. Agents declare which tools they can access in their frontmatter. The orchestrator decides which tools to grant each sub-agent based on its role.
+    </p>
+
+    <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <!-- File Operations -->
+      <div class="card" style="border-top: 2px solid var(--accent-violet);">
+        <div style="font-family:var(--font-mono); font-size:13px; font-weight:500; margin-bottom:12px; color:var(--accent-violet);">File Operations</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Read</code> <span style="color:var(--text-muted)">&mdash; View file contents, images, PDFs</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Write</code> <span style="color:var(--text-muted)">&mdash; Create or overwrite files</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Edit</code> <span style="color:var(--text-muted)">&mdash; Precise string replacements</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Glob</code> <span style="color:var(--text-muted)">&mdash; Find files by pattern</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Grep</code> <span style="color:var(--text-muted)">&mdash; Search file contents (regex)</span></div>
+        </div>
+      </div>
+
+      <!-- Execution -->
+      <div class="card" style="border-top: 2px solid var(--accent-violet);">
+        <div style="font-family:var(--font-mono); font-size:13px; font-weight:500; margin-bottom:12px; color:var(--accent-violet);">Execution</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Bash</code> <span style="color:var(--text-muted)">&mdash; Run shell commands (git, npm)</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Task</code> <span style="color:var(--text-muted)">&mdash; Spawn sub-agent for complex work</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">Skill</code> <span style="color:var(--text-muted)">&mdash; Invoke a skill by name</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">NotebookEdit</code> <span style="color:var(--text-muted)">&mdash; Edit Jupyter notebooks</span></div>
+        </div>
+      </div>
+
+      <!-- Web & User -->
+      <div class="card" style="border-top: 2px solid var(--accent-violet);">
+        <div style="font-family:var(--font-mono); font-size:13px; font-weight:500; margin-bottom:12px; color:var(--accent-violet);">Web &amp; Interaction</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">WebSearch</code> <span style="color:var(--text-muted)">&mdash; Search the web for info</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">WebFetch</code> <span style="color:var(--text-muted)">&mdash; Fetch and process URLs</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">AskUserQuestion</code> <span style="color:var(--text-muted)">&mdash; Interactive prompts</span></div>
+          <div style="font-size:12px;"><code style="color:var(--accent-violet)">MCP Tools</code> <span style="color:var(--text-muted)">&mdash; External server integrations</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <div class="prompt-label">Tool Access Control</div>
+      <div class="code-block">
+<span class="cmt">// Agent frontmatter restricts which tools each agent can use</span>
+
+<span class="fn">brand-designer</span>:  <span class="var">Read, Write, Grep, Glob, WebSearch</span>    <span class="cmt">// No Bash, no Edit</span>
+<span class="fn">expert-developer</span>: <span class="var">Read, Write, Edit, Grep, Glob, Bash</span>   <span class="cmt">// Full code access</span>
+<span class="fn">customer</span>:          <span class="var">Read, Grep, Glob</span>                      <span class="cmt">// Read-only evaluator</span>
+<span class="fn">copywriter</span>:        <span class="str">(all tools via orchestrator)</span>           <span class="cmt">// Full access for content</span>
+
+<span class="cmt">// The orchestrator (Claude) has access to ALL tools</span>
+<span class="cmt">// Sub-agents get restricted based on role</span>
+      </div>
+    </div>
+
+    <div class="insight-grid" style="margin-top:24px;">
+      <div class="insight i-tool">
+        <h4>Principle of Least Privilege</h4>
+        <p>Agents only get the tools they need. A <code>customer</code> evaluator has no <code>Write</code> or <code>Bash</code> &mdash; it can only read and analyze, preventing accidental modifications.</p>
+      </div>
+      <div class="insight i-tool">
+        <h4>Hooks Extend Tools</h4>
+        <p>Agents can define hooks that fire after tool use. The <code>expert-developer</code> auto-formats code after every <code>Edit</code> or <code>Write</code> call via a PostToolUse hook.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Architecture -->
+  <section id="architecture">
+    <div class="section-label">05 &mdash; Architecture</div>
+    <h2>How they compose</h2>
+    <p class="section-intro">
+      The three primitives form a layered architecture. The user talks to the orchestrator (Claude's main session). The orchestrator loads skills for workflow instructions, spawns agents for specialized work, and every agent uses tools to interact with the world.
+    </p>
+
+    <div class="arch-diagram">
+      <!-- User layer -->
+      <div class="arch-layer">
+        <div class="arch-box" style="background:var(--accent-rose-dim); border-color:rgba(212,82,110,0.3); color:var(--accent-rose); min-width:300px; font-size:14px;">
+          User
+          <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">types /creative-studio "landing page"</div>
+        </div>
+      </div>
+
+      <div class="arch-connector">&#8595; &#8595; &#8595;</div>
+
+      <!-- Orchestrator layer -->
+      <div class="arch-layer">
+        <div class="arch-box orchestrator">
+          Orchestrator (Claude Main Session)
+          <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Loads skill, manages phases, synthesizes results</div>
+        </div>
+      </div>
+
+      <div class="arch-connector">&#8595; <span style="font-size:10px; color:var(--text-muted); letter-spacing:0;">loads skill &amp; spawns agents</span> &#8595;</div>
+
+      <!-- Agent layer -->
+      <div class="arch-layer">
+        <div class="arch-box agent-box">brand-designer</div>
+        <div class="arch-box agent-box">expert-developer</div>
+        <div class="arch-box agent-box">copywriter</div>
+        <div class="arch-box agent-box" style="background:var(--accent-rose-dim); border-color:rgba(212,82,110,0.3); color:var(--accent-rose);">customer</div>
+      </div>
+
+      <div class="arch-connector">&#8595; <span style="font-size:10px; color:var(--text-muted); letter-spacing:0;">each agent uses its allowed tools</span> &#8595;</div>
+
+      <!-- Tool layer -->
+      <div class="arch-layer" style="flex-wrap: wrap; gap: 8px;">
+        <div class="arch-box tool-box" style="min-width:80px;">Read</div>
+        <div class="arch-box tool-box" style="min-width:80px;">Write</div>
+        <div class="arch-box tool-box" style="min-width:80px;">Edit</div>
+        <div class="arch-box tool-box" style="min-width:80px;">Bash</div>
+        <div class="arch-box tool-box" style="min-width:80px;">Grep</div>
+        <div class="arch-box tool-box" style="min-width:80px;">Glob</div>
+        <div class="arch-box tool-box" style="min-width:100px;">WebSearch</div>
+      </div>
+
+      <div class="arch-connector">&#8595; &#8595; &#8595;</div>
+
+      <!-- World layer -->
+      <div class="arch-layer">
+        <div class="arch-box" style="background:rgba(255,255,255,0.03); border-color:var(--border-medium); color:var(--text-secondary); min-width:300px;">
+          Filesystem, Terminal, Web, MCP Servers
+          <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">The real world</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rel-diagram" style="margin-top:40px;">
+      <div style="font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); margin-bottom:8px;">Relationships</div>
+
+      <div class="rel-row">
+        <span class="rel-from" style="color:var(--accent-cyan);">Agent</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-to">loads</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-from" style="color:var(--accent-amber);">Skill</span>
+        <span class="rel-desc">Agent executes skill instructions</span>
+      </div>
+
+      <div class="rel-row">
+        <span class="rel-from" style="color:var(--accent-cyan);">Agent</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-to">uses</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-from" style="color:var(--accent-violet);">Tool</span>
+        <span class="rel-desc">Agent calls tools to act on the world</span>
+      </div>
+
+      <div class="rel-row">
+        <span class="rel-from" style="color:var(--accent-amber);">Skill</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-to">spawns</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-from" style="color:var(--accent-cyan);">Agent</span>
+        <span class="rel-desc">Orchestration skill creates sub-agents</span>
+      </div>
+
+      <div class="rel-row">
+        <span class="rel-from" style="color:var(--accent-amber);">Skill</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-to">chains</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-from" style="color:var(--accent-amber);">Skill</span>
+        <span class="rel-desc">Skills can reference and invoke other skills</span>
+      </div>
+
+      <div class="rel-row">
+        <span class="rel-from" style="color:var(--accent-violet);">Tool</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-to">creates</span>
+        <span class="rel-arrow">&rarr;</span>
+        <span class="rel-from" style="color:var(--accent-cyan);">Agent</span>
+        <span class="rel-desc"><code>Task</code> tool spawns sub-agent processes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Orchestration Patterns -->
+  <section id="orchestration">
+    <div class="section-label">06 &mdash; Orchestration</div>
+    <h2>Execution patterns</h2>
+    <p class="section-intro">
+      How the orchestrator coordinates agents depends on the skill being executed. Three patterns emerge: single-agent (one specialist does it all), pipeline (agents execute in sequence), and parallel teams (multiple agents compete or collaborate simultaneously).
+    </p>
+
+    <div class="pillars">
+      <div class="pillar agent" style="padding:24px;">
+        <h3 style="font-size:18px;">Single Agent</h3>
+        <div class="pillar-sub">Linear execution</div>
+        <p style="font-size:13px;">Orchestrator loads a methodology skill and executes all phases itself. No sub-agents spawned.</p>
+        <div class="code-block" style="font-size:11px; padding:12px; margin-top:12px;">
+<span class="fn">User</span> &rarr; <span class="var">Orchestrator</span> + <span class="str">skill</span> &rarr; <span class="fn">Output</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+          Used by: <code>frontend-design</code>, <code>brainstorming</code>
+        </div>
+      </div>
+
+      <div class="pillar agent" style="padding:24px;">
+        <h3 style="font-size:18px;">Pipeline</h3>
+        <div class="pillar-sub">Sequential agents</div>
+        <p style="font-size:13px;">Agents execute in sequence, each consuming the previous agent's output. Orchestrator manages handoffs.</p>
+        <div class="code-block" style="font-size:11px; padding:12px; margin-top:12px;">
+<span class="fn">A</span> &rarr; <span class="var">artifact</span> &rarr; <span class="fn">B</span> &rarr; <span class="var">artifact</span> &rarr; <span class="fn">C</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+          Used by: <code>design-system</code>, <code>feature-frontend</code>
+        </div>
+      </div>
+
+      <div class="pillar agent" style="padding:24px;">
+        <h3 style="font-size:18px;">Parallel Teams</h3>
+        <div class="pillar-sub">Competing agents</div>
+        <p style="font-size:13px;">Multiple agents work the same brief simultaneously from different angles. An evaluator picks the winner.</p>
+        <div class="code-block" style="font-size:11px; padding:12px; margin-top:12px;">
+<span class="fn">A</span> \
+<span class="fn">B</span> &mdash;&rarr; <span class="var">evaluator</span> &rarr; <span class="fn">winner iterates</span>
+<span class="fn">C</span> /
+        </div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:8px;">
+          Used by: <code>creative-studio</code>, <code>agent-team</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Live Example -->
+  <section id="example">
+    <div class="section-label">07 &mdash; Live Example</div>
+    <h2>Creative Studio in action</h2>
+    <p class="section-intro">
+      The <code>creative-studio</code> skill demonstrates all three primitives working together. A user types <code>/creative-studio "landing page"</code> and the system orchestrates 10+ agent spawns across 5 phases.
+    </p>
+
+    <div class="workflow">
+      <!-- Phase 0 -->
+      <div class="wf-phase phase-1">
+        <div class="wf-node">0</div>
+        <div class="wf-body">
+          <h3>Prepare Brief</h3>
+          <p>Orchestrator reads project docs, selects 3 creative angles, writes structured brief to disk. No agents spawned &mdash; the orchestrator does this using its own tools.</p>
+          <div class="wf-primitives">
+            <span class="wf-prim sk">skill: creative-studio</span>
+            <span class="wf-prim tl">Read</span>
+            <span class="wf-prim tl">Write</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="wf-phase phase-2">
+        <div class="wf-node">1</div>
+        <div class="wf-body">
+          <h3>Design (3 teams parallel)</h3>
+          <p>Spawns 3 <code>brand-designer</code> agents simultaneously via 3 <code>Task</code> calls in a single message. Each reads the brief with a different creative angle and produces a design specification. Each carries the <code>frontend-design</code> methodology skill.</p>
+          <div class="wf-primitives">
+            <span class="wf-prim ag">agent: brand-designer &times;3</span>
+            <span class="wf-prim sk">skill: frontend-design</span>
+            <span class="wf-prim tl">Task</span>
+            <span class="wf-prim tl">Read</span>
+            <span class="wf-prim tl">Write</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="wf-phase phase-3">
+        <div class="wf-node">2</div>
+        <div class="wf-body">
+          <h3>Copy (3 teams parallel)</h3>
+          <p>Spawns 3 <code>copywriter</code> agents. Each reads their team's design spec and writes all copy &mdash; headlines, body, CTAs, microcopy. The copy matches the creative angle.</p>
+          <div class="wf-primitives">
+            <span class="wf-prim ag">agent: copywriter &times;3</span>
+            <span class="wf-prim tl">Task</span>
+            <span class="wf-prim tl">Read</span>
+            <span class="wf-prim tl">Write</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="wf-phase phase-4">
+        <div class="wf-node">3</div>
+        <div class="wf-body">
+          <h3>Build (3 teams parallel)</h3>
+          <p>Spawns 3 <code>expert-developer</code> agents. Each reads the design spec + copy and implements production-ready code. The PostToolUse hook auto-formats on every write.</p>
+          <div class="wf-primitives">
+            <span class="wf-prim ag">agent: expert-developer &times;3</span>
+            <span class="wf-prim tl">Task</span>
+            <span class="wf-prim tl">Write</span>
+            <span class="wf-prim tl">Edit</span>
+            <span class="wf-prim tl">Bash</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="wf-phase phase-5">
+        <div class="wf-node">4</div>
+        <div class="wf-body">
+          <h3>Customer Review</h3>
+          <p>Spawns 1 <code>customer</code> agent. Reads all 3 team outputs, scores each across 5 dimensions, picks the winner, provides actionable feedback. If average score &lt; 8, the winning team iterates (loop back to Phase 1 with 1 team).</p>
+          <div class="wf-primitives">
+            <span class="wf-prim ag">agent: customer &times;1</span>
+            <span class="wf-prim tl">Read</span>
+            <span class="wf-prim tl">Grep</span>
+            <span class="wf-prim tl">Glob</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px; padding:24px; background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:10px;">
+      <h4 style="font-size:14px; font-weight:700; margin-bottom:12px; color:var(--text-primary);">What just happened</h4>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+        <div>
+          <div style="font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--accent-cyan);">10+</div>
+          <div style="font-size:12px; color:var(--text-muted);">agents spawned across 5 phases</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--accent-amber);">4</div>
+          <div style="font-size:12px; color:var(--text-muted);">skills loaded (creative-studio, frontend-design, code-style, live-verification)</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono); font-size:22px; font-weight:700; color:var(--accent-violet);">7</div>
+          <div style="font-size:12px; color:var(--text-muted);">distinct tools used (Read, Write, Edit, Bash, Grep, Glob, Task)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. File Structure -->
+  <section id="filesystem">
+    <div class="section-label">08 &mdash; File Structure</div>
+    <h2>Where everything lives</h2>
+    <p class="section-intro">
+      All configuration lives under <code>.claude/</code> in the project root. This directory is version-controlled and shared across the team. <code>CLAUDE.md</code> at the root provides project-level instructions that all agents inherit.
+    </p>
+
+    <div class="file-tree">
+<span class="dir">project/</span>
+<span class="dir">  CLAUDE.md</span>                         <span class="ann"># Project-level instructions (always loaded)</span>
+<span class="dir">  .claude/</span>
+<span class="dir">    agents/</span>                          <span class="ann"># Agent definitions</span>
+<span class="file">      brand-designer.md</span>              <span class="ann"># YAML frontmatter + instructions</span>
+<span class="file">      expert-developer.md</span>
+<span class="file">      customer.md</span>
+<span class="file">      copywriter.md</span>
+<span class="dir">    skills/</span>                          <span class="ann"># Skill definitions</span>
+<span class="dir">      brainstorming/</span>
+<span class="file">        SKILL.md</span>                     <span class="ann"># Workflow definition</span>
+<span class="dir">      creative-studio/</span>
+<span class="file">        SKILL.md</span>
+<span class="dir">        references/</span>                  <span class="ann"># Supporting files</span>
+<span class="file">          creative-angles.md</span>
+<span class="file">          brief-template.md</span>
+<span class="file">          team-handoff-prompts.md</span>
+<span class="dir">      design-system/</span>
+<span class="file">        SKILL.md</span>
+<span class="dir">        references/</span>
+<span class="file">          token-generation-guide.md</span>
+<span class="file">          design-imperatives.md</span>
+<span class="file">          desktop-patterns.md</span>
+<span class="file">          mobile-patterns.md</span>
+<span class="dir">      frontend-design/</span>
+<span class="file">        SKILL.md</span>
+<span class="dir">      agent-team/</span>
+<span class="file">        SKILL.md</span>
+<span class="dir">        references/</span>
+<span class="file">          team-patterns.md</span>
+<span class="file">          conflict-avoidance.md</span>
+<span class="dir">    rules/</span>                           <span class="ann"># Additional rules (always loaded)</span>
+<span class="file">      coding-rules.md</span>
+<span class="dir">  docs/</span>
+<span class="dir">    DESIGN/</span>
+<span class="file">      DESIGN_SYSTEM.md</span>               <span class="ann"># Generated by design-system skill</span>
+<span class="file">      showcase.html</span>                  <span class="ann"># Visual validation artifact</span>
+<span class="file">      SCREENS.md</span>                     <span class="ann"># Screen-by-screen specs</span>
+    </div>
+  </section>
+
+  <!-- 9. Comparison -->
+  <section id="comparison">
+    <div class="section-label">09 &mdash; Comparison</div>
+    <h2>Side by side</h2>
+    <p class="section-intro">
+      Understanding when to reach for each primitive.
+    </p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:20%;">Aspect</th>
+          <th style="color:var(--accent-cyan);">Agent</th>
+          <th style="color:var(--accent-amber);">Skill</th>
+          <th style="color:var(--accent-violet);">Tool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>What it is</td>
+          <td>Specialized Claude session</td>
+          <td>Workflow instructions (markdown)</td>
+          <td>Single action function</td>
+        </tr>
+        <tr>
+          <td>Defined in</td>
+          <td><code>.claude/agents/*.md</code></td>
+          <td><code>.claude/skills/*/SKILL.md</code></td>
+          <td>Built-in or MCP server</td>
+        </tr>
+        <tr>
+          <td>Has context</td>
+          <td>Own context window</td>
+          <td>Loaded into agent's context</td>
+          <td>Stateless (single call)</td>
+        </tr>
+        <tr>
+          <td>Can reason</td>
+          <td>Full LLM reasoning</td>
+          <td>No &mdash; instructions only</td>
+          <td>No &mdash; deterministic action</td>
+        </tr>
+        <tr>
+          <td>Persistence</td>
+          <td>Lives for task duration</td>
+          <td>Always available in project</td>
+          <td>Always available per config</td>
+        </tr>
+        <tr>
+          <td>Composability</td>
+          <td>Spawns other agents</td>
+          <td>Chains other skills</td>
+          <td>Used by any agent</td>
+        </tr>
+        <tr>
+          <td>User invocation</td>
+          <td>Indirect (via Task tool)</td>
+          <td><code>/skill-name</code></td>
+          <td>Indirect (agent decides)</td>
+        </tr>
+        <tr>
+          <td>Customizable</td>
+          <td>Name, model, tools, skills, hooks</td>
+          <td>Phases, rules, references</td>
+          <td>Permission mode, hooks</td>
+        </tr>
+        <tr>
+          <td>Cost profile</td>
+          <td>Full context window per agent</td>
+          <td>Adds tokens to agent's context</td>
+          <td>Minimal per call</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 10. Takeaways -->
+  <section id="takeaways">
+    <div class="section-label">10 &mdash; Takeaways</div>
+    <h2>Key insights</h2>
+    <p class="section-intro">
+      The mental model for building effective Claude Code workflows.
+    </p>
+
+    <div class="insight-grid">
+      <div class="insight i-agent">
+        <h4>Agents are specialists, not generalists</h4>
+        <p>Each agent has a narrow role with restricted tools. A <code>brand-designer</code> can't run shell commands. A <code>customer</code> can't modify files. Constraints produce better output than freedom.</p>
+      </div>
+      <div class="insight i-skill">
+        <h4>Skills are the real orchestration layer</h4>
+        <p>Skills define the workflow &mdash; what agents to spawn, in what order, with what inputs. The orchestrator follows the skill's instructions. Complex behavior emerges from simple skill composition.</p>
+      </div>
+      <div class="insight i-tool">
+        <h4>Tools are the boundary with reality</h4>
+        <p>Everything an agent "does" happens through a tool call. Reading a file, writing code, running tests, spawning another agent &mdash; all tool calls. The tool layer is where reasoning meets the real world.</p>
+      </div>
+      <div class="insight i-arch">
+        <h4>Artifacts are the handoff mechanism</h4>
+        <p>Agents communicate by writing files. The <code>brand-designer</code> writes <code>design-spec.md</code>. The <code>copywriter</code> reads it and writes <code>copy.md</code>. The <code>expert-developer</code> reads both and writes code. Files are the shared memory.</p>
+      </div>
+      <div class="insight i-agent">
+        <h4>Parallel teams beat sequential refinement</h4>
+        <p>Three teams competing on the same brief with different angles produces better results than one team iterating. Competition surfaces ideas that consensus misses.</p>
+      </div>
+      <div class="insight i-skill">
+        <h4>CLAUDE.md is the constitution</h4>
+        <p>Every agent inherits <code>CLAUDE.md</code> instructions. Project-level standards, quality gates, and philosophy flow to all sub-agents automatically. One source of truth for the whole system.</p>
+      </div>
+      <div class="insight i-tool">
+        <h4>Plan first, team second</h4>
+        <p>Wrong task decomposition costs 500k+ tokens. Always brainstorm and plan before spawning a team. Define shared contracts before any agent starts writing code.</p>
+      </div>
+      <div class="insight i-arch">
+        <h4>Everything is markdown</h4>
+        <p>Agents, skills, rules, design systems, specs &mdash; all defined in markdown files. No special runtime, no compilation, no deployment. Version-controlled, human-readable, composable.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Intersection Observer for scroll-triggered reveals
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+// Active nav tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[data-section]');
+
+function updateActiveNav() {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 120;
+    if (window.scrollY >= top) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('data-section') === current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveNav, { passive: true });
+updateActiveNav();
+</script>
+</body>
+</html>
