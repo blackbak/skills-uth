@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orthopaedic Surgeon in Austin, TX | Same-Week Appointments</title>
+  <meta name="description" content="Dr. Sarah Mitchell, fellowship-trained orthopaedic surgeon in Austin, TX. Same-week appointments for joint pain, sports injuries, fractures, and joint replacement. Call (512) 555-0147.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 1. Custom Properties (Design Tokens) */
+    :root {
+      --color-primary: #1B4D7A;
+      --color-primary-dark: #0F3355;
+      --color-secondary: #F7F9FC;
+      --color-accent: #2A9D8F;
+      --color-accent-hover: #228578;
+      --color-accent-active: #1E7A6D;
+      --color-text-primary: #1A1A2E;
+      --color-text-secondary: #6B7280;
+      --color-border: #E5E7EB;
+      --color-error: #DC2626;
+      --color-white: #FFFFFF;
+
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-size-h1: 36px;
+      --font-size-h2: 28px;
+      --font-size-h3: 22px;
+      --font-size-body: 16px;
+      --font-size-body-small: 14px;
+      --font-size-caption: 12px;
+
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 32px;
+      --space-xl: 64px;
+
+      --max-width: 1200px;
+      --gutter: 24px;
+      --border-radius-sm: 8px;
+      --border-radius-md: 12px;
+
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+      --shadow-cta-hover: 0 2px 8px rgba(42, 157, 143, 0.3);
+
+      --transition-fast: 0.2s ease;
+      --animation-pulse: 2.5s ease-in-out forwards;
+    }
+
+    /* 2. Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-body);
+      line-height: 1.6;
+      color: var(--color-text-primary);
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* 3. Layout Utilities */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      z-index: 200;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-size: var(--font-size-body-small);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: var(--border-radius-sm);
+    }
+
+    .skip-link:focus {
+      top: var(--space-md);
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      width: 100%;
+    }
+
+    /* 4. Urgent Banner */
+    .urgent-banner {
+      background: var(--color-accent);
+      color: var(--color-white);
+      text-align: center;
+      padding: var(--space-sm) var(--gutter);
+      font-size: var(--font-size-body-small);
+      font-weight: 500;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .urgent-banner a {
+      color: var(--color-white);
+      font-weight: 700;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    .urgent-banner a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .urgent-banner a:focus-visible {
+      outline: 2px solid var(--color-white);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .urgent-banner__close {
+      position: absolute;
+      right: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--color-white);
+      cursor: pointer;
+      padding: var(--space-xs);
+      line-height: 1;
+      font-size: 18px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .urgent-banner__close:hover {
+      opacity: 0.8;
+    }
+
+    .urgent-banner__close:focus-visible {
+      outline: 2px solid var(--color-white);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* 5. Site Header */
+    .site-header {
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .site-header__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .site-header__brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-primary);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .site-header__brand:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .site-header__nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+
+    .site-header__nav-list {
+      display: flex;
+      gap: var(--gutter);
+    }
+
+    .site-header__nav-link {
+      font-size: var(--font-size-body-small);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      padding: var(--space-xs) 0;
+      transition: color var(--transition-fast);
+    }
+
+    .site-header__nav-link:hover {
+      color: var(--color-primary);
+    }
+
+    .site-header__nav-link:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .site-header__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .site-header__phone {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: var(--font-size-body-small);
+      font-weight: 600;
+      color: var(--color-primary);
+      text-decoration: none;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    .site-header__phone:hover {
+      color: var(--color-primary-dark);
+    }
+
+    .site-header__phone:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .site-header__phone svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .site-header__phone-text {
+      white-space: nowrap;
+    }
+
+    .site-header__cta {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-white);
+      font-family: var(--font-family);
+      font-size: var(--font-size-body-small);
+      font-weight: 600;
+      line-height: 1;
+      padding: 10px 20px;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  transform var(--transition-fast);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .site-header__cta:hover {
+      background: var(--color-accent-hover);
+      box-shadow: var(--shadow-cta-hover);
+      transform: translateY(-1px);
+    }
+
+    .site-header__cta:active {
+      background: var(--color-accent-active);
+      box-shadow: none;
+      transform: translateY(0);
+    }
+
+    .site-header__cta:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    /* Mobile menu button */
+    .site-header__menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: var(--space-sm);
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);
+    }
+
+    .site-header__menu-btn:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .site-header__menu-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* 6. Section Backgrounds and Spacing */
+    .hero {
+      background: var(--color-white);
+      padding: var(--space-xl) 0;
+    }
+
+    .services {
+      background: var(--color-secondary);
+      padding: var(--space-xl) 0;
+    }
+
+    .testimonials {
+      background: var(--color-white);
+      padding: var(--space-xl) 0;
+    }
+
+    .trust {
+      background: var(--color-white);
+      padding: var(--space-xl) 0;
+    }
+
+    /* 7. Hero Styles */
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .hero__content h1 {
+      font-size: var(--font-size-h1);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-primary);
+      margin-bottom: var(--space-md);
+    }
+
+    .hero__subheadline {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: var(--space-lg);
+      margin-top: var(--space-lg);
+      padding-top: var(--gutter);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .trust-badge strong {
+      font-size: var(--font-size-h3);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-primary);
+    }
+
+    .trust-badge span {
+      font-size: var(--font-size-caption);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero__illustration {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero__illustration svg {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
+
+    /* 8. Pulse-Line Divider */
+    .pulse-divider {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      height: 48px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    .pulse-divider svg {
+      width: 100%;
+      height: 48px;
+    }
+
+    .pulse-divider__mobile {
+      display: none;
+    }
+
+    .pulse-divider svg path {
+      stroke: var(--color-accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .pulse-divider.js-ready svg path {
+      stroke-dasharray: 1300;
+      stroke-dashoffset: 1300;
+    }
+
+    .pulse-divider.js-ready .pulse-divider__mobile path {
+      stroke-dasharray: 450;
+      stroke-dashoffset: 450;
+    }
+
+    .pulse-divider.animated .pulse-divider__desktop path {
+      animation: pulse-draw var(--animation-pulse);
+    }
+
+    .pulse-divider.animated .pulse-divider__mobile path {
+      animation: pulse-draw-mobile var(--animation-pulse);
+    }
+
+    /* 9. Service Cards */
+    .services h2 {
+      font-size: var(--font-size-h2);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-primary);
+      text-align: center;
+      margin-bottom: var(--space-md);
+    }
+
+    .services__subheading {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 48px auto;
+    }
+
+    .services__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gutter);
+    }
+
+    .service-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      padding: var(--gutter);
+      box-shadow: var(--shadow-card);
+      transition: box-shadow var(--transition-fast);
+      text-align: center;
+    }
+
+    .service-card:hover {
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .service-card__icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto var(--space-md) auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-card__icon svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .service-card__title {
+      font-size: var(--font-size-h3);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .service-card__description {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    /* 10. Testimonials Section */
+    .testimonials h2 {
+      font-size: var(--font-size-h2);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-primary);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .testimonials__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+    }
+
+    .testimonial-card {
+      background: var(--color-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-md);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .testimonial-card__quote {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+      font-style: italic;
+    }
+
+    .testimonial-card__attribution {
+      font-size: var(--font-size-body-small);
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin-top: auto;
+    }
+
+    /* 11. Trust + Booking Section */
+    .trust__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+
+    .trust__surgeon h2 {
+      font-size: var(--font-size-h2);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-primary);
+      margin-bottom: var(--space-md);
+    }
+
+    .trust__bio {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-lg);
+    }
+
+    .stat-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gutter);
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
+    }
+
+    .stat-block__value {
+      font-size: var(--font-size-h1);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-primary);
+    }
+
+    .stat-block__label {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    .trust__booking h3 {
+      font-size: var(--font-size-h3);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .trust__booking-subtext {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-md);
+    }
+
+    .trust__empathy {
+      font-size: var(--font-size-body);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--gutter);
+      border-left: 3px solid var(--color-accent);
+      padding-left: var(--space-md);
+    }
+
+    .phone-framing {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .trust__insurance {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin-top: var(--space-md);
+      text-align: center;
+    }
+
+    .trust__expect {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin-top: var(--space-sm);
+      text-align: center;
+    }
+
+    /* Booking Form */
+    .booking-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .booking-form__field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .booking-form__label {
+      font-size: var(--font-size-body-small);
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--color-text-primary);
+    }
+
+    .booking-form__input {
+      height: 44px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      padding: 0 12px;
+      font-family: var(--font-family);
+      font-size: var(--font-size-body);
+      color: var(--color-text-primary);
+      background: var(--color-white);
+      transition: border-color var(--transition-fast);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .booking-form__input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.2);
+    }
+
+    .booking-form__input:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 0;
+      box-shadow: none;
+    }
+
+    select.booking-form__input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+    }
+
+    /* 12. Component-Level Styles */
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-block;
+      background: var(--color-accent);
+      color: var(--color-white);
+      font-family: var(--font-family);
+      font-size: var(--font-size-body);
+      font-weight: 600;
+      line-height: 1;
+      padding: 14px 28px;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  transform var(--transition-fast);
+      min-height: 44px;
+    }
+
+    .cta-button:hover {
+      background: var(--color-accent-hover);
+      box-shadow: var(--shadow-cta-hover);
+      transform: translateY(-1px);
+    }
+
+    .cta-button:active {
+      background: var(--color-accent-active);
+      box-shadow: none;
+      transform: translateY(0);
+    }
+
+    .cta-button:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .cta-button--full {
+      display: block;
+      width: 100%;
+    }
+
+    /* Or Divider */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+
+    .or-divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+    }
+
+    .or-divider__text {
+      font-size: var(--font-size-caption);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+    }
+
+    /* Phone Block */
+    .phone-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 48px;
+      padding: 12px var(--gutter);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+    }
+
+    .phone-block svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .phone-link {
+      font-size: var(--font-size-h3);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    .phone-link:hover {
+      color: var(--color-primary-dark);
+      text-decoration: underline;
+    }
+
+    .phone-link:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* 13. Footer */
+    .site-footer {
+      background: var(--color-primary-dark);
+      color: var(--color-white);
+      padding: 48px 0 0 0;
+    }
+
+    .site-footer__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: 48px;
+    }
+
+    .site-footer__heading {
+      font-size: var(--font-size-body);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: var(--space-md);
+      color: var(--color-white);
+    }
+
+    .site-footer p,
+    .site-footer li,
+    .site-footer address {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.8);
+      font-style: normal;
+    }
+
+    .site-footer a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .site-footer a:hover {
+      color: var(--color-white);
+      text-decoration: underline;
+    }
+
+    .site-footer a:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    .site-footer__links li {
+      margin-bottom: var(--space-sm);
+    }
+
+    .site-footer__bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: var(--space-md) 0;
+    }
+
+    .site-footer__bottom-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    .site-footer__insurance {
+      font-size: var(--font-size-body-small);
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: var(--space-sm);
+    }
+
+    .site-footer__legal {
+      font-size: var(--font-size-caption);
+      font-weight: 400;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* 14. Responsive Overrides */
+
+    /* Tablet: 640px - 767px */
+    @media (min-width: 640px) and (max-width: 767px) {
+      .services__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .testimonials__grid {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Mobile: < 768px */
+    @media (max-width: 767px) {
+      .container {
+        padding: 0 var(--space-md);
+      }
+
+      .hero {
+        padding: var(--space-lg) 0;
+      }
+
+      .services {
+        padding: 48px 0;
+      }
+
+      .testimonials {
+        padding: 48px 0;
+      }
+
+      .trust {
+        padding: 48px 0;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      h3 {
+        font-size: 20px;
+      }
+
+      .stat-block__value {
+        font-size: 28px;
+      }
+
+      /* Header mobile */
+      .site-header__nav-list {
+        display: none;
+      }
+
+      .site-header__menu-btn {
+        display: flex;
+      }
+
+      .site-header__phone-text {
+        display: none;
+      }
+
+      .site-header__cta {
+        display: none;
+      }
+
+      .site-header.menu-open .site-header__nav-list {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-border);
+        padding: var(--space-md) var(--gutter);
+        gap: var(--space-md);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        z-index: 99;
+      }
+
+      .site-header.menu-open .site-header__nav-list li {
+        text-align: center;
+      }
+
+      .site-header.menu-open .site-header__nav-list .site-header__nav-link {
+        display: block;
+        padding: var(--space-sm) 0;
+        font-size: var(--font-size-body);
+      }
+
+      /* Hero mobile */
+      .hero__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+      }
+
+      .hero__content {
+        text-align: left;
+      }
+
+      .hero__subheadline {
+        margin-bottom: var(--gutter);
+      }
+
+      .cta-button--hero {
+        display: block;
+        width: 100%;
+      }
+
+      .trust-badges {
+        gap: var(--gutter);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .trust-badge {
+        align-items: center;
+      }
+
+      .hero__illustration {
+        display: none;
+      }
+
+      /* Pulse divider mobile */
+      .pulse-divider {
+        height: 32px;
+        margin: var(--space-lg) auto;
+      }
+
+      .pulse-divider svg {
+        height: 32px;
+      }
+
+      .pulse-divider__desktop {
+        display: none;
+      }
+
+      .pulse-divider__mobile {
+        display: block;
+      }
+
+      /* Testimonials mobile */
+      .testimonials__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      /* Trust mobile */
+      .trust__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        text-align: center;
+      }
+
+      .trust__surgeon h2 {
+        text-align: center;
+      }
+
+      .trust__bio {
+        text-align: center;
+      }
+
+      .trust__empathy {
+        text-align: left;
+      }
+
+      .stat-blocks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-md);
+        text-align: center;
+        margin-bottom: var(--space-lg);
+      }
+
+      .stat-block {
+        align-items: center;
+      }
+
+      .trust__booking h3 {
+        text-align: center;
+      }
+
+      .trust__booking > p,
+      .trust__booking-subtext {
+        text-align: center;
+      }
+
+      /* Footer mobile */
+      .site-footer__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        text-align: center;
+      }
+
+      /* Urgent banner mobile */
+      .urgent-banner {
+        font-size: var(--font-size-caption);
+        padding: var(--space-sm) 44px var(--space-sm) var(--space-md);
+      }
+    }
+
+    /* Mobile cards: < 640px */
+    @media (max-width: 639px) {
+      .services__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+
+      .service-card {
+        text-align: left;
+        display: flex;
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+
+      .service-card__icon {
+        margin: 0;
+        flex-shrink: 0;
+        width: 48px;
+        height: 48px;
+      }
+
+      .service-card__icon svg {
+        width: 48px;
+        height: 48px;
+      }
+
+      .service-card__text {
+        flex: 1;
+      }
+    }
+
+    /* 15. Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .pulse-divider svg path,
+      .pulse-divider.js-ready svg path {
+        animation: none !important;
+        stroke-dasharray: none;
+        stroke-dashoffset: 0;
+      }
+
+      .service-card,
+      .cta-button,
+      .site-header__cta {
+        transition: none;
+      }
+    }
+
+    /* 16. Animation Keyframes */
+    @keyframes pulse-draw {
+      from {
+        stroke-dashoffset: 1300;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes pulse-draw-mobile {
+      from {
+        stroke-dashoffset: 450;
+      }
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- URGENT BANNER -->
+  <div class="urgent-banner" role="alert" id="urgent-banner">
+    Injured today? Same-day walk-in appointments available. <a href="tel:+15125550147">Call (512) 555-0147</a>.
+    <button class="urgent-banner__close" aria-label="Dismiss urgent care banner" type="button">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- SITE HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="#" class="site-header__brand" aria-label="Mitchell Orthopaedics home">Mitchell Orthopaedics</a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <ul class="site-header__nav-list">
+          <li><a href="#services" class="site-header__nav-link">Services</a></li>
+          <li><a href="#about" class="site-header__nav-link">About</a></li>
+          <li><a href="#testimonials" class="site-header__nav-link">Testimonials</a></li>
+          <li><a href="#contact" class="site-header__nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="site-header__actions">
+        <a href="tel:+15125550147" class="site-header__phone" aria-label="Call Mitchell Orthopaedics at (512) 555-0147">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M22,16.92v3a2,2,0,0,1-2.18,2,19.79,19.79,0,0,1-8.63-3.07,19.5,19.5,0,0,1-6-6A19.79,19.79,0,0,1,2.12,4.18,2,2,0,0,1,4.11,2h3a2,2,0,0,1,2,1.72,12.84,12.84,0,0,0,.7,2.81,2,2,0,0,1-.45,2.11L8.09,9.91a16,16,0,0,0,6,6l1.27-1.27a2,2,0,0,1,2.11-.45,12.84,12.84,0,0,0,2.81.7A2,2,0,0,1,22,16.92Z" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="site-header__phone-text">(512) 555-0147</span>
+        </a>
+        <a href="#contact" class="site-header__cta">Book an Appointment</a>
+        <button class="site-header__menu-btn" aria-label="Open navigation menu" aria-expanded="false" type="button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <h1 id="hero-heading">Fellowship-Trained Orthopaedic Surgeon. Appointments This Week.</h1>
+          <p class="hero__subheadline">From diagnosis through surgery to recovery — one surgeon, one team, one plan. Serving Austin, TX and surrounding communities.</p>
+          <a href="#contact" class="cta-button cta-button--hero">Book an Appointment</a>
+          <div class="trust-badges">
+            <span class="trust-badge">
+              <strong>Board Certified</strong>
+              <span>Orthopaedic Surgery</span>
+            </span>
+            <span class="trust-badge">
+              <strong>Fellowship Trained</strong>
+              <span>Sports &amp; Joint Specialist</span>
+            </span>
+            <span class="trust-badge">
+              <strong>Same Week</strong>
+              <span>Appointments Available</span>
+            </span>
+          </div>
+        </div>
+        <div class="hero__illustration" role="img" aria-label="Anatomical line drawings of a knee, shoulder, and hip joint.">
+          <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shoulder joint (upper-left area, opacity 0.7) -->
+            <g opacity="0.7">
+              <circle cx="110" cy="100" r="30" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M78,80 Q65,100 78,120" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M95,68 L120,60 L140,65" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M140,65 L190,55" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+            <!-- Knee joint (center, largest, full opacity) -->
+            <g opacity="1.0">
+              <path d="M160,240 Q170,210 200,200 Q230,210 240,240" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="185" y1="200" x2="180" y2="160" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="215" y1="200" x2="220" y2="160" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M155,260 L245,260" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="178" y1="260" x2="175" y2="310" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="222" y1="260" x2="225" y2="310" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <ellipse cx="200" cy="230" rx="14" ry="18" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="188" y1="242" x2="212" y2="258" stroke="#1B4D7A" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+              <line x1="212" y1="242" x2="188" y2="258" stroke="#1B4D7A" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+            </g>
+
+            <!-- Hip joint (lower-right area, opacity 0.6) -->
+            <g opacity="0.6">
+              <circle cx="300" cy="370" r="25" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M280,348 Q260,370 280,395 Q300,410 320,395" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="310" y1="393" x2="325" y2="430" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="290" y1="393" x2="310" y2="430" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M265,340 Q290,325 320,340 Q345,348 355,340" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- PULSE-LINE DIVIDER 1 -->
+    <div class="pulse-divider" role="separator" aria-hidden="true">
+      <svg class="pulse-divider__desktop" viewBox="0 0 1200 48" preserveAspectRatio="none">
+        <path d="M0,24 L480,24 L540,24 L560,8 L580,40 L600,16 L620,28 L660,24 L1200,24"/>
+      </svg>
+      <svg class="pulse-divider__mobile" viewBox="0 0 400 32" preserveAspectRatio="none">
+        <path d="M0,16 L150,16 L175,5 L190,27 L200,10 L210,19 L225,16 L400,16"/>
+      </svg>
+    </div>
+
+    <!-- SECTION 2: SERVICES -->
+    <section class="services" aria-labelledby="services-heading" id="services">
+      <div class="container">
+        <h2 id="services-heading">What We Treat</h2>
+        <p class="services__subheading">Every treatment plan starts with your goals — not a one-size-fits-all protocol.</p>
+        <div class="services__grid">
+
+          <!-- Card 1: Sports Injuries -->
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="8" r="4" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="24" y1="12" x2="22" y2="24" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="22" y1="24" x2="19" y2="30" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="19" y1="30" x2="16" y2="36" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="22" y1="24" x2="26" y2="29" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="26" y1="29" x2="30" y2="34" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="24" y1="15" x2="30" y2="18" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="24" y1="15" x2="17" y2="19" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="19" cy="30" r="4" stroke="#2A9D8F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="service-card__text">
+              <h3 class="service-card__title">Sports Injuries</h3>
+              <p class="service-card__description">Torn ligament, pulled muscle, or nagging knee pain. Get an accurate diagnosis and a clear plan to return to the activities you love.</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Joint Replacement -->
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18,6 L18,14 Q18,18 24,20 Q30,18 30,14 L30,6" stroke="#1B4D7A" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16,18 Q24,26 32,18" stroke="#1B4D7A" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15,30 L33,30" stroke="#1B4D7A" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19,30 L19,42" stroke="#1B4D7A" stroke-width="1" fill="none" stroke-linecap="round"/>
+                <path d="M29,30 L29,42" stroke="#1B4D7A" stroke-width="1" fill="none" stroke-linecap="round"/>
+                <path d="M15,17 Q24,27 33,17" stroke="#1B4D7A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14,29 L34,29" stroke="#1B4D7A" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <line x1="24" y1="29" x2="24" y2="36" stroke="#1B4D7A" stroke-width="2" stroke-linecap="round"/>
+                <line x1="18" y1="21" x2="20" y2="23" stroke="#1B4D7A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                <line x1="24" y1="23" x2="26" y2="25" stroke="#1B4D7A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+                <line x1="28" y1="21" x2="30" y2="23" stroke="#1B4D7A" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="service-card__text">
+              <h3 class="service-card__title">Joint Replacement</h3>
+              <p class="service-card__description">When pain limits your daily life, a new hip or knee can restore it. Modern techniques mean less pain and faster recovery.</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Fracture Care -->
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10,6 Q8,10 12,14 L18,22" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16,6 Q14,10 16,14 L20,20" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18,22 L22,20 L19,25 L23,23 L20,27" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2"/>
+                <path d="M20,20 L24,18 L21,23 L25,21 L22,25" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 2"/>
+                <path d="M20,27 L28,36 Q32,40 30,44" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22,25 L30,34 Q34,38 36,44" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="26" y1="16" x2="32" y2="32" stroke="#1B4D7A" stroke-width="2" stroke-linecap="round"/>
+                <line x1="24" y1="18" x2="30" y2="16" stroke="#1B4D7A" stroke-width="2" stroke-linecap="round"/>
+                <line x1="28" y1="26" x2="34" y2="24" stroke="#1B4D7A" stroke-width="2" stroke-linecap="round"/>
+                <line x1="30" y1="30" x2="36" y2="28" stroke="#1B4D7A" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="service-card__text">
+              <h3 class="service-card__title">Fracture Care</h3>
+              <p class="service-card__description">Broken bones need the right treatment from the start. Walk-in appointments available for urgent fractures and dislocations.</p>
+            </div>
+          </div>
+
+          <!-- Card 4: General Orthopaedics -->
+          <div class="service-card">
+            <div class="service-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="20" stroke="#E5E7EB" stroke-width="1" fill="none" stroke-dasharray="4 4"/>
+                <path d="M18,30 Q16,26 17,22 Q18,18 22,18 L26,18 Q30,18 31,22 Q32,26 30,30 Z" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18,26 L14,22 L13,19" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21,18 L20,13 L19,9" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M24,18 L24,12 L24,7" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M27,18 L28,13 L29,9" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M30,20 L32,15 L33,11" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="20" y1="30" x2="19" y2="36" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="28" y1="30" x2="29" y2="36" stroke="#1B4D7A" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M19,36 Q24,38 29,36" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="service-card__text">
+              <h3 class="service-card__title">General Orthopaedics</h3>
+              <p class="service-card__description">Arthritis, tendon problems, carpal tunnel, back pain. If it involves bones, joints, or muscles, this is the place to start.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PULSE-LINE DIVIDER 2 -->
+    <div class="pulse-divider" role="separator" aria-hidden="true">
+      <svg class="pulse-divider__desktop" viewBox="0 0 1200 48" preserveAspectRatio="none">
+        <path d="M0,24 L480,24 L540,24 L560,8 L580,40 L600,16 L620,28 L660,24 L1200,24"/>
+      </svg>
+      <svg class="pulse-divider__mobile" viewBox="0 0 400 32" preserveAspectRatio="none">
+        <path d="M0,16 L150,16 L175,5 L190,27 L200,10 L210,19 L225,16 L400,16"/>
+      </svg>
+    </div>
+
+    <!-- SECTION 3: TESTIMONIALS -->
+    <section class="testimonials" aria-labelledby="testimonials-heading" id="testimonials">
+      <div class="container">
+        <h2 id="testimonials-heading">What Our Patients Say</h2>
+        <div class="testimonials__grid">
+
+          <blockquote class="testimonial-card">
+            <p class="testimonial-card__quote">"I tore my ACL playing soccer and thought my season was over for good. Dr. Mitchell had me back on the field in six months. She explained every step before it happened."</p>
+            <footer class="testimonial-card__attribution">— Marcus T., recreational athlete, Austin</footer>
+          </blockquote>
+
+          <blockquote class="testimonial-card">
+            <p class="testimonial-card__quote">"After years of knee pain, I finally had a replacement. I was walking the next day. My only regret is not doing it sooner."</p>
+            <footer class="testimonial-card__attribution">— Linda R., age 68, Round Rock</footer>
+          </blockquote>
+
+          <blockquote class="testimonial-card">
+            <p class="testimonial-card__quote">"My son broke his arm at practice. We walked in without an appointment and he was in a cast within the hour. The staff kept him calm the entire time."</p>
+            <footer class="testimonial-card__attribution">— Jennifer P., parent, Cedar Park</footer>
+          </blockquote>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PULSE-LINE DIVIDER 3 -->
+    <div class="pulse-divider" role="separator" aria-hidden="true">
+      <svg class="pulse-divider__desktop" viewBox="0 0 1200 48" preserveAspectRatio="none">
+        <path d="M0,24 L480,24 L540,24 L560,8 L580,40 L600,16 L620,28 L660,24 L1200,24"/>
+      </svg>
+      <svg class="pulse-divider__mobile" viewBox="0 0 400 32" preserveAspectRatio="none">
+        <path d="M0,16 L150,16 L175,5 L190,27 L200,10 L210,19 L225,16 L400,16"/>
+      </svg>
+    </div>
+
+    <!-- SECTION 4: TRUST + BOOKING -->
+    <section class="trust" aria-labelledby="trust-heading" id="contact">
+      <div class="container trust__grid">
+        <div class="trust__surgeon" id="about">
+          <h2 id="trust-heading">Dr. Sarah Mitchell, MD</h2>
+          <p class="trust__bio">Fellowship-trained orthopaedic surgeon at St. David's Medical Center — dedicated to getting patients back to the lives they enjoy with honest advice and hands-on care.</p>
+          <div class="stat-blocks">
+            <div class="stat-block">
+              <span class="stat-block__value">15+</span>
+              <span class="stat-block__label">Years in Practice</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-block__value">3,000+</span>
+              <span class="stat-block__label">Procedures Performed</span>
+            </div>
+            <div class="stat-block">
+              <span class="stat-block__value">Same Day</span>
+              <span class="stat-block__label">Imaging Available</span>
+            </div>
+          </div>
+        </div>
+        <div class="trust__booking">
+          <h3>Schedule Your Consultation</h3>
+          <p class="trust__booking-subtext">Same-week appointments for new and returning patients. No referral needed.</p>
+          <p class="trust__empathy">Deciding to see a surgeon is a big step. Your first appointment is a conversation — we answer every question before anything else happens.</p>
+          <form class="booking-form" action="#" method="post" novalidate>
+            <div class="booking-form__field">
+              <label for="patient-name" class="booking-form__label">Full Name</label>
+              <input type="text" id="patient-name" name="name" class="booking-form__input" required autocomplete="name">
+            </div>
+            <div class="booking-form__field">
+              <label for="patient-phone" class="booking-form__label">Phone Number</label>
+              <input type="tel" id="patient-phone" name="phone" class="booking-form__input" required autocomplete="tel">
+            </div>
+            <div class="booking-form__field">
+              <label for="patient-reason" class="booking-form__label">Reason for Visit</label>
+              <select id="patient-reason" name="reason" class="booking-form__input">
+                <option value="">Select one</option>
+                <option value="sports-injury">Sports Injury</option>
+                <option value="joint-pain">Joint Pain / Arthritis</option>
+                <option value="joint-replacement">Joint Replacement Consultation</option>
+                <option value="fracture">Fracture / Urgent Injury</option>
+                <option value="second-opinion">Second Opinion</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <button type="submit" class="cta-button cta-button--full">Request an Appointment</button>
+          </form>
+          <div class="or-divider">
+            <span class="or-divider__line"></span>
+            <span class="or-divider__text">or</span>
+            <span class="or-divider__line"></span>
+          </div>
+          <p class="phone-framing">Prefer to call? Speak with our team directly.</p>
+          <div class="phone-block">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M22,16.92v3a2,2,0,0,1-2.18,2,19.79,19.79,0,0,1-8.63-3.07,19.5,19.5,0,0,1-6-6A19.79,19.79,0,0,1,2.12,4.18,2,2,0,0,1,4.11,2h3a2,2,0,0,1,2,1.72,12.84,12.84,0,0,0,.7,2.81,2,2,0,0,1-.45,2.11L8.09,9.91a16,16,0,0,0,6,6l1.27-1.27a2,2,0,0,1,2.11-.45,12.84,12.84,0,0,0,2.81.7A2,2,0,0,1,22,16.92Z" stroke="#1B4D7A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <a href="tel:+15125550147" class="phone-link">(512) 555-0147</a>
+          </div>
+          <p class="trust__insurance">We accept most major insurance plans. Call to verify your coverage.</p>
+          <p class="trust__expect">Bring your imaging results, a list of medications, and any questions. We will take it from there.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div>
+          <p class="site-footer__heading">Mitchell Orthopaedics</p>
+          <address>
+            4200 Medical Parkway, Suite 310<br>
+            Austin, TX 78756<br>
+            <a href="tel:+15125550147">(512) 555-0147</a>
+          </address>
+        </div>
+        <div>
+          <p class="site-footer__heading">Office Hours</p>
+          <ul>
+            <li>Monday – Friday: 8:00 AM – 5:00 PM</li>
+            <li>Saturday: 8:00 AM – 12:00 PM (urgent walk-ins)</li>
+            <li>Sunday: Closed</li>
+          </ul>
+        </div>
+        <div>
+          <p class="site-footer__heading">Quick Links</p>
+          <ul class="site-footer__links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About Dr. Mitchell</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <div class="site-footer__bottom-inner">
+        <p class="site-footer__insurance">We accept most major insurance plans including Blue Cross Blue Shield, Aetna, Cigna, and UnitedHealthcare. Call to verify your coverage.</p>
+        <p class="site-footer__legal">&copy; 2026 Mitchell Orthopaedics. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      /* Pulse-line scroll-trigger animation */
+      var dividers = document.querySelectorAll('.pulse-divider');
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+      }
+
+      dividers.forEach(function (el) {
+        el.classList.add('js-ready');
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      dividers.forEach(function (el) {
+        observer.observe(el);
+      });
+
+      /* Urgent banner dismiss */
+      var bannerClose = document.querySelector('.urgent-banner__close');
+      if (bannerClose) {
+        bannerClose.addEventListener('click', function () {
+          var banner = document.getElementById('urgent-banner');
+          if (banner) {
+            banner.style.display = 'none';
+          }
+        });
+      }
+
+      /* Booking form submit */
+      var bookingForm = document.querySelector('.booking-form');
+      if (bookingForm) {
+        bookingForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var btn = bookingForm.querySelector('button[type="submit"]');
+          var originalText = btn.textContent;
+          btn.textContent = 'Request Sent — We Will Call You';
+          btn.disabled = true;
+          btn.style.background = 'var(--color-primary)';
+          setTimeout(function () {
+            btn.textContent = originalText;
+            btn.disabled = false;
+            btn.style.background = '';
+            bookingForm.reset();
+          }, 3000);
+        });
+      }
+
+      /* Mobile menu toggle */
+      var menuBtn = document.querySelector('.site-header__menu-btn');
+      var header = document.getElementById('site-header');
+      if (menuBtn && header) {
+        menuBtn.addEventListener('click', function () {
+          var isOpen = header.classList.toggle('menu-open');
+          menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          menuBtn.setAttribute(
+            'aria-label',
+            isOpen ? 'Close navigation menu' : 'Open navigation menu'
+          );
+        });
+
+        /* Close mobile menu when a nav link is clicked */
+        var navLinks = header.querySelectorAll('.site-header__nav-link');
+        navLinks.forEach(function (link) {
+          link.addEventListener('click', function () {
+            header.classList.remove('menu-open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.setAttribute('aria-label', 'Open navigation menu');
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

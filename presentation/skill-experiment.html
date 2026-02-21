@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Skills Experiment</title>
+<title>To Πείραμα Δεξιοτήτων</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -182,78 +182,74 @@
 </style>
 </head>
 <body>
-
 <!-- NAV -->
 <nav id="nav">
-  <span class="nav-label">Skills Experiment</span>
-  <a href="#title">Intro</a>
-  <a href="#experiment">Experiment</a>
-  <a href="#approaches">Approaches</a>
+  <span class="nav-label">Πείραμα Δεξιοτήτων</span>
+  <a href="#title">Εισαγωγή</a>
+  <a href="#experiment">Πείραμα</a>
+  <a href="#approaches">Προσεγγίσεις</a>
   <a href="#prompt">Prompt</a>
   <a href="#approach-skill">Skill</a>
   <a href="#approach-workflow">Workflow</a>
   <a href="#approach-studio">Studio</a>
-  <a href="#results">Results</a>
-  <a href="#comparison">Compare</a>
-  <a href="#takeaways">Takeaways</a>
+  <a href="#results">Αποτελέσματα</a>
+  <a href="#comparison">Σύγκριση</a>
+  <a href="#takeaways">Συμπεράσματα</a>
 </nav>
-
 <!-- 00: TITLE -->
 <section id="title">
   <div class="label">Claude Code Skills</div>
-  <h1>The Skills<br>Experiment</h1>
-  <p class="subtitle">Same prompt. Three approaches. How does skill architecture affect the quality of a single deliverable?</p>
+  <h1>Το Πείραμα<br>Δεξιοτήτων</h1>
+  <p class="subtitle">Ίδιο prompt. Τρεις προσεγγίσεις. Πώς επηρεάζει η αρχιτεκτονική δεξιοτήτων την ποιότητα ενός μεμονωμένου παραδοτέου;</p>
   <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
     <span class="badge badge-cyan">Skill</span>
     <span class="badge badge-amber">Workflow Skill</span>
-    <span class="badge badge-rose">Workflow + Feedback Loops</span>
+    <span class="badge badge-rose">Workflow + Βρόχοι Ανατροφοδότησης</span>
   </div>
   <div style="margin-top:48px">
-    <p style="font-size:14px;color:var(--text-dim)">We ask each approach to build the same thing:</p>
-    <p style="font-size:18px;color:var(--text);margin-top:8px;font-weight:500">A 3-section homepage for an orthopaedic surgery practice.</p>
+    <p style="font-size:14px;color:var(--text-dim)">Ζητάμε από κάθε προσέγγιση να κατασκευάσει το ίδιο πράγμα:</p>
+    <p style="font-size:18px;color:var(--text);margin-top:8px;font-weight:500">Μια αρχική σελίδα 3 ενοτήτων για ορθοπαιδικό χειρουργικό ιατρείο.</p>
   </div>
 </section>
-
 <!-- 01: THE EXPERIMENT -->
 <section id="experiment">
-  <div class="label">Why this matters</div>
-  <h2>The Experiment</h2>
-  <p class="subtitle">Skills are the building blocks of agent capability. But not all skills are created equal. Some load methodology. Some orchestrate pipelines. Some spawn competing agents and iterate until quality gates pass.</p>
-  <p class="subtitle" style="margin-top:16px">This experiment isolates the variable: <strong style="color:var(--text)">skill architecture</strong>. Everything else stays constant &mdash; same model, same prompt, same design system, same brand guidelines.</p>
+  <div class="label">Γιατί έχει σημασία</div>
+  <h2>Το Πείραμα</h2>
+  <p class="subtitle">Οι δεξιότητες είναι τα δομικά στοιχεία της ικανότητας ενός πράκτορα. Αλλά δεν είναι όλες οι δεξιότητες ίσες. Κάποιες φορτώνουν μεθοδολογία. Κάποιες ενορχηστρώνουν αγωγούς. Κάποιες δημιουργούν ανταγωνιστικούς πράκτορες και επαναλαμβάνουν μέχρι να περάσουν τα κριτήρια ποιότητας.</p>
+  <p class="subtitle" style="margin-top:16px">Αυτό το πείραμα απομονώνει τη μεταβλητή: <strong style="color:var(--text)">αρχιτεκτονική δεξιοτήτων</strong>. Όλα τα υπόλοιπα παραμένουν σταθερά &mdash; ίδιο μοντέλο, ίδιο prompt, ίδιο σύστημα σχεδίασης, ίδιες οδηγίες επωνυμίας.</p>
 
   <div class="card-grid" style="margin-top:48px">
     <div class="card">
-      <h3>Control Variables</h3>
+      <h3>Μεταβλητές Ελέγχου</h3>
       <ul style="list-style:disc;padding-left:20px;margin-top:12px">
-        <li style="padding-left:0">Identical prompt for all 3 runs</li>
-        <li style="padding-left:0">Same design system tokens</li>
-        <li style="padding-left:0">Same brand guidelines</li>
-        <li style="padding-left:0">Same business docs (ICP, Product)</li>
-        <li style="padding-left:0">Same model (Claude)</li>
+        <li style="padding-left:0">Πανομοιότυπο prompt και για τις 3 εκτελέσεις</li>
+        <li style="padding-left:0">Ίδια tokens συστήματος σχεδίασης</li>
+        <li style="padding-left:0">Ίδιες οδηγίες επωνυμίας</li>
+        <li style="padding-left:0">Ίδια επιχειρηματικά έγγραφα (ICP, Product)</li>
+        <li style="padding-left:0">Ίδιο μοντέλο (Claude)</li>
       </ul>
     </div>
     <div class="card">
-      <h3>Independent Variable</h3>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:12px">The <strong style="color:var(--text)">skill type</strong> invoked to execute the prompt. Each adds layers of process, review, and iteration around the same core task.</p>
+      <h3>Ανεξάρτητη Μεταβλητή</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:12px">Ο <strong style="color:var(--text)">τύπος δεξιότητας</strong> που καλείται για την εκτέλεση του prompt. Κάθε ένας προσθέτει επίπεδα διαδικασίας, ελέγχου και επανάληψης γύρω από την ίδια βασική εργασία.</p>
     </div>
     <div class="card">
-      <h3>Dependent Variables</h3>
+      <h3>Εξαρτημένες Μεταβλητές</h3>
       <ul style="list-style:disc;padding-left:20px;margin-top:12px">
-        <li style="padding-left:0">Visual design quality</li>
-        <li style="padding-left:0">Copy quality and brand alignment</li>
-        <li style="padding-left:0">Design system compliance</li>
-        <li style="padding-left:0">Mobile responsiveness</li>
-        <li style="padding-left:0">Overall persuasiveness</li>
+        <li style="padding-left:0">Ποιότητα οπτικού σχεδιασμού</li>
+        <li style="padding-left:0">Ποιότητα κειμένου και ευθυγράμμιση με την επωνυμία</li>
+        <li style="padding-left:0">Συμμόρφωση με το σύστημα σχεδίασης</li>
+        <li style="padding-left:0">Ανταπόκριση σε κινητές συσκευές</li>
+        <li style="padding-left:0">Συνολική πειστικότητα</li>
       </ul>
     </div>
   </div>
 </section>
-
 <!-- 02: THREE APPROACHES -->
 <section id="approaches">
-  <div class="label">The three levels</div>
-  <h2>Three Approaches</h2>
-  <p class="subtitle">From a single methodology injection to a full multi-agent creative studio with customer review loops.</p>
+  <div class="label">Τα τρία επίπεδα</div>
+  <h2>Τρεις Προσεγγίσεις</h2>
+  <p class="subtitle">Από μια απλή ένεση μεθοδολογίας σε ένα πλήρες δημιουργικό στούντιο πολλαπλών πρακτόρων με βρόχους αξιολόγησης πελατών.</p>
 
   <div class="card-grid">
     <!-- SKILL -->
@@ -261,12 +257,12 @@
       <div class="card-number accent-cyan">01</div>
       <span class="badge badge-cyan">Skill</span>
       <h3 style="margin-top:16px">frontend-design</h3>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A methodology skill. Loads design thinking principles, anti-patterns, and validation tests into the agent's context. The agent builds the page in <strong style="color:var(--text)">a single pass</strong>.</p>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">Μια δεξιότητα μεθοδολογίας. Φορτώνει αρχές σχεδιαστικής σκέψης, κανόνες κατά μοτίβων και δοκιμές επικύρωσης στο πλαίσιο του πράκτορα. Ο πράκτορας κατασκευάζει τη σελίδα <strong style="color:var(--text)">σε ένα πέρασμα</strong>.</p>
       <ul>
-        <li>1 agent, 1 perspective</li>
-        <li>Methodology as guardrails</li>
-        <li>No separate brainstorming phase</li>
-        <li>No automated review or iteration</li>
+        <li>1 πράκτορας, 1 οπτική γωνία</li>
+        <li>Μεθοδολογία ως κατευθυντήριες γραμμές</li>
+        <li>Χωρίς ξεχωριστή φάση ιδεοθύελλας</li>
+        <li>Χωρίς αυτοματοποιημένο έλεγχο ή επανάληψη</li>
       </ul>
     </div>
     <!-- WORKFLOW -->
@@ -274,86 +270,85 @@
       <div class="card-number accent-amber">02</div>
       <span class="badge badge-amber">Workflow Skill</span>
       <h3 style="margin-top:16px">feature-frontend</h3>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A sequential pipeline. Checks the design system, brainstorms the design intent, then implements and ships &mdash; a <strong style="color:var(--text)">4-step workflow</strong>.</p>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">Ένας διαδοχικός αγωγός. Ελέγχει το σύστημα σχεδίασης, κάνει ιδεοθύελλα για τη σχεδιαστική πρόθεση, στη συνέχεια υλοποιεί και παραδίδει &mdash; μια <strong style="color:var(--text)">ροή εργασίας 4 βημάτων</strong>.</p>
       <ul>
-        <li>1 orchestrator, skill invocations at each step</li>
-        <li>Design system enforced as law</li>
-        <li>Brainstorm mandatory before code</li>
-        <li>Design doc captures decisions</li>
+        <li>1 ενορχηστρωτής, κλήσεις δεξιοτήτων σε κάθε βήμα</li>
+        <li>Το σύστημα σχεδίασης επιβάλλεται ως νόμος</li>
+        <li>Υποχρεωτική ιδεοθύελλα πριν τον κώδικα</li>
+        <li>Το έγγραφο σχεδίασης καταγράφει τις αποφάσεις</li>
       </ul>
     </div>
     <!-- CREATIVE STUDIO -->
     <div class="card glow-rose">
       <div class="card-number accent-rose">03</div>
-      <span class="badge badge-rose">Workflow + Feedback Loops</span>
+      <span class="badge badge-rose">Workflow + Βρόχοι Ανατροφοδότησης</span>
       <h3 style="margin-top:16px">creative-studio</h3>
-      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">A multi-agent creative pipeline. Designer and copywriter brainstorm together, a developer builds, a customer persona reviews, and the whole cycle <strong style="color:var(--text)">iterates until quality gates pass</strong>.</p>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:8px">Ένας δημιουργικός αγωγός πολλαπλών πρακτόρων. Σχεδιαστής και κειμενογράφος κάνουν ιδεοθύελλα μαζί, ένας προγραμματιστής κατασκευάζει, μια περσόνα πελάτη αξιολογεί, και ολόκληρος ο κύκλος <strong style="color:var(--text)">επαναλαμβάνεται μέχρι να περάσουν τα κριτήρια ποιότητας</strong>.</p>
       <ul>
-        <li>5+ specialized agents</li>
-        <li>Collaborative brainstorming (max 4 rounds)</li>
-        <li>Customer review with 5-dimension scoring</li>
-        <li>Feedback loop: iterate up to 3 times</li>
+        <li>5+ εξειδικευμένοι πράκτορες</li>
+        <li>Συνεργατική ιδεοθύελλα (μέχρι 4 γύρους)</li>
+        <li>Αξιολόγηση πελάτη με βαθμολόγηση 5 διαστάσεων</li>
+        <li>Βρόχος ανατροφοδότησης: επανάληψη μέχρι 3 φορές</li>
       </ul>
     </div>
   </div>
 </section>
-
 <!-- 03: THE PROMPT -->
 <section id="prompt">
-  <div class="label">Identical input</div>
-  <h2>The Prompt</h2>
-  <p class="subtitle">This exact prompt is given to all three approaches. The only difference is which skill processes it.</p>
+  <div class="label">Πανομοιότυπη είσοδος</div>
+  <h2>Το Prompt</h2>
+  <p class="subtitle">Αυτό ακριβώς το prompt δίνεται και στις τρεις προσεγγίσεις. Η μόνη διαφορά είναι ποια δεξιότητα το επεξεργάζεται.</p>
 
-  <div class="prompt-block"><span class="prompt-label">prompt.md</span><strong>Build a 3-section homepage</strong> for our orthopaedic surgery practice.
-Single self-contained index.html file. No stock photo URLs.
+  <div class="prompt-block"><span class="prompt-label">prompt.md</span><strong>Κατασκεύασε μια αρχική σελίδα 3 ενοτήτων</strong> για το ορθοπαιδικό χειρουργικό μας ιατρείο.
+Ένα αυτόνομο αρχείο index.html. Χωρίς URL φωτογραφιών.
 
-<strong>Read the project docs for context:</strong>
+<strong>Διάβασε τα έγγραφα του έργου για πλαίσιο:</strong>
 &bull; docs/DESIGN/BRAND.md
 &bull; docs/DESIGN/DESIGN_SYSTEM.md
 &bull; docs/BUSINESS/PRODUCT.md
 &bull; docs/BUSINESS/ICP.md
 
-<strong>Save to:</strong> <span class="hl-cyan">presentation/experiment/skill/index.html</span>
+<strong>Αποθήκευσε στο:</strong> <span class="hl-cyan">presentation/experiment/skill/index.html</span>
          <span class="hl-amber">presentation/experiment/workflow/index.html</span>
          <span class="hl-rose">presentation/experiment/creative-studio/index.html</span></div>
 
-  <p style="font-size:13px;color:var(--text-dim);margin-top:16px;max-width:640px">That's it. No section specs, no CTA details, no card counts, no layout instructions. Each skill decides what "3-section homepage" means &mdash; which sections, what copy, how to structure it. The prompt tests the skill's ability to make good decisions autonomously.</p>
+  <p style="font-size:13px;color:var(--text-dim);margin-top:16px;max-width:640px">Αυτό είναι όλο. Χωρίς προδιαγραφές ενοτήτων, χωρίς λεπτομέρειες CTA, χωρίς αριθμούς καρτών, χωρίς οδηγίες διάταξης. Κάθε δεξιότητα αποφασίζει τι σημαίνει "αρχική σελίδα 3 ενοτήτων" &mdash; ποιες ενότητες, ποιο κείμενο, πώς να το δομήσει. Το prompt δοκιμάζει την ικανότητα της δεξιότητας να λαμβάνει σωστές αποφάσεις αυτόνομα.</p>
 </section>
-
-<!-- 04: APPROACH 1 — SKILL -->
+<!-- 04: APPROACH 1 -- SKILL -->
 <section id="approach-skill">
   <div class="detail-header">
     <div>
-      <div class="label">Approach 01</div>
+      <div class="label">Προσέγγιση 01</div>
       <h2 class="accent-cyan">Skill: frontend-design</h2>
     </div>
-    <span class="badge badge-cyan" style="margin-left:auto">Methodology</span>
+    <span class="badge badge-cyan" style="margin-left:auto">Μεθοδολογία</span>
   </div>
 
-  <p class="detail-desc">The simplest approach. The <code style="color:var(--cyan)">frontend-design</code> skill injects design methodology &mdash; aesthetic principles, anti-pattern rules, validation tests &mdash; directly into the agent's context. The agent then builds the entire page in one shot, guided by these loaded principles.</p>
+  <p class="detail-desc">Η απλούστερη προσέγγιση. Η δεξιότητα <code style="color:var(--cyan)">frontend-design</code> εισάγει σχεδιαστική μεθοδολογία &mdash; αισθητικές αρχές, κανόνες κατά μοτίβων, δοκιμές επικύρωσης &mdash; απευθείας στο πλαίσιο του πράκτορα. Ο πράκτορας στη συνέχεια κατασκευάζει ολόκληρη τη σελίδα με μία κίνηση, καθοδηγούμενος από αυτές τις φορτωμένες αρχές.</p>
 
   <div class="detail-meta">
-    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-cyan">1</div></div>
-    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-cyan">1</div></div>
-    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value" style="color:var(--text-dim)">0</div></div>
-    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-cyan">~50K</div></div>
+    <div class="meta-item"><div class="meta-label">Πράκτορες</div><div class="meta-value accent-cyan">1</div></div>
+    <div class="meta-item"><div class="meta-label">Φάσεις</div><div class="meta-value accent-cyan">1</div></div>
+    <div class="meta-item"><div class="meta-label">Βρόχοι Ανατροφοδότησης</div><div class="meta-value" style="color:var(--text-dim)">0</div></div>
+    <div class="meta-item"><div class="meta-label">Εκτ. Tokens</div><div class="meta-value accent-cyan">~50K</div></div>
+    <div class="meta-item"><div class="meta-label">Χρόνος</div><div class="meta-value accent-cyan">3 λεπ.</div></div>
   </div>
 
-  <h3 style="margin-top:40px">Workflow</h3>
+  <h3 style="margin-top:40px">Ροή Εργασίας</h3>
   <div class="workflow">
     <div class="wf-node wf-cyan"><div class="wf-dot">P</div><div class="wf-label">Prompt</div></div>
     <div class="wf-arrow">&rarr;</div>
-    <div class="wf-node wf-cyan"><div class="wf-dot">M</div><div class="wf-label">Load Methodology</div></div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">M</div><div class="wf-label">Φόρτωση Μεθοδολογίας</div></div>
     <div class="wf-arrow">&rarr;</div>
-    <div class="wf-node wf-cyan"><div class="wf-dot">R</div><div class="wf-label">Read Docs</div></div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">R</div><div class="wf-label">Ανάγνωση Εγγράφων</div></div>
     <div class="wf-arrow">&rarr;</div>
-    <div class="wf-node wf-cyan"><div class="wf-dot">B</div><div class="wf-label">Build</div></div>
+    <div class="wf-node wf-cyan"><div class="wf-dot">B</div><div class="wf-label">Κατασκευή</div></div>
     <div class="wf-arrow">&rarr;</div>
     <div class="wf-node wf-cyan"><div class="wf-dot" style="background:var(--cyan);color:var(--bg);border-color:var(--cyan)">&#10003;</div><div class="wf-label">index.html</div></div>
   </div>
 
-  <h3 style="margin-top:48px">What the agent sees</h3>
-  <p style="font-size:14px;color:var(--text-muted);margin-top:8px">The skill loads these mental models into context:</p>
+  <h3 style="margin-top:48px">Τι βλέπει ο πράκτορας</h3>
+  <p style="font-size:14px;color:var(--text-muted);margin-top:8px">Η δεξιότητα φορτώνει αυτά τα νοητικά μοντέλα στο πλαίσιο:</p>
   <div class="agents-row" style="margin-top:12px">
     <span class="agent-pill active-cyan">Swap Test</span>
     <span class="agent-pill active-cyan">Squint Test</span>
@@ -362,154 +357,154 @@ Single self-contained index.html file. No stock photo URLs.
     <span class="agent-pill active-cyan">Progressive Disclosure</span>
     <span class="agent-pill active-cyan">Platform Test</span>
   </div>
-  <p style="font-size:13px;color:var(--text-dim);margin-top:12px">These tests are self-applied by the agent during the build &mdash; not enforced by a separate reviewer.</p>
+  <p style="font-size:13px;color:var(--text-dim);margin-top:12px">Αυτές οι δοκιμές εφαρμόζονται αυτόματα από τον πράκτορα κατά την κατασκευή &mdash; δεν επιβάλλονται από ξεχωριστό αξιολογητή.</p>
 
-  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <h3 style="margin-top:40px">Παραγόμενα Τεχνουργήματα</h3>
   <div class="artifact-chain">
     <div class="artifact">index.html</div>
   </div>
 
-  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <h3 style="margin-top:40px">Δυνατά Σημεία &amp; Αδυναμίες</h3>
   <div class="card-grid" style="grid-template-columns:1fr 1fr">
     <div class="card" style="border-color:var(--cyan-dim)">
-      <h3 style="color:var(--cyan);font-size:13px">Strengths</h3>
-      <ul><li>Fast execution</li><li>Low token cost</li><li>Methodology prevents common pitfalls</li><li>Good for experienced prompts</li></ul>
+      <h3 style="color:var(--cyan);font-size:13px">Δυνατά Σημεία</h3>
+      <ul><li>Γρήγορη εκτέλεση</li><li>Χαμηλό κόστος tokens</li><li>Η μεθοδολογία αποτρέπει συνηθισμένα λάθη</li><li>Κατάλληλο για έμπειρους χρήστες</li></ul>
     </div>
     <div class="card" style="border-color:var(--border)">
-      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
-      <ul><li>Single perspective</li><li>No external review or iteration</li><li>Copy quality depends on agent alone</li><li>No test coverage</li></ul>
+      <h3 style="color:var(--text-dim);font-size:13px">Αδυναμίες</h3>
+      <ul><li>Μονή οπτική γωνία</li><li>Χωρίς εξωτερικό έλεγχο ή επανάληψη</li><li>Η ποιότητα κειμένου εξαρτάται μόνο από τον πράκτορα</li><li>Χωρίς κάλυψη δοκιμών</li></ul>
     </div>
   </div>
 </section>
-
-<!-- 05: APPROACH 2 — WORKFLOW -->
+<!-- 05: APPROACH 2 -- WORKFLOW -->
 <section id="approach-workflow">
   <div class="detail-header">
     <div>
-      <div class="label">Approach 02</div>
+      <div class="label">Προσέγγιση 02</div>
       <h2 class="accent-amber">Workflow: feature-frontend</h2>
     </div>
-    <span class="badge badge-amber" style="margin-left:auto">Pipeline</span>
+    <span class="badge badge-amber" style="margin-left:auto">Αγωγός</span>
   </div>
 
-  <p class="detail-desc">A structured pipeline that enforces process. Before any code is written, the agent checks the design system and brainstorms the design intent. Only then does it implement &mdash; building bottom-up from atoms to pages. The design system is the law; the brainstorm captures decisions.</p>
+  <p class="detail-desc">Ένας δομημένος αγωγός που επιβάλλει διαδικασία. Πριν γραφτεί οποιοσδήποτε κώδικας, ο πράκτορας ελέγχει το σύστημα σχεδίασης και κάνει ιδεοθύελλα για τη σχεδιαστική πρόθεση. Μόνο τότε υλοποιεί &mdash; κατασκευάζοντας από κάτω προς τα πάνω, από άτομα σε σελίδες. Το σύστημα σχεδίασης είναι ο νόμος. Η ιδεοθύελλα καταγράφει τις αποφάσεις.</p>
 
   <div class="detail-meta">
-    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-amber">1</div><div style="font-size:11px;color:var(--text-dim)">orchestrator with skill invocations</div></div>
-    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-amber">4</div></div>
-    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value" style="color:var(--text-dim)">0</div><div style="font-size:11px;color:var(--text-dim)">linear pipeline</div></div>
-    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-amber">~100K</div></div>
+    <div class="meta-item"><div class="meta-label">Πράκτορες</div><div class="meta-value accent-amber">1</div><div style="font-size:11px;color:var(--text-dim)">ενορχηστρωτής με κλήσεις δεξιοτήτων</div></div>
+    <div class="meta-item"><div class="meta-label">Φάσεις</div><div class="meta-value accent-amber">4</div></div>
+    <div class="meta-item"><div class="meta-label">Βρόχοι Ανατροφοδότησης</div><div class="meta-value" style="color:var(--text-dim)">0</div><div style="font-size:11px;color:var(--text-dim)">γραμμικός αγωγός</div></div>
+    <div class="meta-item"><div class="meta-label">Εκτ. Tokens</div><div class="meta-value accent-amber">~100K</div></div>
+    <div class="meta-item"><div class="meta-label">Χρόνος</div><div class="meta-value accent-amber">4 λεπ.</div><div style="font-size:11px;color:var(--text-dim)">λόγω παραλληλοποίησης</div></div>
   </div>
 
-  <h3 style="margin-top:40px">Workflow</h3>
+  <h3 style="margin-top:40px">Ροή Εργασίας</h3>
   <div class="workflow">
-    <div class="wf-node wf-amber"><div class="wf-dot">0</div><div class="wf-label">Design System Check</div></div>
+    <div class="wf-node wf-amber"><div class="wf-dot">0</div><div class="wf-label">Έλεγχος Συστήματος Σχεδίασης</div></div>
     <div class="wf-arrow">&rarr;</div>
-    <div class="wf-node wf-amber"><div class="wf-dot">1</div><div class="wf-label">Brainstorm</div></div>
+    <div class="wf-node wf-amber"><div class="wf-dot">1</div><div class="wf-label">Ιδεοθύελλα</div></div>
     <div class="wf-arrow">&rarr;</div>
-    <div class="wf-node wf-amber"><div class="wf-dot">2</div><div class="wf-label">Implement</div></div>
+    <div class="wf-node wf-amber"><div class="wf-dot">2</div><div class="wf-label">Υλοποίηση</div></div>
     <div class="wf-arrow">&rarr;</div>
     <div class="wf-node wf-amber"><div class="wf-dot" style="background:var(--amber);color:var(--bg);border-color:var(--amber)">&#10003;</div><div class="wf-label">Commit &amp; PR</div></div>
   </div>
 
-  <h3 style="margin-top:48px">Phase Breakdown</h3>
+  <h3 style="margin-top:48px">Ανάλυση Φάσεων</h3>
   <ol class="phase-list phase-amber">
-    <li><strong>Design System Check</strong><span>Read docs/DESIGN/DESIGN_SYSTEM.md. If populated, use its tokens as hard constraints. If missing, flag to user and optionally invoke the design-system skill first.</span></li>
-    <li><strong>Brainstorm</strong><span>Invoke the brainstorming skill. Explore user goals, visual hierarchy, interaction states, breakpoints, and how the feature uses design tokens. Write design doc to docs/plans/.</span></li>
-    <li><strong>Implement</strong><span>Build bottom-up following the brainstorm output: atoms (buttons, inputs) &rarr; molecules (cards, groups) &rarr; organisms (sections, nav) &rarr; pages. All visual choices conform to the design system.</span></li>
-    <li><strong>Commit &amp; PR</strong><span>Create feature branch, commit, push, and open a pull request.</span></li>
+    <li><strong>Έλεγχος Συστήματος Σχεδίασης</strong><span>Ανάγνωση docs/DESIGN/DESIGN_SYSTEM.md. Αν είναι συμπληρωμένο, χρησιμοποιεί τα tokens του ως σκληρούς περιορισμούς. Αν λείπει, ειδοποιεί τον χρήστη και προαιρετικά καλεί πρώτα τη δεξιότητα design-system.</span></li>
+    <li><strong>Ιδεοθύελλα</strong><span>Κλήση της δεξιότητας brainstorming. Εξερεύνηση στόχων χρήστη, οπτικής ιεραρχίας, καταστάσεων αλληλεπίδρασης, σημείων αλλαγής διάταξης, και πώς το χαρακτηριστικό χρησιμοποιεί tokens σχεδίασης. Εγγραφή εγγράφου σχεδίασης στο docs/plans/.</span></li>
+    <li><strong>Υλοποίηση</strong><span>Κατασκευή από κάτω προς τα πάνω ακολουθώντας το αποτέλεσμα της ιδεοθύελλας: άτομα (κουμπιά, πεδία εισόδου) &rarr; μόρια (κάρτες, ομάδες) &rarr; οργανισμοί (ενότητες, πλοήγηση) &rarr; σελίδες. Όλες οι οπτικές επιλογές συμμορφώνονται με το σύστημα σχεδίασης.</span></li>
+    <li><strong>Commit &amp; PR</strong><span>Δημιουργία κλάδου χαρακτηριστικού, commit, push και άνοιγμα pull request.</span></li>
   </ol>
 
-  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <h3 style="margin-top:40px">Παραγόμενα Τεχνουργήματα</h3>
   <div class="artifact-chain">
     <div class="artifact">design-doc.md</div>
     <div class="artifact">index.html</div>
   </div>
 
-  <h3 style="margin-top:40px">Skills Invoked</h3>
+  <h3 style="margin-top:40px">Δεξιότητες που Καλούνται</h3>
   <div class="agents-row">
     <span class="agent-pill active-amber">brainstorming</span>
   </div>
-  <p style="font-size:13px;color:var(--text-dim);margin-top:8px">The brainstorming skill is the key differentiator &mdash; it forces the agent to think about intent, hierarchy, and states before writing any code.</p>
+  <p style="font-size:13px;color:var(--text-dim);margin-top:8px">Η δεξιότητα brainstorming είναι ο βασικός διαφοροποιητής &mdash; αναγκάζει τον πράκτορα να σκεφτεί την πρόθεση, την ιεραρχία και τις καταστάσεις πριν γράψει κώδικα.</p>
 
-  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <h3 style="margin-top:40px">Δυνατά Σημεία &amp; Αδυναμίες</h3>
   <div class="card-grid" style="grid-template-columns:1fr 1fr">
     <div class="card" style="border-color:var(--amber-dim)">
-      <h3 style="color:var(--amber);font-size:13px">Strengths</h3>
-      <ul><li>Structured thinking before code</li><li>Design system as hard constraint</li><li>Design doc captures decisions</li><li>Bottom-up component architecture</li></ul>
+      <h3 style="color:var(--amber);font-size:13px">Δυνατά Σημεία</h3>
+      <ul><li>Δομημένη σκέψη πριν τον κώδικα</li><li>Σύστημα σχεδίασης ως σκληρός περιορισμός</li><li>Το έγγραφο σχεδίασης καταγράφει τις αποφάσεις</li><li>Αρχιτεκτονική συστατικών από κάτω προς τα πάνω</li></ul>
     </div>
     <div class="card" style="border-color:var(--border)">
-      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
-      <ul><li>Single creative perspective</li><li>No copy specialist</li><li>No customer validation loop</li><li>Linear &mdash; no iteration on design</li></ul>
+      <h3 style="color:var(--text-dim);font-size:13px">Αδυναμίες</h3>
+      <ul><li>Μονή δημιουργική οπτική γωνία</li><li>Χωρίς εξειδικευμένο κειμενογράφο</li><li>Χωρίς βρόχο επικύρωσης πελάτη</li><li>Γραμμικός &mdash; χωρίς επανάληψη στη σχεδίαση</li></ul>
     </div>
   </div>
 </section>
-
-<!-- 06: APPROACH 3 — CREATIVE STUDIO -->
+<!-- 06: APPROACH 3 -- CREATIVE STUDIO -->
 <section id="approach-studio">
   <div class="detail-header">
     <div>
-      <div class="label">Approach 03</div>
+      <div class="label">Προσέγγιση 03</div>
       <h2 class="accent-rose">Creative Studio</h2>
     </div>
-    <span class="badge badge-rose" style="margin-left:auto">Feedback Loops</span>
+    <span class="badge badge-rose" style="margin-left:auto">Βρόχοι Ανατροφοδότησης</span>
   </div>
 
-  <p class="detail-desc">The full creative pipeline. A brand designer and copywriter brainstorm together in a multi-round dialogue. A developer builds. A customer persona scores the result across five dimensions. If it doesn't pass the bar, the whole design-copy-build cycle repeats &mdash; up to three times.</p>
+  <p class="detail-desc">Ο πλήρης δημιουργικός αγωγός. Ένας σχεδιαστής επωνυμίας και ένας κειμενογράφος κάνουν ιδεοθύελλα μαζί σε διάλογο πολλαπλών γύρων. Ένας προγραμματιστής κατασκευάζει. Μια περσόνα πελάτη βαθμολογεί το αποτέλεσμα σε πέντε διαστάσεις. Αν δεν περάσει το κατώφλι, ολόκληρος ο κύκλος σχεδίασης-κειμένου-κατασκευής επαναλαμβάνεται &mdash; μέχρι τρεις φορές.</p>
 
   <div class="detail-meta">
-    <div class="meta-item"><div class="meta-label">Agents</div><div class="meta-value accent-rose">5+</div><div style="font-size:11px;color:var(--text-dim)">designer, copywriter, developer, customer, guardians</div></div>
-    <div class="meta-item"><div class="meta-label">Phases</div><div class="meta-value accent-rose">6</div></div>
-    <div class="meta-item"><div class="meta-label">Feedback Loops</div><div class="meta-value accent-rose">Max 3</div><div style="font-size:11px;color:var(--text-dim)">customer review &rarr; iterate</div></div>
-    <div class="meta-item"><div class="meta-label">Est. Tokens</div><div class="meta-value accent-rose">~500K+</div></div>
+    <div class="meta-item"><div class="meta-label">Πράκτορες</div><div class="meta-value accent-rose">5+</div><div style="font-size:11px;color:var(--text-dim)">σχεδιαστής, κειμενογράφος, προγραμματιστής, πελάτης, φύλακες</div></div>
+    <div class="meta-item"><div class="meta-label">Φάσεις</div><div class="meta-value accent-rose">6</div></div>
+    <div class="meta-item"><div class="meta-label">Βρόχοι Ανατροφοδότησης</div><div class="meta-value accent-rose">Μέχρι 3</div><div style="font-size:11px;color:var(--text-dim)">αξιολόγηση πελάτη &rarr; επανάληψη</div></div>
+    <div class="meta-item"><div class="meta-label">Εκτ. Tokens</div><div class="meta-value accent-rose">~500K+</div></div>
+    <div class="meta-item"><div class="meta-label">Χρόνος</div><div class="meta-value accent-rose">32 λεπ.</div></div>
   </div>
 
-  <h3 style="margin-top:40px">Workflow with Feedback Loop</h3>
+  <h3 style="margin-top:40px">Ροή Εργασίας με Βρόχο Ανατροφοδότησης</h3>
   <div class="loop-container">
     <div class="workflow">
-      <div class="wf-node wf-rose"><div class="wf-dot">0</div><div class="wf-label">Brief</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot">0</div><div class="wf-label">Ενημερωτικό</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot">1</div><div class="wf-label">Brainstorm</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot">1</div><div class="wf-label">Ιδεοθύελλα</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose" id="loop-start"><div class="wf-dot">2</div><div class="wf-label">Design</div></div>
+      <div class="wf-node wf-rose" id="loop-start"><div class="wf-dot">2</div><div class="wf-label">Σχεδίαση</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot">3</div><div class="wf-label">Copy</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot">3</div><div class="wf-label">Κείμενο</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot">4</div><div class="wf-label">Build</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot">4</div><div class="wf-label">Κατασκευή</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot">5</div><div class="wf-label">Customer Review</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot">5</div><div class="wf-label">Αξιολόγηση Πελάτη</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot" style="border-style:dashed">?</div><div class="wf-label">Score &lt; 8?</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot" style="border-style:dashed">?</div><div class="wf-label">Βαθμός &lt; 8;</div></div>
       <div class="wf-arrow">&rarr;</div>
-      <div class="wf-node wf-rose"><div class="wf-dot" style="background:var(--rose);color:var(--bg);border-color:var(--rose)">&#10003;</div><div class="wf-label">Ship</div></div>
+      <div class="wf-node wf-rose"><div class="wf-dot" style="background:var(--rose);color:var(--bg);border-color:var(--rose)">&#10003;</div><div class="wf-label">Αποστολή</div></div>
     </div>
     <div class="loop-line"></div>
-    <div class="loop-label">&larr; iterate (back to Design) if avg score &lt; 8 &mdash; max 3 rounds &rarr;</div>
+    <div class="loop-label">&larr; επανάληψη (πίσω στη Σχεδίαση) αν μ.ό. βαθμού &lt; 8 &mdash; μέχρι 3 γύρους &rarr;</div>
   </div>
 
-  <h3 style="margin-top:72px">Phase Breakdown</h3>
+  <h3 style="margin-top:72px">Ανάλυση Φάσεων</h3>
   <ol class="phase-list phase-rose">
-    <li><strong>Prepare Brief</strong><span>Orchestrator reads all docs. Writes structured brief to docs/studio/. Captures audience, goals, constraints.</span></li>
-    <li><strong>Brainstorm</strong><span>Brand designer and copywriter agents in back-and-forth dialogue (max 4 rounds). Converge on a creative direction document &mdash; the immutable contract for all subsequent phases.</span></li>
-    <li><strong>Design</strong><span>Brand designer agent creates visual direction: layout, hierarchy, component choices, spacing, color application. References frontend-design methodology.</span></li>
-    <li><strong>Copy</strong><span>Copywriter agent writes all content: headlines, body, CTAs, micro-copy. Direct-response focused. Conversion-optimized.</span></li>
-    <li><strong>Build</strong><span>Expert developer agent implements the design + copy into code. Orchestrator verifies in browser via agent-browser.</span></li>
-    <li><strong>Customer Review &amp; Iterate</strong><span>Customer persona agent scores across 5 dimensions. If average &lt; 8 and round &lt; 3: loop back to Design with targeted feedback. Otherwise: ship.</span></li>
+    <li><strong>Προετοιμασία Ενημερωτικού</strong><span>Ο ενορχηστρωτής διαβάζει όλα τα έγγραφα. Γράφει δομημένο ενημερωτικό στο docs/studio/. Καταγράφει κοινό, στόχους, περιορισμούς.</span></li>
+    <li><strong>Ιδεοθύελλα</strong><span>Πράκτορες σχεδιαστή επωνυμίας και κειμενογράφου σε διάλογο εναλλαγής (μέχρι 4 γύρους). Συγκλίνουν σε ένα έγγραφο δημιουργικής κατεύθυνσης &mdash; το αμετάβλητο συμβόλαιο για όλες τις επόμενες φάσεις.</span></li>
+    <li><strong>Σχεδίαση</strong><span>Ο πράκτορας σχεδιαστής επωνυμίας δημιουργεί οπτική κατεύθυνση: διάταξη, ιεραρχία, επιλογές συστατικών, αποστάσεις, εφαρμογή χρωμάτων. Αναφέρεται στη μεθοδολογία frontend-design.</span></li>
+    <li><strong>Κείμενο</strong><span>Ο πράκτορας κειμενογράφος γράφει όλο το περιεχόμενο: τίτλους, κυρίως κείμενο, CTAs, μικροκείμενο. Εστιασμένο στην άμεση ανταπόκριση. Βελτιστοποιημένο για μετατροπές.</span></li>
+    <li><strong>Κατασκευή</strong><span>Ο πράκτορας expert-developer υλοποιεί τη σχεδίαση + κείμενο σε κώδικα. Ο ενορχηστρωτής επαληθεύει στο πρόγραμμα περιήγησης μέσω agent-browser.</span></li>
+    <li><strong>Αξιολόγηση Πελάτη &amp; Επανάληψη</strong><span>Ο πράκτορας περσόνα πελάτη βαθμολογεί σε 5 διαστάσεις. Αν ο μέσος όρος &lt; 8 και ο γύρος &lt; 3: επιστροφή στη Σχεδίαση με στοχευμένη ανατροφοδότηση. Διαφορετικά: αποστολή.</span></li>
   </ol>
 
-  <h3 style="margin-top:40px">Customer Review Dimensions</h3>
+  <h3 style="margin-top:40px">Διαστάσεις Αξιολόγησης Πελάτη</h3>
   <div class="score-grid">
-    <div class="score-item"><div class="score-name">Visual</div><div class="score-value">?</div></div>
-    <div class="score-item"><div class="score-name">Copy</div><div class="score-value">?</div></div>
-    <div class="score-item"><div class="score-name">Flow</div><div class="score-value">?</div></div>
-    <div class="score-item"><div class="score-name">Conviction</div><div class="score-value">?</div></div>
-    <div class="score-item"><div class="score-name">Persuasion</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Οπτική</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Κείμενο</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Ροή</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Πεποίθηση</div><div class="score-value">?</div></div>
+    <div class="score-item"><div class="score-name">Πειθώ</div><div class="score-value">?</div></div>
   </div>
   <div class="decision-node" style="margin-top:16px">
-    &#9670; avg &lt; 8 AND round &lt; 3 &rarr; loop back to Phase 2 with feedback
+    &#9670; μ.ό. &lt; 8 ΚΑΙ γύρος &lt; 3 &rarr; επιστροφή στη Φάση 2 με ανατροφοδότηση
   </div>
 
-  <h3 style="margin-top:32px">Agents Spawned</h3>
+  <h3 style="margin-top:32px">Πράκτορες που Δημιουργούνται</h3>
   <div class="agents-row">
     <span class="agent-pill active-rose">brand-designer</span>
     <span class="agent-pill active-rose">copywriter</span>
@@ -519,7 +514,7 @@ Single self-contained index.html file. No stock photo URLs.
     <span class="agent-pill">style-quality-guardian</span>
   </div>
 
-  <h3 style="margin-top:40px">Artifacts Produced</h3>
+  <h3 style="margin-top:40px">Παραγόμενα Τεχνουργήματα</h3>
   <div class="artifact-chain">
     <div class="artifact">brief.md</div>
     <div class="artifact">creative-direction.md</div>
@@ -529,24 +524,23 @@ Single self-contained index.html file. No stock photo URLs.
     <div class="artifact">customer-review</div>
   </div>
 
-  <h3 style="margin-top:40px">Strengths &amp; Weaknesses</h3>
+  <h3 style="margin-top:40px">Δυνατά Σημεία &amp; Αδυναμίες</h3>
   <div class="card-grid" style="grid-template-columns:1fr 1fr">
     <div class="card" style="border-color:var(--rose-dim)">
-      <h3 style="color:var(--rose);font-size:13px">Strengths</h3>
-      <ul><li>Multi-perspective creative process</li><li>Dedicated copywriter for conversion copy</li><li>Customer validation before shipping</li><li>Iterative refinement up to 3 rounds</li></ul>
+      <h3 style="color:var(--rose);font-size:13px">Δυνατά Σημεία</h3>
+      <ul><li>Δημιουργική διαδικασία πολλαπλών οπτικών γωνιών</li><li>Αφοσιωμένος κειμενογράφος για κείμενο μετατροπής</li><li>Επικύρωση πελάτη πριν την αποστολή</li><li>Επαναληπτική βελτίωση μέχρι 3 γύρους</li></ul>
     </div>
     <div class="card" style="border-color:var(--border)">
-      <h3 style="color:var(--text-dim);font-size:13px">Weaknesses</h3>
-      <ul><li>High token cost (~10x the skill approach)</li><li>Longer execution time</li><li>Creative direction may over-constrain</li><li>Diminishing returns after round 2</li></ul>
+      <h3 style="color:var(--text-dim);font-size:13px">Αδυναμίες</h3>
+      <ul><li>Υψηλό κόστος tokens (~10x της προσέγγισης skill)</li><li>Μεγαλύτερος χρόνος εκτέλεσης</li><li>Η δημιουργική κατεύθυνση μπορεί να υπερ-περιορίσει</li><li>Φθίνουσες αποδόσεις μετά τον γύρο 2</li></ul>
     </div>
   </div>
 </section>
-
 <!-- 07: RESULTS -->
 <section id="results">
-  <div class="label">Side by side</div>
-  <h2>Results</h2>
-  <p class="subtitle">The output from each approach, rendered in identical viewports. Run the experiment first, then reload this page to see the results.</p>
+  <div class="label">Δίπλα-δίπλα</div>
+  <h2>Αποτελέσματα</h2>
+  <p class="subtitle">Το αποτέλεσμα κάθε προσέγγισης, αποδοσμένο σε πανομοιότυπα πλαίσια προβολής. Εκτελέστε πρώτα το πείραμα, μετά ανανεώστε αυτή τη σελίδα για να δείτε τα αποτελέσματα.</p>
 
   <div class="results-grid">
     <!-- SKILL RESULT -->
@@ -554,12 +548,12 @@ Single self-contained index.html file. No stock photo URLs.
       <div class="result-header">
         <span class="badge badge-cyan">01</span>
         <h3 class="accent-cyan">Skill</h3>
-        <a href="experiment/skill/index.html" target="_blank" class="result-open">Open &nearr;</a>
+        <a href="experiment/skill/index.html" target="_blank" class="result-open">Άνοιγμα &nearr;</a>
       </div>
       <div class="result-body" id="frame-skill">
         <div class="result-placeholder" id="placeholder-skill">
           <div class="placeholder-icon">&#9633;</div>
-          <span>Run experiment first</span>
+          <span>Εκτελέστε πρώτα το πείραμα</span>
           <span style="font-size:10px;opacity:.5">experiment/skill/index.html</span>
         </div>
       </div>
@@ -569,12 +563,12 @@ Single self-contained index.html file. No stock photo URLs.
       <div class="result-header">
         <span class="badge badge-amber">02</span>
         <h3 class="accent-amber">Workflow</h3>
-        <a href="experiment/workflow/index.html" target="_blank" class="result-open">Open &nearr;</a>
+        <a href="experiment/workflow/index.html" target="_blank" class="result-open">Άνοιγμα &nearr;</a>
       </div>
       <div class="result-body" id="frame-workflow">
         <div class="result-placeholder" id="placeholder-workflow">
           <div class="placeholder-icon">&#9633;</div>
-          <span>Run experiment first</span>
+          <span>Εκτελέστε πρώτα το πείραμα</span>
           <span style="font-size:10px;opacity:.5">experiment/workflow/index.html</span>
         </div>
       </div>
@@ -584,29 +578,28 @@ Single self-contained index.html file. No stock photo URLs.
       <div class="result-header">
         <span class="badge badge-rose">03</span>
         <h3 class="accent-rose">Creative Studio</h3>
-        <a href="experiment/creative-studio/index.html" target="_blank" class="result-open">Open &nearr;</a>
+        <a href="experiment/creative-studio/index.html" target="_blank" class="result-open">Άνοιγμα &nearr;</a>
       </div>
       <div class="result-body" id="frame-studio">
         <div class="result-placeholder" id="placeholder-studio">
           <div class="placeholder-icon">&#9633;</div>
-          <span>Run experiment first</span>
+          <span>Εκτελέστε πρώτα το πείραμα</span>
           <span style="font-size:10px;opacity:.5">experiment/creative-studio/index.html</span>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 <!-- 08: COMPARISON -->
 <section id="comparison">
-  <div class="label">Analysis</div>
-  <h2>Comparison Matrix</h2>
-  <p class="subtitle">How the three approaches differ across key dimensions.</p>
+  <div class="label">Ανάλυση</div>
+  <h2>Πίνακας Σύγκρισης</h2>
+  <p class="subtitle">Πώς διαφέρουν οι τρεις προσεγγίσεις στις βασικές διαστάσεις.</p>
 
   <table class="cmp-table">
     <thead>
       <tr>
-        <th style="width:25%">Dimension</th>
+        <th style="width:25%">Διάσταση</th>
         <th class="col-cyan" style="width:25%">Skill</th>
         <th class="col-amber" style="width:25%">Workflow</th>
         <th class="col-rose" style="width:25%">Creative Studio</th>
@@ -614,129 +607,128 @@ Single self-contained index.html file. No stock photo URLs.
     </thead>
     <tbody>
       <tr>
-        <td>Architecture</td>
-        <td class="col-cyan">Context injection</td>
-        <td class="col-amber">Sequential pipeline</td>
-        <td class="col-rose">Multi-agent + loops</td>
+        <td>Αρχιτεκτονική</td>
+        <td class="col-cyan">Ένεση πλαισίου</td>
+        <td class="col-amber">Διαδοχικός αγωγός</td>
+        <td class="col-rose">Πολλαπλοί πράκτορες + βρόχοι</td>
       </tr>
       <tr>
-        <td>Agents involved</td>
+        <td>Εμπλεκόμενοι πράκτορες</td>
         <td>1</td>
-        <td>1 (with skill invocations)</td>
-        <td>5+ specialized agents</td>
+        <td>1 (με κλήσεις δεξιοτήτων)</td>
+        <td>5+ εξειδικευμένοι πράκτορες</td>
       </tr>
       <tr>
-        <td>Creative perspectives</td>
-        <td>1 (builder)</td>
-        <td>1 (builder) + brainstorm</td>
-        <td>3 (designer + copywriter + customer)</td>
+        <td>Δημιουργικές οπτικές γωνίες</td>
+        <td>1 (κατασκευαστής)</td>
+        <td>1 (κατασκευαστής) + ιδεοθύελλα</td>
+        <td>3 (σχεδιαστής + κειμενογράφος + πελάτης)</td>
       </tr>
       <tr>
-        <td>Process phases</td>
-        <td>1 (build)</td>
-        <td>4 (check &rarr; brainstorm &rarr; build &rarr; ship)</td>
-        <td>6 + iterations</td>
+        <td>Φάσεις διαδικασίας</td>
+        <td>1 (κατασκευή)</td>
+        <td>4 (έλεγχος &rarr; ιδεοθύελλα &rarr; κατασκευή &rarr; αποστολή)</td>
+        <td>6 + επαναλήψεις</td>
       </tr>
       <tr>
-        <td>Design thinking</td>
-        <td>Self-applied tests</td>
-        <td>Mandatory brainstorm + design doc</td>
-        <td>Collaborative direction + design spec</td>
+        <td>Σχεδιαστική σκέψη</td>
+        <td>Αυτο-εφαρμοζόμενες δοκιμές</td>
+        <td>Υποχρεωτική ιδεοθύελλα + έγγρ. σχεδίασης</td>
+        <td>Συνεργατική κατεύθυνση + προδιαγραφή σχεδίασης</td>
       </tr>
       <tr>
-        <td>Copy quality</td>
-        <td>Agent's own writing</td>
-        <td>Agent's own writing</td>
-        <td>Dedicated copywriter agent</td>
+        <td>Ποιότητα κειμένου</td>
+        <td>Γραφή του ίδιου του πράκτορα</td>
+        <td>Γραφή του ίδιου του πράκτορα</td>
+        <td>Αφοσιωμένος πράκτορας κειμενογράφος</td>
       </tr>
       <tr>
-        <td>Quality gates</td>
-        <td>None (self-review)</td>
-        <td>Design system compliance check</td>
-        <td>Customer scoring + quality guardians</td>
+        <td>Κριτήρια ποιότητας</td>
+        <td>Κανένα (αυτο-αξιολόγηση)</td>
+        <td>Έλεγχος συμμόρφωσης συστήματος σχεδίασης</td>
+        <td>Βαθμολόγηση πελάτη + φύλακες ποιότητας</td>
       </tr>
       <tr>
-        <td>Iteration</td>
-        <td>None</td>
-        <td>None (linear)</td>
-        <td>Up to 3 rounds</td>
+        <td>Επανάληψη</td>
+        <td>Καμία</td>
+        <td>Καμία (γραμμική)</td>
+        <td>Μέχρι 3 γύρους</td>
       </tr>
       <tr>
-        <td>Estimated tokens</td>
+        <td>Εκτιμώμενα tokens</td>
         <td>~50K</td>
         <td>~100K</td>
         <td>~500K+</td>
       </tr>
       <tr>
-        <td>Estimated time</td>
-        <td>Minutes</td>
-        <td>10&ndash;20 min</td>
-        <td>45&ndash;90 min</td>
+        <td>Χρόνος εκτέλεσης</td>
+        <td>3 λεπτά</td>
+        <td>4 λεπτά</td>
+        <td>32 λεπτά</td>
       </tr>
       <tr>
-        <td>Artifacts generated</td>
-        <td>1 file</td>
-        <td>2 (design doc + html)</td>
-        <td>6+ (brief, direction, spec, copy, html, review)</td>
+        <td>Παραγόμενα τεχνουργήματα</td>
+        <td>1 αρχείο</td>
+        <td>2 (έγγρ. σχεδίασης + html)</td>
+        <td>6+ (ενημερωτικό, κατεύθυνση, προδιαγραφή, κείμενο, html, αξιολόγηση)</td>
       </tr>
       <tr>
-        <td>Best for</td>
-        <td>Quick prototypes, experienced users</td>
-        <td>Production features, team standards</td>
-        <td>Customer-facing pages, high-stakes deliverables</td>
+        <td>Ιδανικό για</td>
+        <td>Γρήγορα πρωτότυπα, έμπειρους χρήστες</td>
+        <td>Χαρακτηριστικά παραγωγής, πρότυπα ομάδας</td>
+        <td>Σελίδες πελατών, παραδοτέα υψηλού κινδύνου</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="vs">Cost &harr; Quality Tradeoff</div>
+  <div class="vs">Κόστος &harr; Αντιστάθμιση Ποιότητας</div>
 
   <div class="card-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="card glow-cyan" style="text-align:center">
       <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--cyan)">1x</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">baseline cost</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">βασικό κόστος</div>
     </div>
     <div class="card glow-amber" style="text-align:center">
       <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--amber)">2x</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">structured process</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">δομημένη διαδικασία</div>
     </div>
     <div class="card glow-rose" style="text-align:center">
       <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--rose)">10x</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">multi-agent iteration</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:4px">επανάληψη πολλαπλών πρακτόρων</div>
     </div>
   </div>
 </section>
-
 <!-- 09: TAKEAWAYS -->
 <section id="takeaways" class="short" style="padding-bottom:120px">
-  <div class="label">Conclusions</div>
-  <h2>Key Takeaways</h2>
+  <div class="label">Συμπεράσματα</div>
+  <h2>Βασικά Συμπεράσματα</h2>
 
   <div class="takeaway-grid">
     <div class="takeaway-card" style="border-left:3px solid var(--cyan)">
-      <h3>Skills are guardrails, not guarantees</h3>
-      <p>A methodology skill improves the floor &mdash; it prevents common mistakes. But it can't add perspectives the agent doesn't have. The output is only as good as a single agent's interpretation.</p>
+      <h3>Οι δεξιότητες είναι κατευθυντήριες, όχι εγγυήσεις</h3>
+      <p>Μια δεξιότητα μεθοδολογίας βελτιώνει το ελάχιστο επίπεδο &mdash; αποτρέπει συνηθισμένα λάθη. Αλλά δεν μπορεί να προσθέσει οπτικές γωνίες που ο πράκτορας δεν έχει. Το αποτέλεσμα είναι τόσο καλό όσο η ερμηνεία ενός μόνο πράκτορα.</p>
     </div>
     <div class="takeaway-card" style="border-left:3px solid var(--amber)">
-      <h3>Thinking before building changes everything</h3>
-      <p>The workflow skill's power is the mandatory brainstorm. Forcing the agent to articulate intent, hierarchy, and states before writing code means better decisions &mdash; even though it's the same agent doing both the thinking and the building.</p>
+      <h3>Η σκέψη πριν την κατασκευή αλλάζει τα πάντα</h3>
+      <p>Η δύναμη της δεξιότητας workflow είναι η υποχρεωτική ιδεοθύελλα. Αναγκάζοντας τον πράκτορα να διατυπώσει πρόθεση, ιεραρχία και καταστάσεις πριν γράψει κώδικα σημαίνει καλύτερες αποφάσεις &mdash; ακόμα κι αν ο ίδιος πράκτορας κάνει και τη σκέψη και την κατασκευή.</p>
     </div>
     <div class="takeaway-card" style="border-left:3px solid var(--rose)">
-      <h3>Feedback loops are the multiplier</h3>
-      <p>The creative studio's power isn't the number of agents &mdash; it's the iteration cycle. A customer persona finding weak copy in round 1 means the copywriter rewrites it in round 2. Quality improves non-linearly.</p>
+      <h3>Οι βρόχοι ανατροφοδότησης είναι ο πολλαπλασιαστής</h3>
+      <p>Η δύναμη του creative studio δεν είναι ο αριθμός πρακτόρων &mdash; είναι ο κύκλος επανάληψης. Μια περσόνα πελάτη που εντοπίζει αδύναμο κείμενο στον γύρο 1 σημαίνει ότι ο κειμενογράφος το ξαναγράφει στον γύρο 2. Η ποιότητα βελτιώνεται μη γραμμικά.</p>
     </div>
     <div class="takeaway-card" style="border-left:3px solid var(--violet)">
-      <h3>Match complexity to stakes</h3>
-      <p>Not every page needs a creative studio. Internal tools benefit from workflow skills. High-stakes landing pages justify the 10x cost of multi-agent iteration. Choose the architecture that matches the deliverable's impact.</p>
+      <h3>Αντιστοιχίστε την πολυπλοκότητα στο διακύβευμα</h3>
+      <p>Δεν χρειάζεται κάθε σελίδα ένα creative studio. Τα εσωτερικά εργαλεία ωφελούνται από δεξιότητες workflow. Οι σελίδες υψηλού κινδύνου δικαιολογούν το 10x κόστος της επανάληψης πολλαπλών πρακτόρων. Επιλέξτε την αρχιτεκτονική που ταιριάζει στον αντίκτυπο του παραδοτέου.</p>
     </div>
   </div>
 
   <div style="margin-top:48px;padding:32px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px">
-    <h3>How to Run the Experiment</h3>
+    <h3>Πώς να Εκτελέσετε το Πείραμα</h3>
     <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);margin-top:16px;line-height:2">
-      <div><span class="accent-cyan">Run 1:</span> Invoke <code>/frontend-design</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/skill/index.html"</div>
-      <div><span class="accent-amber">Run 2:</span> Invoke <code>/feature-frontend</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/workflow/index.html"</div>
-      <div><span class="accent-rose">Run 3:</span> Invoke <code>/creative-studio</code> &rarr; paste prompt &rarr; add "save to presentation/experiment/creative-studio/index.html"</div>
-      <div style="margin-top:12px;color:var(--text-dim)">Then reload this page. The results section will auto-populate.</div>
+      <div><span class="accent-cyan">Εκτέλεση 1:</span> Καλέστε <code>/frontend-design</code> &rarr; επικολλήστε το prompt &rarr; προσθέστε "save to presentation/experiment/skill/index.html"</div>
+      <div><span class="accent-amber">Εκτέλεση 2:</span> Καλέστε <code>/feature-frontend</code> &rarr; επικολλήστε το prompt &rarr; προσθέστε "save to presentation/experiment/workflow/index.html"</div>
+      <div><span class="accent-rose">Εκτέλεση 3:</span> Καλέστε <code>/creative-studio</code> &rarr; επικολλήστε το prompt &rarr; προσθέστε "save to presentation/experiment/creative-studio/index.html"</div>
+      <div style="margin-top:12px;color:var(--text-dim)">Μετά ανανεώστε αυτή τη σελίδα. Η ενότητα αποτελεσμάτων θα συμπληρωθεί αυτόματα.</div>
     </div>
   </div>
 </section>
@@ -789,7 +781,7 @@ Single self-contained index.html file. No stock photo URLs.
           iframe.style.display = 'block';
         }
       } catch(e) {
-        // Cross-origin or file not found — keep placeholder
+        // Cross-origin or file not found -- keep placeholder
       }
     };
     iframe.onerror = function(){ /* keep placeholder */ };
