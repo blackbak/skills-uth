@@ -1,0 +1,70 @@
+% IEEE Conference Paper Template for Pandoc
+% Used by paper-to-ieee-pdf skill
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+% --- Core IEEE packages ---
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+
+% --- Pandoc code highlighting support ---
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% --- Pandoc tight list support ---
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% --- Hyperref (load last) ---
+\usepackage[hidelinks,bookmarks=false]{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+% --- Title ---
+\title{$title$}
+
+% --- Authors ---
+\author{%
+$for(author)$
+\IEEEauthorblockN{$author.name$}
+\IEEEauthorblockA{$if(author.department)$\textit{$author.department$} \\ $endif$$if(author.affiliation)$\textit{$author.affiliation$} \\ $endif$$if(author.city)$$author.city$ \\ $endif$$if(author.email)$$author.email$$endif$}$sep$
+\and
+$endfor$
+}
+
+\maketitle
+
+% --- Abstract ---
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+% --- Keywords ---
+$if(keywords)$
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+$endif$
+
+% --- Body ---
+$body$
+
+% --- References ---
+$if(bibliography)$
+\bibliographystyle{IEEEtran}
+\bibliography{$bibliography$}
+$endif$
+
+\end{document}

@@ -1,0 +1,84 @@
+% IEEE Journal Paper Template for Pandoc
+% Used by paper-to-ieee-pdf skill
+\documentclass[journal]{IEEEtran}
+
+% --- Core IEEE packages ---
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{url}
+
+% --- Pandoc code highlighting support ---
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+% --- Pandoc tight list support ---
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% --- Hyperref (load last) ---
+\usepackage[hidelinks,bookmarks=false]{hyperref}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+% --- Title ---
+\title{$title$}
+
+% --- Authors ---
+\author{%
+$for(author)$
+$author.name$%
+$if(author.affiliation)$,~\IEEEmembership{$author.affiliation$}$endif$$sep$,
+$endfor$
+$if(thanks)$
+\thanks{$thanks$}
+$endif$
+}
+
+% --- Journal header ---
+$if(journal-name)$
+\markboth{$journal-name$}{}
+$endif$
+
+\maketitle
+
+% --- Abstract ---
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+% --- Index Terms ---
+$if(keywords)$
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+$endif$
+
+% --- Body ---
+$body$
+
+% --- References ---
+$if(bibliography)$
+\bibliographystyle{IEEEtran}
+\bibliography{$bibliography$}
+$endif$
+
+$if(bio)$
+$for(bio)$
+\begin{IEEEbiography}[$if(bio.photo)$\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{$bio.photo$}$endif$]{$bio.name$}
+$bio.text$
+\end{IEEEbiography}
+$endfor$
+$endif$
+
+\end{document}
