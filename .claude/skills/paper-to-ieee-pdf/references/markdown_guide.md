@@ -177,7 +177,12 @@ Standard markdown pipe tables convert to IEEE `tabular` format:
 : Comparison of methods on the benchmark dataset.
 ```
 
-The line starting with `:` becomes the table caption.
+The line starting with `:` becomes the table caption. **Keep captions to 1--2 short sentences** -- IEEE renders them in ALL CAPS, so long captions become unreadable. Move methodological notes to footnotes or body text.
+
+The Lua filter automatically:
+- Uses `p{}` columns with proportional widths to prevent overflow
+- Switches to `table*` (two-column spanning) for tables with 5+ columns or wide content
+- Applies `\small` font for readability
 
 For wide tables spanning both columns, use raw LaTeX:
 

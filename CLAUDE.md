@@ -108,6 +108,15 @@ You are NOT done if:
 
 If the quality guardian finds issues, fix them and re-run. Do not stop until clean.
 
+## Authors
+
+Papers and publications use the following author block:
+
+| # | Name | Department | Affiliation | City | Email |
+|---|------|-----------|-------------|------|-------|
+| 1 | Ioannis Bakagiannis | Department of Digital Systems | University of Thessaly | Larisa, Greece | ibakagiannis@uth.gr |
+| 2 | Vassilis C. Gerogiannis | Department of Digital Systems | University of Thessaly | Larisa, Greece | vgerogian@uth.gr |
+
 ## Extended Standards
 
 See [agent_docs/workflow-standards.md](agent_docs/workflow-standards.md) for: Context Management, Agent Teams, Sandboxing.

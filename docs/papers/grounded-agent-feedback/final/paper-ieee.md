@@ -1,9 +1,16 @@
 ---
 title: "Skill Architecture Matters: How Autonomous Feedback Loops Transform LLM Agent Design Quality"
 author:
-  - name: "Anonymous"
-    affiliation: "Anonymous Institution"
-    email: "anonymous@example.com"
+  - name: "Ioannis Bakagiannis"
+    department: "Department of Digital Systems"
+    affiliation: "University of Thessaly"
+    city: "Larisa, Greece"
+    email: "ibakagiannis@uth.gr"
+  - name: "Vassilis C. Gerogiannis"
+    department: "Department of Digital Systems"
+    affiliation: "University of Thessaly"
+    city: "Larisa, Greece"
+    email: "vgerogian@uth.gr"
 abstract: |
   Large language model agents can generate functional web pages, but output quality depends on the architectural scaffolding around generation. We present a controlled case study comparing three skill architectures -- methodology injection, workflow pipeline, and creative studio with persona-grounded feedback loops -- given identical prompts, model, and design system to build an orthopedic surgery practice homepage. The methodology-injection and workflow approaches produced visually competent templates lacking surgeon identity, location, and conversion paths. The creative studio, at 10x token cost, produced a page with a named surgeon, real location, persona-matched testimonials, and an interactive appointment request form. Critically, the creative studio's pre-feedback output exhibited the same content gaps as single-agent approaches; content additions emerged only after a customer agent evaluated through specific user personas. We propose grounded evaluation -- feedback anchored in user personas, scored across behavioral dimensions, and classified by behavioral consequence -- as the mechanism driving this difference.
 keywords:
@@ -66,7 +73,7 @@ We operationalize personas as **evaluation contracts** -- structured documents d
 
 ### Code Generation Quality
 
-Prior work on LLM code generation has focused primarily on functional correctness -- pass rates on benchmarks like HumanEval [@chen2021humaneval] and MBPP [@austin2021program]. Si et al. [@si2024design2code] benchmark LLM-generated web design quality with Design2Code, evaluating visual fidelity and implementation accuracy -- a dimension closer to our concerns than functional correctness alone. Yang et al. [@yang2024intercode] demonstrate with InterCode that execution feedback improves LLM code generation, paralleling our finding that evaluation feedback improves design generation. Huang et al. [@huang2024mlagentbench] benchmark LLM agents on machine learning experimentation tasks, evaluating architectural choices for complex multi-step agent workflows. Our work evaluates a different dimension: whether generated code produces artifacts that serve *users*, not just artifacts that compile. A page that passes all accessibility checks but provides no booking mechanism is functionally correct yet fails its primary user-serving purpose.
+Prior work on LLM code generation has focused primarily on functional correctness -- pass rates on benchmarks like HumanEval [@chen2021humaneval] and MBPP [@austin2021program]. Si et al. [@si2025design2code] benchmark LLM-generated web design quality with Design2Code, evaluating visual fidelity and implementation accuracy -- a dimension closer to our concerns than functional correctness alone. Yang et al. [@yang2023intercode] demonstrate with InterCode that execution feedback improves LLM code generation, paralleling our finding that evaluation feedback improves design generation. Huang et al. [@huang2024mlagentbench] benchmark LLM agents on machine learning experimentation tasks, evaluating architectural choices for complex multi-step agent workflows. Our work evaluates a different dimension: whether generated code produces artifacts that serve *users*, not just artifacts that compile. A page that passes all accessibility checks but provides no booking mechanism is functionally correct yet fails its primary user-serving purpose.
 
 ## Case Study Design
 
@@ -168,11 +175,32 @@ Table III presents a feature-by-feature comparison of the outputs, including the
 | Skip link | None | None | None | Present |
 | ARIA landmarks | Partial | Partial | Partial | Complete |
 
-: Content and functionality comparison across three skill architectures plus the creative studio's pre-feedback state (CS R1). All received identical prompt, model, and reference documents.
+: Content and functionality comparison across approaches. CS R1 is the creative studio's pre-feedback state.
+
+\begin{figure*}[htbp]
+\centering
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/skill-desktop.png}
+\centerline{\small (a) Skill -- Methodology injection}
+\end{minipage}\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/workflow-desktop.png}
+\centerline{\small (b) Workflow pipeline}
+\end{minipage}\hfill
+\begin{minipage}{0.32\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/studio-desktop.png}
+\centerline{\small (c) Creative studio (final)}
+\end{minipage}
+\caption{Desktop hero sections of the three approaches. The skill output (a) shows ``Precision Ortho'' with no surgeon name or location. The workflow output (b) uses ``Orthopaedic Care'' with generic icons. The creative studio output (c) displays ``Mitchell Orthopaedics'' with an urgent care banner, phone number, location, credentials, and custom anatomical SVGs.}
+\label{fig:desktop}
+\end{figure*}
 
 ### Content Completeness
 
-The most striking difference is not visual polish -- all approaches produce visually competent output -- but **content depth**. The skill and workflow approaches produced attractive templates. The creative studio's final output produced a page a patient could actually use.
+`Fig.~\ref{fig:desktop}`{=latex} shows the desktop hero sections side by side. The most striking difference is not visual polish -- all approaches produce visually competent output -- but **content depth**. The skill and workflow approaches produced attractive templates. The creative studio's final output produced a page a patient could actually use.
 
 The skill approach invented a practice name and phone number but provided no surgeon identity, no location, and no mechanism for actually booking an appointment. The workflow approach is even sparser and provides less content than the skill approach.
 
@@ -231,7 +259,9 @@ The Round 1 customer review document provides critical evidence for isolating th
 | Persuasion | 4.7 (4--5) | 7.0 (6--7) | +2.3 |
 | **Average** | **5.7** | **7.2** | **+1.5** |
 
-: Creative studio customer evaluation scores across two rounds (averaged across three personas, with range in parentheses). R2 scores reflect the pre-form build. The R2 average of 7.2 falls below the 8/10 re-iteration threshold; the orchestrator addressed the top P1 finding as a targeted post-evaluation fix rather than triggering a full third iteration. The scoring agent is the same agent that identified R1 deficiencies, creating a self-referential dynamic; delta magnitudes should be interpreted as evidence that flagged gaps were addressed, not as independent quality assessments.
+: Creative studio evaluation scores across two rounds, averaged across three personas (range in parentheses). R2 scores reflect the pre-form build.
+
+The R2 average of 7.2 falls below the 8/10 re-iteration threshold; the orchestrator addressed the top P1 finding as a targeted post-evaluation fix rather than triggering a full third iteration. The scoring agent is the same agent that identified R1 deficiencies, creating a self-referential dynamic; delta magnitudes should be interpreted as evidence that flagged gaps were addressed, not as independent quality assessments.
 
 The Round 1 customer review identified 16 findings, including 5 P1 bounce triggers common across all three personas:
 
@@ -249,9 +279,30 @@ The content additions that emerged between R1 and R2 -- testimonials, hospital a
 
 **Copy quality.** The skill's hero subtitle reads: "Expert orthopaedic care from diagnosis through recovery -- so you can get back to the life you love." The workflow's reads similarly. Both are competent but generic -- interchangeable with any medical practice website. The creative studio's subheadline reads: "From diagnosis through surgery to recovery -- one surgeon, one team, one plan. Serving Austin, TX and surrounding communities." The specificity and location grounding were decisions made during the designer-copywriter brainstorm.
 
-**Service card differentiation.** The skill and workflow approaches both use generic feather-style SVG icons. The creative studio uses custom anatomical SVGs: a running figure with a highlighted knee joint for Sports Injuries, a bone-and-implant cross-section for Joint Replacement, a fractured bone with jagged break line for Fracture Care, and a hand skeleton for General Orthopaedics.
+**Service card differentiation.** The skill and workflow approaches both use generic feather-style SVG icons (`Fig.~\ref{fig:desktop}`{=latex}a--b). The creative studio uses custom anatomical SVGs (`Fig.~\ref{fig:desktop}`{=latex}c): a running figure with a highlighted knee joint for Sports Injuries, a bone-and-implant cross-section for Joint Replacement, a fractured bone with jagged break line for Fracture Care, and a hand skeleton for General Orthopaedics.
 
-**Persona-specific features.** Only the creative studio's final output contains features designed for specific patient segments. The urgent care banner exists because the customer agent, evaluating as an acute injury patient, wrote: "I am sitting in an ER with a broken wrist and the first thing I see is 'Appointments This Week.' This week? I need to be seen today." The empathy line exists because the customer agent, evaluating as a 68-year-old facing joint replacement, wrote: "The page never addresses the emotional weight of considering surgery."
+**Persona-specific features.** Only the creative studio's final output contains features designed for specific patient segments. The urgent care banner (visible in `Fig.~\ref{fig:mobile}`{=latex}c) exists because the customer agent, evaluating as an acute injury patient, wrote: "I am sitting in an ER with a broken wrist and the first thing I see is 'Appointments This Week.' This week? I need to be seen today." The empathy line exists because the customer agent, evaluating as a 68-year-old facing joint replacement, wrote: "The page never addresses the emotional weight of considering surgery."
+
+\begin{figure*}[htbp]
+\centering
+\begin{minipage}{0.25\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/skill-mobile.png}
+\centerline{\small (a) Skill}
+\end{minipage}\hfill
+\begin{minipage}{0.25\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/workflow-mobile.png}
+\centerline{\small (b) Workflow}
+\end{minipage}\hfill
+\begin{minipage}{0.25\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/studio-mobile.png}
+\centerline{\small (c) Creative studio}
+\end{minipage}
+\caption{Mobile views of the three approaches. The creative studio output (c) shows the urgent care banner with a tappable phone link above the fold -- added after the customer agent's evaluation as an acute injury patient on a mobile device.}
+\label{fig:mobile}
+\end{figure*}
 
 ### Cost-Quality Tradeoff
 

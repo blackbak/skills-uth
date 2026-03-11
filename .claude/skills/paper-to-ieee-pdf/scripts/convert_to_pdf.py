@@ -154,7 +154,14 @@ def copy_figures(md_path, body, work_dir):
     """Copy referenced figures to the work directory."""
     md_dir = Path(md_path).parent
     fig_paths = re.findall(r"!\[.*?\]\((.+?)\)", body)
+    fig_paths += re.findall(
+        r"\\includegraphics(?:\[.*?\])?\{(.+?)\}", body
+    )
+    seen = set()
     for fig in fig_paths:
+        if fig in seen:
+            continue
+        seen.add(fig)
         if fig.startswith("http://") or fig.startswith("https://"):
             continue
         src = md_dir / fig

@@ -114,7 +114,7 @@ This generates `\cite{smith2023, jones2024}` and BibTeX resolves numbering autom
 
 **"IEEEtran.cls not found"** — Run `sudo tlmgr install ieeetran` to install the IEEE LaTeX class.
 
-**Tables overflow columns** — The Lua filter converts tables to single-column `tabular`. For wide tables, use fewer columns or abbreviate content.
+**Tables overflow columns** — The Lua filter automatically uses `p{}` columns with proportional widths and switches to `table*` (two-column spanning) for wide tables. If a table still overflows, reduce cell content length or split it into multiple tables.
 
 **Citations show as [?]** — Verify `.bib` keys match `[@key]` references. Run with `--keep-tex` and check the `.blg` file for BibTeX errors.
 
